@@ -7,8 +7,8 @@ export default function Login() {
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <a href="#" className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
           {/* img tag must be self-closing */}
-          <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" />
-          Flowbite    
+          <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><path d='M60 8c0 0-34 13-34 34 0 30 24 49 34 54 10-5 34-24 34-54 0-21-34-34-34-34z' fill='white' stroke='black' stroke-width='4'/><g transform='translate(12,36)' fill='black'><rect x='12' y='16' rx='6' ry='6' width='64' height='20'/><path d='M20 16 Q28 6 44 6 Q60 6 68 16' fill='black'/><circle cx='26' cy='40' r='6'/><circle cx='64' cy='40' r='6'/></g><g transform='translate(22,14) rotate(-30 40 40)'><path d='M70 10c3 3 3 7 0 10l-6 6c-3 3-7 3-10 0l-6-6 16-16 6 6z' fill='%23FBBF24'/><rect x='38' y='28' width='8' height='48' rx='3' fill='%23FBBF24'/><circle cx='42' cy='24' r='8' fill='%23FBBF24'/></g></svg>" alt="AutoCare Icon" width="120" height="120"/>
+          AutoCare    
         </a>
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
