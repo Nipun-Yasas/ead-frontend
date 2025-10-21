@@ -1,7 +1,7 @@
-import './App.css'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Login from './components/login'
-import SignUp from './components/SignUp'
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
 
 function App() {
   return (
@@ -11,9 +11,7 @@ function App() {
         <Route path="/signup" element={<SignUp />} />
       </Routes>
     </Router>
-  )
+  );
 }
 
-
-
-export default App
+export default App;
