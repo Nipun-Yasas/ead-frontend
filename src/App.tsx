@@ -1,17 +1,15 @@
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./components/Login";
-import SignUp from "./components/SignUp";
+import AuthContainer from "./components/auth/AuthContainer";
 
-function App() {
+export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path="/login" element={<AuthContainer />} />
+        <Route path="/signup" element={<AuthContainer />} />
       </Routes>
     </Router>
   );
 }
 
-export default App;
