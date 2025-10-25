@@ -1,0 +1,165 @@
+/* --- Main Container --- */
+.aboutSection {
+  background-color: #1a1a1a;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  overflow: hidden;
+}
+
+/* --- 1. Stats Bar --- */
+.statsBar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 50px 30px;
+  border-bottom: 1px solid #333;
+}
+
+.statItem {
+  text-align: center;
+  min-width: 150px;
+  margin: 15px;
+}
+
+.statItem h2 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin: 0 0 5px 0;
+  color: #fff;
+}
+
+.statItem p {
+  font-size: 1rem;
+  color: #aaa;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* --- 2. Mission & Vision --- */
+.missionVision {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  padding: 80px 30px;
+}
+
+.missionVisionCard {
+  background-color: #252525;
+  border: 1px solid #c9302c; /* Red border */
+  border-radius: 12px;
+  padding: 30px 35px;
+  max-width: 450px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.iconWrapperRed {
+  background-color: #c9302c;
+  color: white;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.missionVisionCard h3 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.missionVisionCard p {
+  color: #ccc;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+/* --- 3. Core Values --- */
+.coreValues {
+  padding: 80px 30px;
+  text-align: center;
+}
+
+.titleSection {
+  margin-bottom: 60px;
+}
+
+.title {
+  font-size: 2.75rem;
+  font-weight: 700;
+  color: #c9302c; /* Red title */
+  margin-bottom: 15px;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #aaa;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.valueCard {
+  background-color: #2a2a2a;
+  padding: 40px 30px;
+  border-radius: 12px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.valueCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.valueCard.highlighted {
+  background-color: #c9302c;
+}
+
+.iconWrapperGray {
+  background-color: #444;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.valueCard.highlighted .iconWrapperGray {
+  background-color: #fff;
+  color: #c9302c;
+}
+
+.valueCard h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+.valueCard p {
+  color: #ccc;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.valueCard.highlighted h3,
+.valueCard.highlighted p {
+  color: #fff;
+}
