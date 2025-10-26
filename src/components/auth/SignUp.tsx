@@ -1,37 +1,62 @@
-"use client";
-
 import { useState } from "react";
+import { useAuth } from "../../contexts/AuthContext";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 interface SignupProps {
   onSwitchToLogin: () => void;
 }
 
+const signupValidationSchema = Yup.object({
+  fullName: Yup.string()
+    .min(2, "Full name must be at least 2 characters")
+    .max(50, "Full name must be less than 50 characters")
+    .required("Full name is required"),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  password: Yup.string()
+    .min(4, "Password must be at least 4 characters")
+    .required("Password is required"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref("password")], "Passwords must match")
+    .required("Confirm password is required"),
+});
+
 export default function SignUp({ onSwitchToLogin }: SignupProps) {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState("");
+  const { signup, isLoading } = useAuth();
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Signup:", formData);
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const formik = useFormik({
+    initialValues: {
+      fullName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    validationSchema: signupValidationSchema,
+    onSubmit: async (values) => {
+      setError("");
+      try {
+        await signup(values.fullName, values.email, values.password);
+      } catch (err: any) {
+        setError(err.message || "Signup failed. Please try again.");
+      }
+    },
+  });
 
   return (
-    <div className="w-full h-full flex items-center justify-center p-8">
-      <div className="w-full max-w-md space-y-8">
+    <div className="w-full flex items-center justify-center p-8 py-12">
+      <div className="w-full max-w-md space-y-6">
         <div className="text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-primary to-primary-dark rounded-xl flex items-center justify-center shadow-lg shadow-hover/50">
+              <span className="text-text-primary font-bold text-2xl">A</span>
+            </div>
             <span className="text-3xl font-bold text-text-primary">
-              Auto<span className="text-primary">Care</span> Pro
+              Auto <span className="text-primary">Care</span> Pro
             </span>
           </div>
           <h2 className="text-3xl font-bold text-text-primary">
@@ -40,7 +65,30 @@ export default function SignUp({ onSwitchToLogin }: SignupProps) {
           <p className="mt-2 text-text-secondary">Join Auto Care Pro</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Backend Error Message */}
+        {error && (
+          <div className="bg-primary/10 border border-primary/50 text-text-primary px-4 py-3 rounded-xl animate-fadeIn">
+            <div className="flex items-center">
+              <svg
+                className="h-5 w-5 text-primary mr-2 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
+              </svg>
+              <p className="text-sm">{error}</p>
+            </div>
+          </div>
+        )}
+
+        <form onSubmit={formik.handleSubmit} className="space-y-4" noValidate>
+          {/* Full Name */}
           <div>
             <label
               htmlFor="fullName"
@@ -52,14 +100,26 @@ export default function SignUp({ onSwitchToLogin }: SignupProps) {
               id="fullName"
               name="fullName"
               type="text"
-              required
-              value={formData.fullName}
-              onChange={handleInputChange}
-              className="block w-full px-3 py-3 border border-border-secondary rounded-xl bg-bg-secondary text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-focus-ring focus:border-focus-border transition-all"
+              autoComplete="name"
+              value={formik.values.fullName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={`block w-full px-3 py-3 border rounded-xl bg-bg-secondary text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 transition-all ${
+                formik.touched.fullName && formik.errors.fullName
+                  ? "border-primary focus:ring-primary/50 focus:border-primary"
+                  : "border-border-secondary focus:ring-focus-ring focus:border-focus-border"
+              }`}
               placeholder="John Doe"
+              disabled={isLoading}
             />
+            {formik.touched.fullName && formik.errors.fullName && (
+              <p className="mt-1 text-sm text-primary animate-fadeIn">
+                {formik.errors.fullName}
+              </p>
+            )}
           </div>
 
+          {/* Email */}
           <div>
             <label
               htmlFor="email"
@@ -71,14 +131,26 @@ export default function SignUp({ onSwitchToLogin }: SignupProps) {
               id="email"
               name="email"
               type="email"
-              required
-              value={formData.email}
-              onChange={handleInputChange}
-              className="block w-full px-3 py-3 border border-border-secondary rounded-xl bg-bg-secondary text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-focus-ring focus:border-focus-border transition-all"
+              autoComplete="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={`block w-full px-3 py-3 border rounded-xl bg-bg-secondary text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 transition-all ${
+                formik.touched.email && formik.errors.email
+                  ? "border-primary focus:ring-primary/50 focus:border-primary"
+                  : "border-border-secondary focus:ring-focus-ring focus:border-focus-border"
+              }`}
               placeholder="you@example.com"
+              disabled={isLoading}
             />
+            {formik.touched.email && formik.errors.email && (
+              <p className="mt-1 text-sm text-primary animate-fadeIn">
+                {formik.errors.email}
+              </p>
+            )}
           </div>
 
+          {/* Password */}
           <div>
             <label
               htmlFor="password"
@@ -91,16 +163,24 @@ export default function SignUp({ onSwitchToLogin }: SignupProps) {
                 id="password"
                 name="password"
                 type={showPassword ? "text" : "password"}
-                required
-                value={formData.password}
-                onChange={handleInputChange}
-                className="block w-full px-3 py-3 pr-12 border border-border-secondary rounded-xl bg-bg-secondary text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-focus-ring focus:border-focus-border transition-all"
+                autoComplete="new-password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className={`block w-full px-3 py-3 pr-12 border rounded-xl bg-bg-secondary text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 transition-all ${
+                  formik.touched.password && formik.errors.password
+                    ? "border-primary focus:ring-primary/50 focus:border-primary"
+                    : "border-border-secondary focus:ring-focus-ring focus:border-focus-border"
+                }`}
                 placeholder="••••••••"
+                disabled={isLoading}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-text-tertiary hover:text-hover"
+                disabled={isLoading}
+                tabIndex={-1}
               >
                 {showPassword ? (
                   <svg
@@ -139,8 +219,14 @@ export default function SignUp({ onSwitchToLogin }: SignupProps) {
                 )}
               </button>
             </div>
+            {formik.touched.password && formik.errors.password && (
+              <p className="mt-1 text-sm text-primary animate-fadeIn">
+                {formik.errors.password}
+              </p>
+            )}
           </div>
 
+          {/* Confirm Password */}
           <div>
             <label
               htmlFor="confirmPassword"
@@ -153,16 +239,25 @@ export default function SignUp({ onSwitchToLogin }: SignupProps) {
                 id="confirmPassword"
                 name="confirmPassword"
                 type={showConfirmPassword ? "text" : "password"}
-                required
-                value={formData.confirmPassword}
-                onChange={handleInputChange}
-                className="block w-full px-3 py-3 pr-12 border border-border-secondary rounded-xl bg-bg-secondary text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-focus-ring focus:border-focus-border transition-all"
+                autoComplete="new-password"
+                value={formik.values.confirmPassword}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className={`block w-full px-3 py-3 pr-12 border rounded-xl bg-bg-secondary text-text-primary placeholder-text-muted focus:outline-none focus:ring-2 transition-all ${
+                  formik.touched.confirmPassword &&
+                  formik.errors.confirmPassword
+                    ? "border-primary focus:ring-primary/50 focus:border-primary"
+                    : "border-border-secondary focus:ring-focus-ring focus:border-focus-border"
+                }`}
                 placeholder="••••••••"
+                disabled={isLoading}
               />
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 className="absolute inset-y-0 right-0 pr-3 flex items-center text-text-tertiary hover:text-hover"
+                disabled={isLoading}
+                tabIndex={-1}
               >
                 {showConfirmPassword ? (
                   <svg
@@ -201,13 +296,46 @@ export default function SignUp({ onSwitchToLogin }: SignupProps) {
                 )}
               </button>
             </div>
+            {formik.touched.confirmPassword &&
+              formik.errors.confirmPassword && (
+                <p className="mt-1 text-sm text-primary animate-fadeIn">
+                  {formik.errors.confirmPassword}
+                </p>
+              )}
           </div>
 
           <button
             type="submit"
-            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-text-primary bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-bg-primary focus:ring-focus-ring transition-all duration-200 hover:shadow-lg hover:shadow-hover/50 hover:scale-105"
+            disabled={isLoading || !formik.isValid || !formik.dirty}
+            className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-text-primary bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-bg-primary focus:ring-focus-ring transition-all duration-200 hover:shadow-lg hover:shadow-hover/50 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
-            Create Account
+            {isLoading ? (
+              <span className="flex items-center">
+                <svg
+                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-text-primary"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                Creating account...
+              </span>
+            ) : (
+              "Create Account"
+            )}
           </button>
 
           <div className="text-center">
@@ -215,8 +343,12 @@ export default function SignUp({ onSwitchToLogin }: SignupProps) {
               Already have an account?{" "}
               <button
                 type="button"
-                onClick={onSwitchToLogin}
+                onClick={(e) => {
+                  e.preventDefault();
+                  onSwitchToLogin();
+                }}
                 className="font-medium text-primary hover:text-hover"
+                disabled={isLoading}
               >
                 Sign in
               </button>
