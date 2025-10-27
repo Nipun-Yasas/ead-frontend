@@ -52,10 +52,9 @@ function App() {
             }
           >
             <Route path="dashboard" element={<div>Employee Dashboard</div>} />
-            <Route path="shop" element={<div>Shop</div>} />
+            <Route path="products" element={<div>Products</div>} />
             <Route path="orders" element={<div>My Orders</div>} />
-            <Route path="wishlist" element={<div>Wishlist</div>} />
-            <Route path="profile" element={<div>Profile</div>} />
+            <Route path="reports" element={<div>Reports</div>} />
             <Route index element={<Navigate to="dashboard" replace />} />
           </Route>
 
