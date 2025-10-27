@@ -1,7 +1,10 @@
-import {createContext,useState,useEffect,useContext, ReactNode} from "react";
+import type { ReactNode } from 'react';
+
+import {createContext,useState,useEffect,useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../utils/axiosInstance";
 import { API_PATHS } from "../utils/apiPaths";
+import { getDashboardRouteByRole } from "../utils/getNavigationByRole";
 
 interface User {
   id: number;
@@ -72,7 +75,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${JWT}`;
 
-      navigate("/dashboard");
+      const dashboardRoute = getDashboardRouteByRole(role);
+      navigate(dashboardRoute);
     } catch (error: any) {
       console.error("Login error:", error);
       throw new Error(error.response?.data?.message || "Login failed");
@@ -114,7 +118,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${JWT}`;
 
-      navigate("/dashboard");
+      const dashboardRoute = getDashboardRouteByRole(role);
+      navigate(dashboardRoute);
     } catch (error: any) {
       console.error("Signup error:", error);
       throw new Error(error.response?.data?.message || "Signup failed");
