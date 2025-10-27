@@ -2,7 +2,7 @@ import React from 'react';
 
 const GetStarted: React.FC = () => {
   return (
-    <section className="bg-[#030213] max-h-[400px] flex items-center justify-center px-4 py-16">
+    <section className="bg-[#030213] max-md-h-[400px] flex items-center justify-center px-4 py-16">
       <div className="max-w-2xl mx-auto text-center">
         {/* Calendar Icon */}
         <div className="mb-8 flex justify-center">
