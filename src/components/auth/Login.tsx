@@ -233,7 +233,7 @@ export default function Login({ onSwitchToSignup }: LoginProps) {
 
           <button
             type="submit"
-            disabled={isLoading || !formik.isValid}
+            disabled={isLoading || (!formik.isValid && formik.dirty)}
             className="w-full flex justify-center py-3 px-4 border border-transparent rounded-xl shadow-sm text-sm font-medium text-text-primary bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-focus-ring transition-all duration-200 hover:shadow-lg hover:scale-105 shadow-hover/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
             {isLoading ? (
