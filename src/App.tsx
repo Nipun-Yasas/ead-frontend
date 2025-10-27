@@ -4,10 +4,12 @@ import { AuthProvider } from "./contexts/AuthContext";
 import AuthContainer from "./components/auth/AuthContainer";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import DashboardLayout from "./components/layouts/DashboardLayout";
+import GetStarted from "./components/main/GetStarted";
 
 function App() {
   return (
     <Router>
+      <GetStarted/>
       <AuthProvider>
         <Routes>
           <Route path="/login" element={<AuthContainer />} />
