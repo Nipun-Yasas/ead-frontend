@@ -1,6 +1,6 @@
 /* --- Main Container --- */
 .aboutSection {
-  background-color: #1a1a1a;
+  background-color: #171717;
   color: #ffffff;
   font-family: Arial, sans-serif;
   overflow: hidden;
@@ -13,7 +13,9 @@
   align-items: center;
   flex-wrap: wrap;
   padding: 50px 30px;
-  border-bottom: 1px solid #333;
+  border-bottom: 3px solid #D60507;
+  border-top: 3px solid #D60507;
+  
 }
 
 .statItem {
@@ -31,7 +33,7 @@
 
 .statItem p {
   font-size: 1rem;
-  color: #aaa;
+  color: #71717A;
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -47,16 +49,16 @@
 }
 
 .missionVisionCard {
-  background-color: #252525;
-  border: 1px solid #c9302c; /* Red border */
+  background-color:  #272727;
+  border: 1px solid #D60507; /* Red border */
   border-radius: 12px;
   padding: 30px 35px;
-  max-width: 450px;
+  max-width: 550px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .iconWrapperRed {
-  background-color: #c9302c;
+  background-color: #D60507;
   color: white;
   border-radius: 50%;
   width: 50px;
@@ -92,13 +94,13 @@
 .title {
   font-size: 2.75rem;
   font-weight: 700;
-  color: #c9302c; /* Red title */
+  color: #D60507; /* Red title */
   margin-bottom: 15px;
 }
 
 .subtitle {
   font-size: 1.1rem;
-  color: #aaa;
+  color: #ffffff;
   max-width: 600px;
   margin: 0 auto;
   line-height: 1.5;
@@ -126,7 +128,7 @@
 }
 
 .valueCard.highlighted {
-  background-color: #c9302c;
+  background-color: #D60507;
 }
 
 .iconWrapperGray {
@@ -144,7 +146,7 @@
 
 .valueCard.highlighted .iconWrapperGray {
   background-color: #fff;
-  color: #c9302c;
+  color: #D60507;
 }
 
 .valueCard h3 {
