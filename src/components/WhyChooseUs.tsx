@@ -54,7 +54,6 @@ export default function WhyChooseUs() {
                 <div className="grid gap-8 sm:gap-10 lg:gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                     {features.map((f) => (
                         <article key={f.key} className="group relative bg-[#171717] rounded-2xl p-6 pt-8 flex flex-col items-center text-center overflow-hidden hover:-translate-y-1 transition-transform duration-200 min-h-[220px] sm:min-h-[240px] lg:min-h-[280px] shadow-[0_6px_12px_rgba(255,255,255,0.06)]" style={{ borderColor: 'transparent' }}>
-                            {/* icon (now inside the card) */}
                             <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-md mb-4 transition-colors duration-200 bg-[#D60507] group-hover:bg-[rgba(214,5,7,0.1)]">
                                 <f.Icon className="text-white group-hover:text-[#D60507] transition-colors duration-200" style={{ fontSize: 28 }} aria-hidden />
                             </div>
@@ -64,7 +63,6 @@ export default function WhyChooseUs() {
                                 <p className="text-base md:text-lg leading-8 text-[#B6B6B6] group-hover:text-[#717182] transition-colors duration-200">{f.desc}</p>
                             </div>
 
-                            {/* bottom bevel / drop shadow accent to mimic the image */}
                             <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[92%] h-6 bg-gradient-to-t from-black to-transparent rounded-b-2xl opacity-70" />
                             <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 w-[92%] h-1 bg-[var(--color-border-subtle)] rounded-b-2xl" />
                         </article>
