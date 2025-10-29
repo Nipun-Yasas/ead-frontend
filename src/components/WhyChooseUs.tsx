@@ -49,7 +49,7 @@ export default function WhyChooseUs() {
         <section className="bg-[#171717] text-[var(--color-text-primary)] py-18 font-sans" aria-labelledby="why-choose-heading">
             <div className="max-w-7xl mx-auto px-6 text-center">
                 <h2 id="why-choose-heading" className="text-3xl md:text-4xl lg:text-5xl font-semibold mb-7">Why Choose AutoCare Pro</h2>
-                <p className="max-w-3xl mx-auto mb-10 text-base md:text-xl" style={{ color: '#717182' }}>Experience excellence in automotive service with real-time tracking and professional care</p>
+                <p className="max-w-3xl mx-auto mb-10 text-base md:text-xl text-[#717182]">Experience excellence in automotive service with real-time tracking and professional care</p>
 
                 <div className="grid gap-8 sm:gap-10 lg:gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                     {features.map((f) => (
