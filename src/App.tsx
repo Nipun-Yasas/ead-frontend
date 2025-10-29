@@ -1,4 +1,8 @@
 import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
+import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import AuthContainer from "./components/auth/AuthContainer";
@@ -14,7 +18,7 @@ function App() {
       <GetStarted/>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<div><WhyChooseUs/><AboutSection /></div} />
+          <Route path="/" element={<div>Navbar />}<WhyChooseUs /><AboutSection /></div} />
           <Route path="/login" element={<AuthContainer />} />
           <Route path="/signup" element={<AuthContainer />} />
 
