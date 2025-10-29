@@ -2,6 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import AuthContainer from "./components/auth/AuthContainer";
+import AboutSection from "./components/aboutSection/AboutSection";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import GetStarted from "./components/main/GetStarted";
@@ -12,6 +13,7 @@ function App() {
       <GetStarted/>
       <AuthProvider>
         <Routes>
+          <Route path="/" element={<AboutSection />} />
           <Route path="/login" element={<AuthContainer />} />
           <Route path="/signup" element={<AuthContainer />} />
 
