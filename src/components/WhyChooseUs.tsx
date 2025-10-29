@@ -53,7 +53,7 @@ export default function WhyChooseUs() {
 
                 <div className="grid gap-8 sm:gap-10 lg:gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                     {features.map((f) => (
-                        <article key={f.key} className="group relative bg-[#171717] rounded-2xl p-6 pt-8 flex flex-col items-center text-center overflow-hidden hover:-translate-y-1 transition-transform duration-200 min-h-[220px] sm:min-h-[240px] lg:min-h-[280px] shadow-[0_6px_12px_rgba(255,255,255,0.06)]" style={{ borderColor: 'transparent' }}>
+                        <article key={f.key} className="group relative bg-[#171717] rounded-2xl p-6 pt-8 flex flex-col items-center text-center overflow-hidden hover:-translate-y-1 transition-transform duration-200 min-h-[220px] sm:min-h-[240px] lg:min-h-[280px] shadow-[0_6px_12px_rgba(255,255,255,0.06)]">
                             <div className="w-16 h-16 rounded-full flex items-center justify-center shadow-md mb-4 transition-colors duration-200 bg-[#D60507] group-hover:bg-[rgba(214,5,7,0.1)]">
                                 <f.Icon className="text-white group-hover:text-[#D60507] transition-colors duration-200" style={{ fontSize: 28 }} aria-hidden="true" />
                             </div>
