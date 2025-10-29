@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import { AuthProvider } from "./contexts/AuthContext";
 import AuthContainer from "./components/auth/AuthContainer";
 import AboutSection from "./components/aboutSection/AboutSection";
+import BookingAppointment from "./components/BookingAppointment";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import GetStarted from "./components/main/GetStarted";
@@ -10,10 +11,10 @@ import GetStarted from "./components/main/GetStarted";
 function App() {
   return (
     <Router>
-      <GetStarted/>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<AboutSection />} />
+          <Route path="/" element={<><GetStarted /><AboutSection /></>} />
+          <Route path="/book" element={<BookingAppointment />} />
           <Route path="/login" element={<AuthContainer />} />
           <Route path="/signup" element={<AuthContainer />} />
 
@@ -66,7 +67,7 @@ function App() {
             path="/dashboard"
             element={
               <ProtectedRoute allowedRoles={['CUSTOMER']}>
-                  <div>Customer Dashboard</div>
+                <div>Customer Dashboard</div>
               </ProtectedRoute>
             }
           />
