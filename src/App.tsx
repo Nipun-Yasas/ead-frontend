@@ -3,15 +3,83 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
 import VehicleRepairs from "./components/VehicleRepairs";
+import Navbar from "./components/Navbar";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext";
+import AuthContainer from "./components/auth/AuthContainer";
+import WhyChooseUs from "./components/WhyChooseUs";
+import AboutSection from "./components/aboutSection/AboutSection";
+import ProtectedRoute from "./components/routes/ProtectedRoute";
+import DashboardLayout from "./components/layouts/DashboardLayout";
+import GetStarted from "./components/main/GetStarted";
 
 function App() {
   return (
     <Router>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/repair-services" element = {<VehicleRepairs/>} />
-      </Routes>
+      <GetStarted/>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<div>Navbar />}<WhyChooseUs /><AboutSection /></div} />
+          <Route path="/login" element={<AuthContainer />} />
+          <Route path="/signup" element={<AuthContainer />} />
+
+          <Route
+            path="/superadmin"
+            element={
+              <ProtectedRoute allowedRoles={['SUPER_ADMIN']}>
+                <DashboardLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="dashboard" element={<div>Super Admin Dashboard</div>} />
+            <Route path="users" element={<div>User Management</div>} />
+            <Route path="inventory" element={<div>Inventory</div>} />
+            <Route path="settings" element={<div>Settings</div>} />
+            <Route index element={<Navigate to="dashboard" replace />} />
+          </Route>
+
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute allowedRoles={['ADMIN']}>
+                <DashboardLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="dashboard" element={<div>Admin Dashboard</div>} />
+            <Route path="users" element={<div>User Management</div>} />
+            <Route path="inventory" element={<div>Inventory</div>} />
+            <Route path="settings" element={<div>Settings</div>} />
+            <Route index element={<Navigate to="dashboard" replace />} />
+          </Route>
+
+          <Route
+            path="/employee"
+            element={
+              <ProtectedRoute allowedRoles={['EMPLOYEE']}>
+                <DashboardLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="dashboard" element={<div>Employee Dashboard</div>} />
+            <Route path="products" element={<div>Products</div>} />
+            <Route path="orders" element={<div>My Orders</div>} />
+            <Route path="reports" element={<div>Reports</div>} />
+            <Route index element={<Navigate to="dashboard" replace />} />
+          </Route>
+
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute allowedRoles={['CUSTOMER']}>
+                  <div>Customer Dashboard
+                    <VehicleRepairs/>
+                    </div>
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }
