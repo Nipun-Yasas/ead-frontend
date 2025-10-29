@@ -2,6 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./components/Login";
 import SignUp from "./components/SignUp";
+import VehicleRepairs from "./components/VehicleRepairs";
 import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
@@ -71,7 +72,9 @@ function App() {
             path="/dashboard"
             element={
               <ProtectedRoute allowedRoles={['CUSTOMER']}>
-                  <div>Customer Dashboard</div>
+                  <div>Customer Dashboard
+                    <VehicleRepairs/>
+                    </div>
               </ProtectedRoute>
             }
           />
