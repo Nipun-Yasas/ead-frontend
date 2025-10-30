@@ -1,7 +1,13 @@
 import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Login from "./components/Login";
+import SignUp from "./components/SignUp";
+import VehicleRepairs from "./components/VehicleRepairs";
+import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import AuthContainer from "./components/auth/AuthContainer";
+import WhyChooseUs from "./components/WhyChooseUs";
 import AboutSection from "./components/aboutSection/AboutSection";
 import BookingAppointment from "./components/BookingAppointment";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
@@ -13,8 +19,7 @@ function App() {
     <Router>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<><GetStarted /><AboutSection /></>} />
-          <Route path="/book" element={<BookingAppointment />} />
+          <Route path="/" element={<div>Navbar /><GetStarted /><AboutSection /><WhyChooseUs /><AboutSection /></div>} />
           <Route path="/login" element={<AuthContainer />} />
           <Route path="/signup" element={<AuthContainer />} />
 
@@ -67,7 +72,10 @@ function App() {
             path="/dashboard"
             element={
               <ProtectedRoute allowedRoles={['CUSTOMER']}>
-                <div>Customer Dashboard</div>
+                  <div>Customer Dashboard
+                    <BookingAppointment />
+                    <VehicleRepairs/>
+                    </div>
               </ProtectedRoute>
             }
           />
