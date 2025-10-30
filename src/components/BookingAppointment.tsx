@@ -93,19 +93,19 @@ export default function BookingAppointment() {
     }
 
     return (
-        <section className="min-h-screen bg-[var(--color-bg-primary)] py-16 px-4" style={{ fontFamily: 'Arial, sans-serif' }}>
-            <div className="max-w-4xl mx-auto text-center mb-8">
+        <section className="min-h-screen bg-[var(--color-bg-primary)] py-16 px-4 " style={{ fontFamily: 'Arial, sans-serif' }}>
+            <div className="max-w-4xl mx-auto text-center mb-12">
                 <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-[var(--color-text-primary)]">Book a Service Appointment</h1>
-                <p className="text-[var(--color-text-muted)] mt-2">Schedule your vehicle service in just a few steps</p>
+                <p className="text-[var(--color-text-muted)] mt-4 text-xl">Schedule your vehicle service in just a few steps</p>
             </div>
 
             <div className="max-w-3xl mx-auto bg-[var(--color-bg-secondary)] rounded-2xl p-8 md:p-10">
                 <form className="space-y-6" onSubmit={handleSubmit} noValidate>
                     {successMsg && (
-                        <div className="rounded-md bg-emerald-600 text-white px-4 py-3">{successMsg}</div>
+                        <div className="rounded-md bg-emerald-600 text-white px-4 py-3 w-full text-center" style={{ color: '#ffffff' }}>{successMsg}</div>
                     )}
                     {serverError && (
-                        <div className="rounded-md bg-rose-600 text-white px-4 py-3">{serverError}</div>
+                        <div className="rounded-md bg-rose-600 text-white px-4 py-3 w-full text-center" style={{ color: '#ffffff' }}>{serverError}</div>
                     )}
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -121,7 +121,9 @@ export default function BookingAppointment() {
                                     aria-invalid={!!errors.date}
                                     aria-describedby={errors.date ? 'err-date' : undefined}
                                     required
-                                    className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] rounded-md px-3 py-2 pr-10 border border-[rgba(214,5,7,0.23)] w-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                                    className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] rounded-md px-3 pr-10 h-10 border border-[rgba(214,5,7,0.23)] w-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                                    autoComplete="off"
+                                    style={{ backgroundColor: 'var(--color-bg-header)', color: 'var(--color-text-primary)' }}
                                 />
                                 <button
                                     type="button"
@@ -143,7 +145,18 @@ export default function BookingAppointment() {
                                 aria-invalid={!!errors.time}
                                 aria-describedby={errors.time ? 'err-time' : undefined}
                                 required
-                                className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] rounded-md px-3 py-2 border border-[rgba(214,5,7,0.23)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                                className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] rounded-md px-3 pr-6 h-10 border border-[rgba(214,5,7,0.23)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                                style={{
+                                    backgroundColor: 'var(--color-bg-header)',
+                                    color: 'var(--color-text-primary)',
+                                    appearance: 'none',
+                                    WebkitAppearance: 'none',
+                                    MozAppearance: 'none',
+                                    backgroundImage: 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 20 20\' fill=\'%23FFFFFF\'><path d=\'M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 0 1 1.08 1.04l-4.25 4.25a.75.75 0 0 1-1.08 0L5.21 8.27a.75.75 0 0 1 .02-1.06z\'/></svg>")',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundSize: '14px',
+                                    backgroundPosition: 'right 1rem center'
+                                }}
                             >
                                 <option value="">Select time</option>
                                 {[
@@ -158,7 +171,17 @@ export default function BookingAppointment() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <label className="flex flex-col text-left">
                             <span className="text-base text-[var(--color-text-tertiary)] mb-2">Vehicle Type</span>
-                            <select name="vehicleType" value={form.vehicleType} onChange={onChange} className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] rounded-md px-3 py-2 border border-[rgba(214,5,7,0.23)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]">
+                            <select name="vehicleType" value={form.vehicleType} onChange={onChange} className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] rounded-md px-3 pr-6 h-10 border border-[rgba(214,5,7,0.23)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" style={{
+                                backgroundColor: 'var(--color-bg-header)',
+                                color: 'var(--color-text-primary)',
+                                appearance: 'none',
+                                WebkitAppearance: 'none',
+                                MozAppearance: 'none',
+                                backgroundImage: 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 20 20\' fill=\'%23FFFFFF\'><path d=\'M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 0 1 1.08 1.04l-4.25 4.25a.75.75 0 0 1-1.08 0L5.21 8.27a.75.75 0 0 1 .02-1.06z\'/></svg>")',
+                                backgroundRepeat: 'no-repeat',
+                                backgroundSize: '14px',
+                                backgroundPosition: 'right 1rem center'
+                            }}>
                                 <option value="">Select vehicle type</option>
                                 <option value="car">Car</option>
                                 <option value="van">Van</option>
@@ -174,7 +197,9 @@ export default function BookingAppointment() {
                                 value={form.vehicleNumber}
                                 onChange={onChange}
                                 placeholder="Your vehicle number"
-                                className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] rounded-md px-3 py-2 border border-[rgba(214,5,7,0.23)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                                autoComplete="off"
+                                className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] rounded-md px-3 h-10 border border-[rgba(214,5,7,0.23)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                                style={{ backgroundColor: 'var(--color-bg-header)', color: 'var(--color-text-primary)' }}
                             />
                         </label>
                     </div>
@@ -182,7 +207,17 @@ export default function BookingAppointment() {
                     <div>
                         <label className="flex flex-col text-left">
                             <span className="text-base text-[var(--color-text-tertiary)] mb-2">Service Type</span>
-                            <select name="serviceType" value={form.serviceType} onChange={onChange} aria-invalid={!!errors.serviceType} aria-describedby={errors.serviceType ? 'err-serviceType' : undefined} required className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] rounded-md px-3 py-2 border border-[rgba(214,5,7,0.23)] w-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]">
+                            <select name="serviceType" value={form.serviceType} onChange={onChange} aria-invalid={!!errors.serviceType} aria-describedby={errors.serviceType ? 'err-serviceType' : undefined} required className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] rounded-md px-3 pr-6 h-10 border border-[rgba(214,5,7,0.23)] w-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" style={{
+                                backgroundColor: 'var(--color-bg-header)',
+                                color: 'var(--color-text-primary)',
+                                appearance: 'none',
+                                WebkitAppearance: 'none',
+                                MozAppearance: 'none',
+                                backgroundImage: 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 20 20\' fill=\'%23FFFFFF\'><path d=\'M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 0 1 1.08 1.04l-4.25 4.25a.75.75 0 0 1-1.08 0L5.21 8.27a.75.75 0 0 1 .02-1.06z\'/></svg>")',
+                                backgroundRepeat: 'no-repeat',
+                                backgroundSize: '14px',
+                                backgroundPosition: 'right 1rem center'
+                            }}>
                                 <option value="">Select service type</option>
                                 <option value="maintenance">Maintenance</option>
                                 <option value="repair">Repair</option>
@@ -200,14 +235,15 @@ export default function BookingAppointment() {
                                 onChange={onChange}
                                 rows={6}
                                 placeholder="Any additional info"
-                                className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] rounded-md px-3 py-3 border border-[rgba(214,5,7,0.23)] w-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
+                                className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] rounded-md px-3 py-3 border border-[rgba(214,5,7,0.23)] w-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] h-28"
+                                style={{ backgroundColor: 'var(--color-bg-header)', color: 'var(--color-text-primary)' }}
                             />
                         </label>
                     </div>
 
                     <div className="flex gap-4 justify-between">
-                        <button type="button" onClick={() => navigate(-1)} className="flex-1 bg-[var(--color-text-primary)] text-black py-2 rounded-md">Back</button>
-                        <button type="submit" disabled={!form.date || !form.time || !form.serviceType || loading} className={`flex-1 py-2 rounded-md ${!form.date || !form.time || !form.serviceType ? 'bg-[var(--color-primary)]/60 text-white cursor-not-allowed opacity-70' : 'bg-[var(--color-primary)] text-white'}`}>
+                        <button type="button" onClick={() => navigate(-1)} className="flex-1 h-10 flex items-center justify-center bg-[var(--color-text-primary)] text-black rounded-md">Back</button>
+                        <button type="submit" disabled={!form.date || !form.time || !form.serviceType || loading} className={`flex-1 h-10 flex items-center justify-center rounded-md ${!form.date || !form.time || !form.serviceType ? 'bg-[var(--color-primary)]/60 text-white cursor-not-allowed opacity-70' : 'bg-[var(--color-primary)] text-white'}`} style={{ color: '#ffffff' }}>
                             {loading ? 'Saving...' : 'Confirm Appointment'}
                         </button>
                     </div>
