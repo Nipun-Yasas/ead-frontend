@@ -9,6 +9,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import AuthContainer from "./components/auth/AuthContainer";
 import WhyChooseUs from "./components/WhyChooseUs";
 import AboutSection from "./components/aboutSection/AboutSection";
+import BookingAppointment from "./components/BookingAppointment";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import GetStarted from "./components/main/GetStarted";
@@ -16,10 +17,9 @@ import GetStarted from "./components/main/GetStarted";
 function App() {
   return (
     <Router>
-      <GetStarted/>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<div>Navbar />}<WhyChooseUs /><AboutSection /></div} />
+          <Route path="/" element={<div>Navbar /><GetStarted /><AboutSection /><WhyChooseUs /><AboutSection /></div>} />
           <Route path="/login" element={<AuthContainer />} />
           <Route path="/signup" element={<AuthContainer />} />
 
@@ -73,6 +73,7 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={['CUSTOMER']}>
                   <div>Customer Dashboard
+                    <BookingAppointment />
                     <VehicleRepairs/>
                     </div>
               </ProtectedRoute>
