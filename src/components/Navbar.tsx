@@ -3,7 +3,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import Link from "@mui/material/Link";
+import MuiLink from "@mui/material/Link";
+import { Link as RouterLink } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -21,7 +22,7 @@ const Navbar = () => {
         {/* Navigation Links */}
         <Box sx={{ display: "flex", gap: 4 }}>
           {["Home", "Book Service", "Services", "About", "Contact"].map((item) => (
-            <Link
+            <MuiLink
               key={item}
               href="#"
               underline="none"
@@ -33,13 +34,15 @@ const Navbar = () => {
               }}
             >
               {item}
-            </Link>
+            </MuiLink>
           ))}
         </Box>
 
         {/* Auth Buttons */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
           <Button
+            component={RouterLink}
+            to="/login"
             sx={{
               color: "white",
               textTransform: "none",
@@ -50,6 +53,8 @@ const Navbar = () => {
             Login
           </Button>
           <Button
+            component={RouterLink}
+            to="/signup"
             variant="contained"
             sx={{
               backgroundColor: "white",

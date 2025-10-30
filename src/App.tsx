@@ -1,7 +1,5 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./components/Login";
-import SignUp from "./components/SignUp";
+
 import VehicleRepairs from "./components/VehicleRepairs";
 import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
@@ -19,7 +17,7 @@ function App() {
     <Router>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<div>Navbar /><GetStarted /><AboutSection /><WhyChooseUs /><AboutSection /></div>} />
+          <Route path="/" element={<div><Navbar /><WhyChooseUs /><AboutSection /><GetStarted /></div>} />
           <Route path="/login" element={<AuthContainer />} />
           <Route path="/signup" element={<AuthContainer />} />
 
