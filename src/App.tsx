@@ -1,21 +1,25 @@
 import "./App.css";
 
+import VehicleRepairs from "./components/VehicleRepairs";
+import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ChatProvider } from "./contexts/ChatContext";
 import AuthContainer from "./components/auth/AuthContainer";
+import WhyChooseUs from "./components/WhyChooseUs";
+import AboutSection from "./components/aboutSection/AboutSection";
+import BookingAppointment from "./components/BookingAppointment";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import GetStarted from "./components/main/GetStarted";
 import ChatInterface from "./components/chat/ChatInterface";
-import CustomerDashboard from "./pages/CustomerDashboard"; // ✅ Add this import
 
 function App() {
   return (
     <Router>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<div><GetStarted /></div>} />
+          <Route path="/" element={<div><Navbar /><WhyChooseUs /><AboutSection /><GetStarted /></div>} />
           <Route path="/login" element={<AuthContainer />} />
           <Route path="/signup" element={<AuthContainer />} />
 
@@ -64,17 +68,19 @@ function App() {
             <Route index element={<Navigate to="dashboard" replace />} />
           </Route>
 
-          {/* Customer Dashboard - Will show chat button */}
           <Route
             path="/dashboard"
             element={
               <ProtectedRoute allowedRoles={['CUSTOMER']}>
-                <CustomerDashboard />
+                  <div>Customer Dashboard
+                    <BookingAppointment />
+                    <VehicleRepairs/>
+                  </div>
               </ProtectedRoute>
             }
           />
 
-          {/* Dedicated Chat Route */}
+          {/* Chat Route - Navigate via URL */}
           <Route
             path="/chat"
             element={
