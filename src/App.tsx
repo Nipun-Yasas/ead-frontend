@@ -1,8 +1,12 @@
 import "./App.css";
-
 import VehicleRepairs from "./components/VehicleRepairs";
 import Navbar from "./components/Navbar";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import AuthContainer from "./components/auth/AuthContainer";
 import WhyChooseUs from "./components/WhyChooseUs";
@@ -11,25 +15,39 @@ import BookingAppointment from "./components/BookingAppointment";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import GetStarted from "./components/main/GetStarted";
+import AdminDashboard from "./AdminDashboard";
 
 function App() {
   return (
     <Router>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<div><Navbar /><WhyChooseUs /><AboutSection /><GetStarted /></div>} />
+          <Route
+            path="/"
+            element={
+              <div>
+                <Navbar />
+                <WhyChooseUs />
+                <AboutSection />
+                <GetStarted />
+              </div>
+            }
+          />
           <Route path="/login" element={<AuthContainer />} />
           <Route path="/signup" element={<AuthContainer />} />
 
           <Route
             path="/superadmin"
             element={
-              <ProtectedRoute allowedRoles={['SUPER_ADMIN']}>
+              <ProtectedRoute allowedRoles={["SUPER_ADMIN"]}>
                 <DashboardLayout />
               </ProtectedRoute>
             }
           >
-            <Route path="dashboard" element={<div>Super Admin Dashboard</div>} />
+            <Route
+              path="dashboard"
+              element={<div>Super Admin Dashboard</div>}
+            />
             <Route path="users" element={<div>User Management</div>} />
             <Route path="inventory" element={<div>Inventory</div>} />
             <Route path="settings" element={<div>Settings</div>} />
@@ -38,23 +56,20 @@ function App() {
 
           <Route
             path="/admin"
-            element={
-              <ProtectedRoute allowedRoles={['ADMIN']}>
-                <DashboardLayout />
-              </ProtectedRoute>
-            }
+            // element={
+            //   <ProtectedRoute allowedRoles={["ADMIN"]}>
+            //     <DashboardLayout />
+            //   </ProtectedRoute>
+            // }
           >
-            <Route path="dashboard" element={<div>Admin Dashboard</div>} />
-            <Route path="users" element={<div>User Management</div>} />
-            <Route path="inventory" element={<div>Inventory</div>} />
-            <Route path="settings" element={<div>Settings</div>} />
+            <Route path="dashboard" element={<AdminDashboard />} />
             <Route index element={<Navigate to="dashboard" replace />} />
           </Route>
 
           <Route
             path="/employee"
             element={
-              <ProtectedRoute allowedRoles={['EMPLOYEE']}>
+              <ProtectedRoute allowedRoles={["EMPLOYEE"]}>
                 <DashboardLayout />
               </ProtectedRoute>
             }
@@ -69,11 +84,12 @@ function App() {
           <Route
             path="/dashboard"
             element={
-              <ProtectedRoute allowedRoles={['CUSTOMER']}>
-                  <div>Customer Dashboard
-                    <BookingAppointment />
-                    <VehicleRepairs/>
-                    </div>
+              <ProtectedRoute allowedRoles={["CUSTOMER"]}>
+                <div>
+                  Customer Dashboard
+                  <BookingAppointment />
+                  <VehicleRepairs />
+                </div>
               </ProtectedRoute>
             }
           />
