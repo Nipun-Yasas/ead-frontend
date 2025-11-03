@@ -419,7 +419,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
     if (selectedChat) {
       await loadMessages(selectedChat.id, 0);
     }
-  }, [isConnected, token, selectedChat, initializeWebSocket, loadInitialData]);
+  }, [isConnected, token, selectedChat, initializeWebSocket, loadInitialData, loadMessages]);
 
   const clearError = useCallback(() => {
     setError(null);
