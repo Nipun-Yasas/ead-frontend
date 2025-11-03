@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Login from "./Login";
@@ -26,31 +24,37 @@ export default function AuthContainer() {
 
   return (
     <div className="min-h-screen bg-bg-header flex items-center justify-center p-4">
-      <div className="relative w-full max-w-6xl min-h-[670px] bg-bg-primary rounded-3xl shadow-2xl overflow-hidden border border-border-primary">
+      <div className="relative w-full max-w-6xl bg-bg-primary rounded-3xl shadow-2xl overflow-hidden border border-border-primary">
+        {/* Blob animations */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-40 -right-40 w-80 h-80 bg-hover-bg rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob"></div>
           <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-hover-bg rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-hover-bg rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
         </div>
 
-        <div className="relative min-h-[670px] flex">
+        <div className="relative flex flex-col sm:flex-row min-h-[600px]">
+          {/* Forms Container */}
           <div
-            className={`absolute inset-0 w-full sm:w-1/2 transition-all duration-700 ease-in-out ${
-              isSignup ? "sm:left-1/2" : "sm:left-0"
+            className={`w-full sm:w-1/2 transition-all duration-700 ease-in-out order-2 sm:order-1 ${
+              isSignup ? "sm:order-2" : "sm:order-1"
             }`}
           >
-            <div className="relative w-full h-full overflow-hidden">
+            <div className="relative w-full h-full overflow-y-auto">
               <div
-                className={`absolute inset-0 transition-all duration-700 ease-in-out ${
-                  isSignup ? "opacity-0 pointer-events-none" : "opacity-100"
+                className={`transition-all duration-700 ease-in-out ${
+                  isSignup
+                    ? "opacity-0 h-0 overflow-hidden pointer-events-none"
+                    : "opacity-100"
                 }`}
               >
                 <Login onSwitchToSignup={handleSwitchToSignup} />
               </div>
 
               <div
-                className={`absolute inset-0 transition-all duration-700 ease-in-out ${
-                  isSignup ? "opacity-100" : "opacity-0 pointer-events-none"
+                className={`transition-all duration-700 ease-in-out ${
+                  isSignup
+                    ? "opacity-100"
+                    : "opacity-0 h-0 overflow-hidden pointer-events-none"
                 }`}
               >
                 <Signup onSwitchToLogin={handleSwitchToLogin} />
@@ -58,15 +62,19 @@ export default function AuthContainer() {
             </div>
           </div>
 
+          {/* Side Panel */}
           <div
-            className={`hidden sm:block absolute inset-y-0 w-1/2 transition-all duration-700 ease-in-out ${
-              isSignup ? "left-0" : "left-1/2"
+            className={`hidden sm:block w-1/2 transition-all duration-700 ease-in-out order-1 sm:order-2 ${
+              isSignup ? "sm:order-1" : "sm:order-2"
             }`}
           >
             <div className="relative w-full h-full">
+              {/* Sign Up Panel */}
               <div
-                className={`absolute inset-0 bg-bg-secondary transition-all duration-700 ease-in-out border-l border-border-primary ${
-                  isSignup ? "opacity-0 pointer-events-none" : "opacity-100"
+                className={`bg-bg-secondary transition-all duration-700 ease-in-out border-l border-border-primary h-full ${
+                  isSignup
+                    ? "opacity-0 pointer-events-none absolute inset-0"
+                    : "opacity-100"
                 }`}
               >
                 <div className="h-full flex items-center justify-center p-12 text-text-primary">
@@ -87,9 +95,12 @@ export default function AuthContainer() {
                 </div>
               </div>
 
+              {/* Sign In Panel */}
               <div
-                className={`absolute inset-0 bg-bg-secondary transition-all duration-700 ease-in-out border-l border-border-primary ${
-                  isSignup ? "opacity-100" : "opacity-0 pointer-events-none"
+                className={`bg-bg-secondary transition-all duration-700 ease-in-out border-l border-border-primary h-full ${
+                  isSignup
+                    ? "opacity-100"
+                    : "opacity-0 pointer-events-none absolute inset-0"
                 }`}
               >
                 <div className="h-full flex items-center justify-center p-12 text-text-primary">
