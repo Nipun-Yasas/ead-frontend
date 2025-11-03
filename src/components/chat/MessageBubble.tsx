@@ -185,7 +185,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
               className="text-xs"
               style={{ color: 'var(--color-text-tertiary)' }}
             >
-              {message.senderName}
+              {message.sender?.fullName}
             </span>
           )}
         </div>
