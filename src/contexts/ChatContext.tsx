@@ -472,10 +472,3 @@ const value: ChatContextType = useMemo(() => ({
 return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
 };
 
-export const useChat = () => {
-  const context = useContext(ChatContext);
-  if (context === undefined) {
-    throw new Error("useChat must be used within a ChatProvider");
-  }
-  return context;
-};
