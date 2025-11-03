@@ -8,6 +8,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import { ChatProvider } from "./contexts/ChatContext";
 import AuthContainer from "./components/auth/AuthContainer";
 import WhyChooseUs from "./components/WhyChooseUs";
 import AboutSection from "./components/aboutSection/AboutSection";
@@ -16,6 +17,7 @@ import ProtectedRoute from "./components/routes/ProtectedRoute";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import GetStarted from "./components/main/GetStarted";
 import AdminDashboard from "./AdminDashboard";
+import ChatInterface from "./components/chat/ChatInterface";
 
 function App() {
   return (
@@ -90,6 +92,23 @@ function App() {
                   <BookingAppointment />
                   <VehicleRepairs />
                 </div>
+              <ProtectedRoute allowedRoles={['CUSTOMER']}>
+                  <div>Customer Dashboard
+                    <BookingAppointment />
+                    <VehicleRepairs/>
+                  </div>
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Chat Route - Navigate via URL */}
+          <Route
+            path="/chat"
+            element={
+              <ProtectedRoute allowedRoles={['CUSTOMER', 'EMPLOYEE']}>
+                <ChatProvider>
+                  <ChatInterface />
+                </ChatProvider>
               </ProtectedRoute>
             }
           />
