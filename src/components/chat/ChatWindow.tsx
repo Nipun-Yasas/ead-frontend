@@ -291,16 +291,3 @@ const otherPerson = getOtherPerson(selectedChat); // ✅ Get the other person's 
 };
 
 export default ChatWindow;
-
-
-
-
-
-
-
-
-
-
-  
-
-  
