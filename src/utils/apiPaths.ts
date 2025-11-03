@@ -22,5 +22,20 @@ export const API_PATHS = {
     DELETE: (messageId: number) => `${BASE_URL}/chat/delete/${messageId}`,
     CREATE: `${BASE_URL}/chat/create`,
     CUSTOM_QUESTIONS: `${BASE_URL}/chat/custom-questions`,
+  }
+  APPOINTMENTS: {
+    CREATE: `${BASE_URL}/appointments`,
+    MY_APPOINTMENTS: `${BASE_URL}/appointments/my`,
+    GET_BY_ID: (id: number) => `${BASE_URL}/appointments/${id}`,
+    UPDATE: (id: number) => `${BASE_URL}/appointments/${id}`,
+    CANCEL: (id: number) => `${BASE_URL}/appointments/${id}/cancel`,
+    DELETE: (id: number) => `${BASE_URL}/appointments/${id}`,
+    BY_STATUS: (status: string) => `${BASE_URL}/appointments/status/${status}`,
+    TODAY: `${BASE_URL}/appointments/today`,
+    DATE_RANGE: `${BASE_URL}/appointments/date-range`,
+  },
+  HEALTH: {
+    CHECK: `${BASE_URL}/health`,
+    DATABASE: `${BASE_URL}/health/db`,
   },
 };
