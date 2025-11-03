@@ -192,7 +192,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
 
         {/* Action Buttons */}
         {isOwnMessage && showActions && !isEditMode && (
-          <div className={`flex space-x-1 mt-1 ${isOwnMessage ? 'justify-end' : 'justify-start'}`}>
+          <div className="flex space-x-1 mt-1 justify-end">
             {/* Edit Button - only if not already edited */}
             {!message.isEdited && onEdit && (
               <button
