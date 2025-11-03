@@ -62,8 +62,8 @@ export default function ServiceStatusChart({ data }: Props) {
 
       {/* Legend */}
       <div className="w-full space-y-2">
-        {data.map((item, index) => (
-          <div key={index} className="flex items-center justify-between">
+        {data.map((item) => (
+          <div key={item.status} className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <div
                 className="w-4 h-4 rounded-full"
