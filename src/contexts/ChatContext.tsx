@@ -428,7 +428,6 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
  
 
   // ✅ Memoize the context value to prevent unnecessary re-renders
-// ✅ Memoize the context value to prevent unnecessary re-renders
 const value: ChatContextType = useMemo(() => ({
   chats,
   selectedChat,
