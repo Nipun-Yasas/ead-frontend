@@ -10,6 +10,7 @@ import {
 import { AuthProvider } from "./contexts/AuthContext";
 import { ChatProvider } from "./contexts/ChatContext";
 import AuthContainer from "./components/auth/AuthContainer";
+import OurServicesBanner from "./components/ourServicesBanner";
 import WhyChooseUs from "./components/WhyChooseUs";
 import AboutSection from "./components/aboutSection/AboutSection";
 import BookingAppointment from "./components/BookingAppointment";
