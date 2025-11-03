@@ -56,11 +56,11 @@ function App() {
 
           <Route
             path="/admin"
-            // element={
-            //   <ProtectedRoute allowedRoles={["ADMIN"]}>
-            //     <DashboardLayout />
-            //   </ProtectedRoute>
-            // }
+            element={
+              <ProtectedRoute allowedRoles={["ADMIN"]}>
+                <DashboardLayout />
+              </ProtectedRoute>
+            }
           >
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route index element={<Navigate to="dashboard" replace />} />
