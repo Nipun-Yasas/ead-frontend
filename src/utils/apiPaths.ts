@@ -1,4 +1,5 @@
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api';
+const BASE_URL =
+  import.meta.env.VITE_API_BASE_URL || "http://localhost:8080/api";
 
 export const API_PATHS = {
   AUTH: {
@@ -11,6 +12,17 @@ export const API_PATHS = {
     PROFILE: `${BASE_URL}/user/profile`,
     UPDATE: `${BASE_URL}/user/update`,
   },
+  CHAT: {
+    ENDPOINT: "http://localhost:8080/ws-chat",
+    CONVERSATIONS: (userId: number) =>
+      `${BASE_URL}/chat/conversations/${userId}`,
+    MESSAGES: (chatId: number) => `${BASE_URL}/chat/messages/${chatId}`,
+    SEND: `${BASE_URL}/chat/send`,
+    EDIT: (messageId: number) => `${BASE_URL}/chat/edit/${messageId}`,
+    DELETE: (messageId: number) => `${BASE_URL}/chat/delete/${messageId}`,
+    CREATE: `${BASE_URL}/chat/create`,
+    CUSTOM_QUESTIONS: `${BASE_URL}/chat/custom-questions`,
+  }
   APPOINTMENTS: {
     CREATE: `${BASE_URL}/appointments`,
     MY_APPOINTMENTS: `${BASE_URL}/appointments/my`,
