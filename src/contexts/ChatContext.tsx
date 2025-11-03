@@ -265,7 +265,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
   const loadMoreMessages = useCallback(async () => {
     if (!selectedChat || !hasMoreMessages || isLoadingMoreMessages) return;
     await loadMessages(selectedChat.id, currentPage + 1);
-  }, [selectedChat, hasMoreMessages, isLoadingMoreMessages, currentPage]);
+  }, [selectedChat, hasMoreMessages, isLoadingMoreMessages, currentPage, loadMessages]);
 
   const sendMessage = useCallback(async (
   content: string, 
