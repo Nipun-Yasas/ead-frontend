@@ -259,7 +259,7 @@ export const ChatProvider: React.FC<{ children: React.ReactNode }> = ({
       setError('Failed to load messages');
     }
   },
-  [selectedChat, isConnected, handleRealTimeMessage] // ✅ loadMessages is NOT needed here
+  [selectedChat, isConnected, handleRealTimeMessage, loadMessages] // 🛠️ Added loadMessages to dependencies
 );
 
   const loadMoreMessages = useCallback(async () => {
