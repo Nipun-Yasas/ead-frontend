@@ -10,7 +10,7 @@ const OurServicesBanner: React.FC = () => {
 
   return (
     <div 
-      className="flex flex-col items-center  relative"
+      className="flex flex-col items-center relative"
       style={{
         backgroundColor: '#1D293D',
         width: '100vw',
