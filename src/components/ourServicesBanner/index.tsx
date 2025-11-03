@@ -49,7 +49,7 @@ const OurServicesBanner: React.FC = () => {
       
       {/* Content on top of gear */}
       <div className="relative z-10 flex flex-col items-center mt-10">
-        <h1 className="text-white text-4xl text-center" style={{ color: 'white', fontSize: '4rem' }}>Our Services</h1>
+        <h1 className="text-center" style={{ color: 'white', fontSize: '4rem' }}>Our Services</h1>
         <h3 className="text-white" style={{ lineHeight: '3' }}>Comprehensive automotive care from routine maintenance to custom modifications</h3>
         <button 
           onClick={handleClick}
