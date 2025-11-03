@@ -38,10 +38,10 @@ export default function AdminDashboard() {
     try {
       const token = localStorage.getItem("token") || "";
 
-        if (!token) {
-          navigate("/login");
-          return;
-        }
+      if (!token) {
+        navigate("/login");
+        return;
+      }
 
       const response = await fetch(
         "http://localhost:8080/api/admin/dashboard/stats",
