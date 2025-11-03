@@ -17,7 +17,7 @@ const ChatInterface: React.FC = () => {
         console.error('Error loading chat data:', error);
       }
     }
-  }, [user]);
+  }, [user, chatContext.loadConversations, chatContext.loadCustomQuestions]);
 
   // Loading state
   if (!user) {
