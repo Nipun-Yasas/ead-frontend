@@ -4,7 +4,7 @@ import tyresImage from '../../assets/images/tyres.png';
 
 const OurServicesBanner: React.FC = () => {
 
-  const handleClick=(): void=>{
+  const handleClick = (): void => {
     alert("Button clicked!");
   };
 
