@@ -167,7 +167,7 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   }
 
 
-    const otherPerson = getOtherPerson(selectedChat); // ✅ Get the other person's info
+const otherPerson = getOtherPerson(selectedChat); // ✅ Get the other person's info
 
   return (
     <div className="h-full flex flex-col">
