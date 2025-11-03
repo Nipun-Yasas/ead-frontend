@@ -53,7 +53,7 @@ const OurServicesBanner: React.FC = () => {
         <h3 className="text-white" style={{color:'white', lineHeight:'3'}}>Comprehensive automotive care from routine maintenance to custom modifications</h3>
         <button 
           onClick={handleClick}
-          className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+          className="rounded"
           style={{ backgroundColor: '#9F2329', color: 'white', padding: '0.5rem 1rem', marginTop: '1rem' }}
         >
           Book Service Now 
