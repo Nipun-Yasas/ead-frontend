@@ -193,8 +193,8 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
         {/* Action Buttons */}
         {isOwnMessage && showActions && !isEditMode && (
           <div className="flex space-x-1 mt-1 justify-end">
-            {/* Edit Button - only if not already edited */}
-            {!message.isEdited && onEdit && (
+            {/* Edit Button */}
+            {onEdit && (
               <button
                 onClick={() => setIsEditMode(true)}
                 className="p-1 rounded transition-colors hover:opacity-70"
