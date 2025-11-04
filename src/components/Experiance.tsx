@@ -1,6 +1,18 @@
-export default function Experience (){
-    return(
-<section className="bg-gradient-to-br from-gray-900 to-indigo-900 py-16 sm:py-24 relative overflow-hidden">
+import React from 'react';
+
+const ExperienceSection: React.FC = () => {
+  const handleBookYourService = () => {
+    console.log('Book Your Service clicked!');
+    // Implement actual booking logic here
+  };
+
+  const handleCreateAccount = () => {
+    console.log('Create Account clicked!');
+    // Implement actual account creation logic here
+  };
+
+  return (
+    <section className="bg-gradient-to-br from-gray-900 to-indigo-900 py-16 sm:py-24 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-white">
         
         {/* Main Title */}
@@ -18,7 +30,7 @@ export default function Experience (){
           
           {/* Book Your Service Button (Red Primary) */}
           <button 
-          //  onClick={handleBookYourService}
+            onClick={handleBookYourService}
             className="px-8 py-4 text-lg font-semibold bg-red-600 hover:bg-red-700 transition duration-300 rounded-md shadow-lg"
           >
             Book Your Service
@@ -26,14 +38,15 @@ export default function Experience (){
           
           {/* Create Account Button (White Secondary) */}
           <button 
-            //onClick={handleCreateAccount}
+            onClick={handleCreateAccount}
             className="px-8 py-4 text-lg font-semibold text-black bg-white hover:bg-gray-100 transition duration-300 rounded-md border border-white"
           >
             Create Account
           </button>
         </div>
       </div>
-
-     
     </section>
-);}
+  );
+};
+
+export default ExperienceSection;

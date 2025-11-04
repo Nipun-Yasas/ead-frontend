@@ -12,7 +12,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/certificate" element={<Certificate/>}/>
-         <Route path="/experiance" element={<Experience/>}/>
+         <Route path="/experience" element={<Experience/>}/>
       </Routes>
     </Router>
   );
