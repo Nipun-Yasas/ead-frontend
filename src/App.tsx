@@ -15,6 +15,8 @@ import OurServicesBanner from "./components/ourServicesBanner";
 import WhyChooseUs from "./components/WhyChooseUs";
 import Footer from "./components/Footer";
 import AboutSection from "./components/aboutSection/AboutSection";
+import Certificate from "./components/Certificate";
+import Experience from "./components/Experiance";
 import BookingAppointment from "./components/BookingAppointment";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import DashboardLayout from "./components/layouts/DashboardLayout";
@@ -37,6 +39,8 @@ function App() {
                 <WhyChooseUs />
                 <GetStarted />
                 <OurServicesBanner />
+                <Certificate />
+                <Experience/>
                 <Footer />
               </div>
             }
