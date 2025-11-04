@@ -3,6 +3,7 @@ import React from "react";
 const Footer: React.FC = () => {
   return (
     <footer
+      id="contact"
       style={{
         backgroundColor: "var(--color-bg-primary)",
         color: "var(--color-text-primary)",

@@ -1,22 +1,24 @@
 import "./App.css";
 import VehicleRepairs from "./components/VehicleRepairs";
-import Navbar from "./components/Navbar";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom";
+
 import { AuthProvider } from "./contexts/AuthContext";
 import { ChatProvider } from "./contexts/ChatContext";
-import Hero from "./components/Hero";
 import AuthContainer from "./components/auth/AuthContainer";
-import OurServicesBanner from "./components/ourServicesBanner";
-import WhyChooseUs from "./components/WhyChooseUs";
-import Footer from "./components/Footer";
+
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
 import AboutSection from "./components/aboutSection/AboutSection";
+import WhyChooseUs from "./components/WhyChooseUs";
+import LeadershipTeam from "./components/Leadership/LeadershipTeam"
 import Certificate from "./components/Certificate";
-import Experience from "./components/Experiance";
+import Footer from "./components/Footer";
+
 import BookingAppointment from "./components/BookingAppointment";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import DashboardLayout from "./components/layouts/DashboardLayout";
@@ -37,10 +39,9 @@ function App() {
                 <Hero />
                 <AboutSection />
                 <WhyChooseUs />
-                <GetStarted />
-                <OurServicesBanner />
+                <LeadershipTeam />
                 <Certificate />
-                <Experience/>
+                <GetStarted />
                 <Footer />
               </div>
             }

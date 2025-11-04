@@ -22,7 +22,7 @@ const duplicatedMembers = [...members, ...members];
 
 const LeadershipTeam: React.FC = () => {
   return (
-    <section className="bg-[#0f0f0f] text-center py-16 overflow-hidden relative">
+    <section className="bg-bg-primary text-center overflow-hidden relative">
       <style>{`
         @keyframes scroll {
           0% { transform: translateX(0); }
@@ -56,10 +56,10 @@ const LeadershipTeam: React.FC = () => {
         }
       `}</style>
 
-      <h2 className="text-red-600 text-3xl font-bold mb-2">
+      <h2 className="text-primary text-5xl mt-10 font-bold mb-2">
         Meet Our Leadership Team
       </h2>
-      <p className="text-gray-400 mb-12 text-lg">
+      <p className="text-text-tertiary mb-12 text-lg">
         Experienced professionals dedicated to automotive excellence
       </p>
 
@@ -94,7 +94,7 @@ const WhatSetsUsApart: React.FC = () => {
     {
       title: "Real-Time Transparency",
       description:
-        "Track your vehicle’s service progress live from your phone. Know exactly what’s happening, when it’s happening.",
+        "Track your vehicle's service progress live from your phone. Know exactly what's happening, when it's happening.",
     },
     {
       title: "Quality Parts Guarantee",
@@ -124,9 +124,9 @@ const WhatSetsUsApart: React.FC = () => {
   ];
 
   return (
-    <div className="bg-[rgba(45,45,45,0.7)] text-white py-20 mt-20 px-6 text-center rounded-t-3xl">
-      <h2 className="text-red-600 text-3xl font-bold mb-2">What Sets Us Apart</h2>
-      <p className="text-gray-400 mb-12 text-lg">
+    <div id="services" className="bg-[rgba(45,45,45,0.7)] text-text-primary py-15 mt-20 mb-10 px-6 text-center">
+      <h2 className="text-primary text-5xl font-bold mb-2">What Sets Us Apart</h2>
+      <p className="text-text-tertiary mb-12 text-lg">
         Why thousands of customers trust AutoCare Pro
       </p>
 
@@ -136,10 +136,10 @@ const WhatSetsUsApart: React.FC = () => {
             key={index}
             className="flex items-start space-x-3 bg-[#0f0f0f] p-6 rounded-2xl shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
           >
-            <CheckCircle className="text-green-500 w-6 h-6 flex-shrink-0 mt-1" />
+            <CheckCircle className="text-success w-6 h-6 flex-shrink-0 mt-1" />
             <div>
-              <h3 className="text-white text-xl font-semibold mb-2">{item.title}</h3>
-              <p className="text-gray-400 text-sm">{item.description}</p>
+              <h3 className="text-text-primary text-xl font-semibold mb-2">{item.title}</h3>
+              <p className="text-text-tertiary text-sm">{item.description}</p>
             </div>
           </div>
         ))}
