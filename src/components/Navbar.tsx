@@ -7,6 +7,9 @@ import MuiLink from "@mui/material/Link";
 import { Link as RouterLink } from "react-router-dom";
 
 const Navbar = () => {
+
+   const user=localStorage.getItem('user');
+
   return (
     <AppBar position="static" sx={{ backgroundColor: "#000000", boxShadow: "none" }}>
       <Toolbar sx={{ justifyContent: "space-between", px: 4 }}>
@@ -40,18 +43,34 @@ const Navbar = () => {
 
         {/* Auth Buttons */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <Button
-            component={RouterLink}
-            to="/login"
-            sx={{
-              color: "white",
-              textTransform: "none",
-              fontSize: "0.9rem",
-              "&:hover": { color: "#D60507" },
-            }}
-          >
-            Login
-          </Button>
+          {user ? (
+            <Button
+              component={RouterLink}
+              to="/dashboard"
+              sx={{
+                color: "white",
+                textTransform: "none",
+                fontSize: "0.9rem",
+                "&:hover": { color: "#D60507" },
+              }}
+            >
+              Dashboard
+            </Button>
+          ) : (
+            <Button
+              component={RouterLink}
+              to="/login"
+              sx={{
+                color: "white",
+                textTransform: "none",
+                fontSize: "0.9rem",
+                "&:hover": { color: "#D60507" },
+              }}
+            >
+              Login
+            </Button>
+          )}
+         
           <Button
             component={RouterLink}
             to="/signup"

@@ -11,6 +11,7 @@ import BookingAppointment from "./components/BookingAppointment";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import GetStarted from "./components/main/GetStarted";
+import { MyAppoiment } from "./components/appoiments/MyAppoiment";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/" element={<div><Navbar /><WhyChooseUs /><AboutSection /><GetStarted /></div>} />
           <Route path="/login" element={<AuthContainer />} />
           <Route path="/signup" element={<AuthContainer />} />
+          <Route path ="/my-appointment" element={<MyAppoiment/>}/>
 
           <Route
             path="/superadmin"
