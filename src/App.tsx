@@ -12,6 +12,7 @@ import { ChatProvider } from "./contexts/ChatContext";
 import AuthContainer from "./components/auth/AuthContainer";
 import OurServicesBanner from "./components/ourServicesBanner";
 import WhyChooseUs from "./components/WhyChooseUs";
+import Footer from "./components/Footer";
 import AboutSection from "./components/aboutSection/AboutSection";
 import BookingAppointment from "./components/BookingAppointment";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
@@ -30,9 +31,11 @@ function App() {
             element={
               <div>
                 <Navbar />
-                <WhyChooseUs />
                 <AboutSection />
+                <WhyChooseUs />
                 <GetStarted />
+                <OurServicesBanner />
+                <Footer />
               </div>
             }
           />
@@ -93,11 +96,7 @@ function App() {
                   <BookingAppointment />
                   <VehicleRepairs />
                 </div>
-              <ProtectedRoute allowedRoles={['CUSTOMER']}>
-                  <div>Customer Dashboard
-                    <BookingAppointment />
-                    <VehicleRepairs/>
-                  </div>
+              
               </ProtectedRoute>
             }
           />
