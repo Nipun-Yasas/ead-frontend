@@ -20,7 +20,7 @@ export interface Appointment {
   date: string;
   time: string;
   description: string;
-  status: 'pending' | 'approved' | 'ongoing' | 'completed';
+  status: 'pending' | 'approved' | 'ongoing' | 'completed' | 'cancelled';
   employeeName?: string;
   employeeProfilePicture?: string;
   serviceName?: string;
@@ -41,7 +41,9 @@ const AppoimentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
       case 'ongoing':
         return 'info';
       case 'completed':
-        return 'default';
+        return 'success';
+      case 'cancelled':
+        return 'error';
       default:
         return 'default';
     }
@@ -64,6 +66,9 @@ const AppoimentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
         border: '1px solid rgba(212, 212, 216, 0.2)',
         borderRadius: 2,
         transition: 'all 0.3s ease',
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
         '&:hover': {
           borderColor: 'rgba(212, 212, 216, 0.3)',
           boxShadow: '0 4px 12px rgba(214, 5, 7, 0.1)',
@@ -71,7 +76,7 @@ const AppoimentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
         },
       }}
     >
-      <CardContent sx={{ p: 3 }}>
+      <CardContent sx={{ p: 3, flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
         {/* Header with Status */}
         <Box
           sx={{

@@ -10,7 +10,8 @@ import {
 import { Add, Refresh } from '@mui/icons-material';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
-import AppoimentCard, { Appointment } from './AppoimentCard';
+import AppoimentCard from './AppoimentCard';
+import type { Appointment } from './AppoimentCard';
 
 type FilterType = 'all' | 'pending' | 'approved' | 'ongoing' | 'completed';
 
@@ -120,7 +121,7 @@ export const MyAppoiment = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#020202] flex flex-col">
+    <div className="min-h-screen bg-bg-header flex flex-col">
       <Navbar />
 
       <div className="flex-1 py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
@@ -169,7 +170,7 @@ export const MyAppoiment = () => {
 
           <Typography
             variant="body1"
-            className="text-[#A1A1AA] mb-6"
+            className="text-text-tertiary mb-6"
           >
             View and manage all your service appointments
           </Typography>
@@ -242,16 +243,16 @@ export const MyAppoiment = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-12 sm:py-16 bg-[#171717] rounded-lg border border-[rgba(212,212,216,0.2)]">
+          <div className="text-center py-12 sm:py-16 bg-bg-primary rounded-lg border border-border-primary">
             <Typography
               variant="h6"
-              className="text-[#A1A1AA] mb-2"
+              className="text-text-tertiary mb-2"
             >
               No appointments found
             </Typography>
             <Typography
               variant="body2"
-              className="text-[#71717A] mb-6"
+              className="text-text-muted mb-6"
             >
               {activeFilter === 'all'
                 ? 'You have no appointments yet'
