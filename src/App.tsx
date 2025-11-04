@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import { ChatProvider } from "./contexts/ChatContext";
+import Hero from "./components/Hero";
 import AuthContainer from "./components/auth/AuthContainer";
 import OurServicesBanner from "./components/ourServicesBanner";
 import WhyChooseUs from "./components/WhyChooseUs";
@@ -31,6 +32,7 @@ function App() {
             element={
               <div>
                 <Navbar />
+                <Hero />
                 <AboutSection />
                 <WhyChooseUs />
                 <GetStarted />
