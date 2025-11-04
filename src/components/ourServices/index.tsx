@@ -26,24 +26,39 @@ const OurServices: React.FC = () => {
   ];
 
   return (
-    <section className="bg-gray-900 py-16 px-4">
+    <section 
+      className="py-16 px-4"
+      style={{
+        backgroundColor: '#171717',
+        minHeight: '100vh',
+        width: '100%'
+      }}
+    >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4" style={{color:'white'}}>
             Our Services
           </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+          <p className="text-gray-400 text-lg max-w-2xl mx-auto" style={{color:'#717182'}}>
             Comprehensive automotive care for all your needs
           </p>
         </div>
 
         {/* Service Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 ">
           {services.map((service) => (
             <div
               key={service.id}
-              className="bg-gray-800 rounded-lg overflow-hidden shadow-lg border-2 border-red-600 hover:border-red-500 transition-all duration-300 hover:transform hover:scale-105"
+              className="bg-gray-800 rounded-lg overflow-hidden shadow-lg border-2 border-white hover:border-gray-300 transition-all duration-300 hover:transform hover:scale-105"
+              style={{
+                borderTop: '2px solid white',
+                borderRight: '2px solid white',
+                borderBottom: '2px solid white',
+                borderLeft: '2px solid white',
+                boxShadow: 'inset 0 -4px 0 0 red',
+                borderRadius: '8px'
+              }}
             >
               {/* Image Container */}
               <div className="relative h-64 overflow-hidden bg-gray-700">
@@ -57,8 +72,9 @@ const OurServices: React.FC = () => {
                   }}
                 />
                 {/* Learn More Button Overlay */}
-                <div className="absolute bottom-4 left-4">
-                  <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-md font-semibold transition-colors duration-200">
+                <div className="absolute bottom-4 left-4" style={{color:'white'}}>
+                  <button className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-md font-semibold transition-colors duration-200"
+                  style={{backgroundColor: '#D60507', color: 'white', padding: '0.5rem 1rem', marginTop: '1rem'}}>
                     Learn More
                   </button>
                 </div>
@@ -66,10 +82,10 @@ const OurServices: React.FC = () => {
 
               {/* Content */}
               <div className="p-6">
-                <h3 className="text-xl font-bold text-white mb-3">
+                <h3 className="text-xl font-bold text-white mb-3" style={{color:'white'}}>
                   {service.title}
                 </h3>
-                <p className="text-gray-400 leading-relaxed">
+                <p className="text-gray-400 leading-relaxed" style={{color:'#B1B1B8'}}>
                   {service.description}
                 </p>
               </div>
