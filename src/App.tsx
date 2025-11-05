@@ -25,6 +25,8 @@ import DashboardLayout from "./components/layouts/DashboardLayout";
 import GetStarted from "./components/main/GetStarted";
 import AdminDashboard from "./components/admin/dashboard/AdminDashboard";
 import ChatInterface from "./components/chat/ChatInterface";
+import Dashboard from "./components/superaAdmin/dashboard/Dashboard";
+import Users from "./components/superaAdmin/users/Users";
 
 function App() {
   return (
@@ -48,7 +50,6 @@ function App() {
           />
           <Route path="/login" element={<AuthContainer />} />
           <Route path="/signup" element={<AuthContainer />} />
-          <Route path ="/my-appointment" element={<MyAppoiment/>}/>
 
           <Route
             path="/superadmin"
@@ -60,9 +61,9 @@ function App() {
           >
             <Route
               path="dashboard"
-              element={<div>Super Admin Dashboard</div>}
+              element={<Dashboard />}
             />
-            <Route path="users" element={<div>User Management</div>} />
+            <Route path="users" element={<Users />} />
             <Route path="inventory" element={<div>Inventory</div>} />
             <Route path="settings" element={<div>Settings</div>} />
             <Route index element={<Navigate to="dashboard" replace />} />
