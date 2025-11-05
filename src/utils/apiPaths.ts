@@ -47,4 +47,8 @@ export const API_PATHS = {
     CHECK: `${BASE_URL}/health`,
     DATABASE: `${BASE_URL}/health/db`,
   },
+  CHATBOT: {
+    ASK: `${BASE_URL}/chatbot/ask`,
+    HEALTH: `${BASE_URL}/chatbot/health`,
+  },
 };

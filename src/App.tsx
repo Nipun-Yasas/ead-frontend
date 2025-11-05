@@ -28,6 +28,7 @@ import ChatInterface from "./components/chat/ChatInterface";
 import TaskAllocationPage from "./components/adminTaskAllocation/TaskAllocationPage";
 
 import Dashboard from "./components/superaAdmin/dashboard/Dashboard";
+import { Chatbot } from "./components/chat/Chatbot";
 import Users from "./components/superaAdmin/users/Users";
 
 function App() {
@@ -125,6 +126,9 @@ function App() {
             }
           />
         </Routes>
+        
+        {/* Global Chatbot - Available on all pages */}
+        <Chatbot />
       </AuthProvider>
     </Router>
   );
