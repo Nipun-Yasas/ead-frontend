@@ -1,6 +1,6 @@
 const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-const WS_URL = import.meta.env.VITE_WS_URL || 'http://localhost:8080/ws-chat';
+const WS_URL = import.meta.env.VITE_WS_URL || 'http://localhost:8080';
 
 export const API_PATHS = {
   AUTH: {
@@ -12,6 +12,7 @@ export const API_PATHS = {
   USER: {
     PROFILE: `${BASE_URL}/user/profile`,
     UPDATE: `${BASE_URL}/user/update`,
+    EMPLOYEES: `${BASE_URL}/users/employees`,
   },
   CHAT: {
     ENDPOINT: `${WS_URL}/ws-chat`,
@@ -34,6 +35,7 @@ export const API_PATHS = {
     BY_STATUS: (status: string) => `${BASE_URL}/appointments/status/${status}`,
     TODAY: `${BASE_URL}/appointments/today`,
     DATE_RANGE: `${BASE_URL}/appointments/date-range`,
+    ALLOCATE: (id: number) => `${BASE_URL}/appointments/${id}/allocate`, // ✅ Matches backend
   },
   HEALTH: {
     CHECK: `${BASE_URL}/health`,
