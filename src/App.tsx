@@ -25,6 +25,8 @@ import DashboardLayout from "./components/layouts/DashboardLayout";
 import GetStarted from "./components/main/GetStarted";
 import AdminDashboard from "./components/admin/dashboard/AdminDashboard";
 import ChatInterface from "./components/chat/ChatInterface";
+import TaskAllocationPage from "./components/adminTaskAllocation/TaskAllocationPage";
+
 import Dashboard from "./components/superaAdmin/dashboard/Dashboard";
 import Users from "./components/superaAdmin/users/Users";
 
@@ -51,6 +53,7 @@ function App() {
           <Route path="/login" element={<AuthContainer />} />
           <Route path="/signup" element={<AuthContainer />} />
 
+
           <Route
             path="/superadmin"
             element={
@@ -63,6 +66,7 @@ function App() {
               path="dashboard"
               element={<Dashboard />}
             />
+             <Route path="task-allocation" element={<TaskAllocationPage />} /> 
             <Route path="users" element={<Users />} />
             <Route path="inventory" element={<div>Inventory</div>} />
             <Route path="settings" element={<div>Settings</div>} />
