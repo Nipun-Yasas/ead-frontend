@@ -23,7 +23,7 @@ import BookingAppointment from "./components/BookingAppointment";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import GetStarted from "./components/main/GetStarted";
-import AdminDashboard from "./AdminDashboard";
+import AdminDashboard from "./components/admin/dashboard/AdminDashboard";
 import ChatInterface from "./components/chat/ChatInterface";
 
 function App() {
@@ -76,7 +76,6 @@ function App() {
             }
           >
             <Route path="dashboard" element={<AdminDashboard />} />
-            <Route index element={<Navigate to="dashboard" replace />} />
           </Route>
 
           <Route
