@@ -49,9 +49,7 @@ export default function Login({ onSwitchToSignup }: LoginProps) {
               Auto <span className="text-primary">Care</span> Pro
             </span>
           </div>
-          <h2 className="text-3xl font-bold text-text-primary">
-            Welcome Back
-          </h2>
+          <h2 className="text-3xl font-bold text-text-primary">Welcome Back</h2>
           <p className="mt-2 text-text-secondary">
             Sign in to your account to continue
           </p>

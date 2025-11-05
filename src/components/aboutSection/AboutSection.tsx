@@ -58,6 +58,7 @@ const coreValuesData: CoreValue[] = [
 // --- Main Component ---
 const AboutSection: React.FC = () => {
   return (
+    <section id="about">
     <div className={styles.aboutSection}>
       
       {/* 1. Stats Bar */}
@@ -126,6 +127,7 @@ const AboutSection: React.FC = () => {
       </section>
 
     </div>
+    </section>
   );
 };
 

@@ -30,4 +30,34 @@
   
   --color-focus-ring: rgb(214 5 7 / 0.5);         
   --color-focus-border: rgb(212 212 216 / 0.4);    
+
+  --color-success: oklch(62.7% 0.194 149.214);
+  --color-primary: oklch(57.7% 0.245 27.325);
+}
+
+/* Custom animations for Our Services Banner */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin-reverse-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+.animate-spin-reverse-slow {
+  animation: spin-reverse-slow 15s linear infinite;
 }

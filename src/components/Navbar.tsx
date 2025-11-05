@@ -1,62 +1,88 @@
+import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import MuiLink from "@mui/material/Link";
+import IconButton from "@mui/material/IconButton";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemText from "@mui/material/ListItemText";
+import Divider from "@mui/material/Divider";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
 import { Link as RouterLink } from "react-router-dom";
 
 const Navbar = () => {
 
    const user=localStorage.getItem('user');
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const toggleDrawer = (open: boolean) => () => {
+    setDrawerOpen(open);
+  };
+
+  const navItems = [
+    { label: "Home", id: "home" },
+    { label: "Services", id: "services" },
+    { label: "Why choose us", id: "whychooseus" },
+    { label: "About", id: "about" },
+    { label: "Contact", id: "contact" },
+  ];
+
+  const handleScrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#000000", boxShadow: "none" }}>
-      <Toolbar sx={{ justifyContent: "space-between", px: 4 }}>
-        {/* Logo */}
-        <Typography variant="h6" sx={{ fontWeight: 600 }}>
-          Auto
-          <Box component="span" sx={{ color: "#D60507" }}>
-            Care
-          </Box>{" "}
-          Pro
-        </Typography>
+    <>
+      <AppBar position="static" sx={{ backgroundColor: "#000000", boxShadow: "none" }}>
+        <Toolbar sx={{ justifyContent: "space-between", px: { xs: 2, md: 4 } }}>
+          {/* Logo */}
+          <Typography 
+            variant="h6" 
+            sx={{ fontWeight: 600, cursor: "pointer" }}
+            onClick={() => handleScrollToSection("home")}
+          >
+            Auto
+            <Box component="span" sx={{ color: "#D60507" }}>
+              Care
+            </Box>{" "}
+            Pro
+          </Typography>
 
-        {/* Navigation Links */}
-        <Box sx={{ display: "flex", gap: 4 }}>
-          {["Home", "Book Service", "Services", "About", "Contact"].map((item) => (
-            <MuiLink
-              key={item}
-              href="#"
-              underline="none"
-              sx={{
-                color: "white",
-                fontSize: "0.95rem",
-                "&:hover": { color: "#D60507" },
-                transition: "0.2s",
-              }}
-            >
-              {item}
-            </MuiLink>
-          ))}
-        </Box>
+          {/* Desktop Navigation Links */}
+          <Box sx={{ display: { xs: "none", md: "flex" }, gap: 4 }}>
+            {navItems.map((item) => (
+              <MuiLink
+                key={item.label}
+                href={`#${item.id}`}
+                underline="none"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleScrollToSection(item.id);
+                }}
+                sx={{
+                  color: "white",
+                  fontSize: "0.95rem",
+                  cursor: "pointer",
+                  "&:hover": { color: "#D60507" },
+                  transition: "0.2s",
+                }}
+              >
+                {item.label}
+              </MuiLink>
+            ))}
+          </Box>
 
-        {/* Auth Buttons */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          {user ? (
-            <Button
-              component={RouterLink}
-              to="/dashboard"
-              sx={{
-                color: "white",
-                textTransform: "none",
-                fontSize: "0.9rem",
-                "&:hover": { color: "#D60507" },
-              }}
-            >
-              Dashboard
-            </Button>
-          ) : (
+          {/* Desktop Auth Buttons */}
+          <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 2 }}>
             <Button
               component={RouterLink}
               to="/login"
@@ -69,26 +95,133 @@ const Navbar = () => {
             >
               Login
             </Button>
-          )}
-         
-          <Button
-            component={RouterLink}
-            to="/signup"
-            variant="contained"
-            sx={{
-              backgroundColor: "white",
-              color: "black",
-              textTransform: "none",
-              fontWeight: 500,
-              px: 2.5,
-              "&:hover": { backgroundColor: "#D60507", color: "white" },
-            }}
+            <Button
+              component={RouterLink}
+              to="/signup"
+              variant="contained"
+              sx={{
+                backgroundColor: "white",
+                color: "black",
+                textTransform: "none",
+                fontWeight: 500,
+                px: 2.5,
+                "&:hover": { backgroundColor: "#D60507", color: "white" },
+              }}
+            >
+              Sign Up
+            </Button>
+          </Box>
+
+          {/* Mobile Hamburger Menu */}
+          <IconButton
+            edge="end"
+            color="inherit"
+            aria-label="menu"
+            onClick={toggleDrawer(true)}
+            sx={{ display: { xs: "block", md: "none" } }}
           >
-            Sign Up
-          </Button>
+            <MenuIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+
+      {/* Mobile Drawer */}
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={toggleDrawer(false)}
+        sx={{
+          display: { xs: "block", md: "none" },
+          "& .MuiDrawer-paper": {
+            width: 280,
+            backgroundColor: "#000000",
+            color: "white",
+          },
+        }}
+      >
+        <Box sx={{ p: 2 }}>
+          {/* Close Button */}
+          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+            <Typography variant="h6" sx={{ fontWeight: 600 }}>
+              Auto
+              <Box component="span" sx={{ color: "#D60507" }}>
+                Care
+              </Box>{" "}
+              Pro
+            </Typography>
+            <IconButton onClick={toggleDrawer(false)} sx={{ color: "white" }}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+
+          <Divider sx={{ backgroundColor: "rgba(255,255,255,0.1)", mb: 2 }} />
+
+          {/* Navigation Items */}
+          <List>
+            {navItems.map((item) => (
+              <ListItem key={item.label} disablePadding>
+                <ListItemButton
+                  onClick={() => {
+                    handleScrollToSection(item.id);
+                    toggleDrawer(false)();
+                  }}
+                  sx={{
+                    "&:hover": { backgroundColor: "rgba(214, 5, 7, 0.1)" },
+                  }}
+                >
+                  <ListItemText
+                    primary={item.label}
+                    sx={{
+                      "& .MuiTypography-root": {
+                        fontSize: "1rem",
+                        color: "white",
+                      },
+                    }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+
+          <Divider sx={{ backgroundColor: "rgba(255,255,255,0.1)", my: 2 }} />
+
+          {/* Auth Buttons */}
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 2, px: 2 }}>
+            <Button
+              component={RouterLink}
+              to="/login"
+              fullWidth
+              onClick={toggleDrawer(false)}
+              sx={{
+                color: "white",
+                textTransform: "none",
+                fontSize: "0.9rem",
+                border: "1px solid white",
+                "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
+              }}
+            >
+              Login
+            </Button>
+            <Button
+              component={RouterLink}
+              to="/signup"
+              fullWidth
+              variant="contained"
+              onClick={toggleDrawer(false)}
+              sx={{
+                backgroundColor: "#D60507",
+                color: "white",
+                textTransform: "none",
+                fontWeight: 500,
+                "&:hover": { backgroundColor: "#b00406" },
+              }}
+            >
+              Sign Up
+            </Button>
+          </Box>
         </Box>
-      </Toolbar>
-    </AppBar>
+      </Drawer>
+    </>
   );
 };
 
