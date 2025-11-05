@@ -13,6 +13,12 @@ export const API_PATHS = {
     PROFILE: `${BASE_URL}/user/profile`,
     UPDATE: `${BASE_URL}/user/update`,
     EMPLOYEES: `${BASE_URL}/users/employees`,
+
+    //admin
+    CREATE: `${BASE_URL}/super-admin/users`,
+    GET_ALL: `${BASE_URL}/super-admin/users`,
+    DELETE: (userId: number) => `${BASE_URL}//super-admin/users/${userId}`,
+
   },
   CHAT: {
     ENDPOINT: `${WS_URL}/ws-chat`,

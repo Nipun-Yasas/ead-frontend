@@ -45,7 +45,7 @@
   justify-content: center;
   gap: 40px;
   flex-wrap: wrap;
-  padding: 80px 30px;
+  padding: 60px 30px;
 }
 
 .missionVisionCard {
@@ -83,8 +83,9 @@
 
 /* --- 3. Core Values --- */
 .coreValues {
-  padding: 80px 30px;
+  padding: 10px 30px;
   text-align: center;
+  padding-bottom: 50px;
 }
 
 .titleSection {

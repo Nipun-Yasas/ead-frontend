@@ -48,7 +48,7 @@ export default function SignUp({ onSwitchToLogin }: SignupProps) {
   });
 
   return (
-    <div className="w-full flex items-center justify-center p-8 py-12">
+    <div className="w-full flex items-center justify-center p-8 py-8">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
           <div className="flex items-center justify-center space-x-2 mb-4">

@@ -8,7 +8,7 @@ type FormState = {
     time: string;
     vehicleType: string;
     vehicleNumber: string;
-    serviceType: string;
+    service: string;
     notes: string;
 };
 
@@ -17,7 +17,7 @@ const initialForm: FormState = {
     time: '',
     vehicleType: '',
     vehicleNumber: '',
-    serviceType: '',
+    service: '',
     notes: '',
 };
 
@@ -47,7 +47,7 @@ export default function BookingAppointment() {
         const next: Record<string, string> = {};
         if (!values.date) next.date = 'Please select a date.';
         if (!values.time) next.time = 'Please select a time.';
-        if (!values.serviceType) next.serviceType = 'Please choose a service type.';
+        if (!values.service) next.service = 'Please choose a service type.';
         return next;
     }
 
@@ -65,14 +65,29 @@ export default function BookingAppointment() {
         }
 
         // Build payload matching backend expectations
+        const rawUser = localStorage.getItem('user');
+        let userId: string | number | null = null;
+        try {
+            if (rawUser) {
+                const parsed = JSON.parse(rawUser);
+                if (parsed && typeof parsed === 'object' && 'id' in parsed) {
+                    userId = (parsed as any).id ?? null;
+                }
+            }
+        } catch (err) {
+            // ignore parse errors and leave userId as null
+            console.warn('Failed to parse user from localStorage', err);
+        }
+
         const payload = {
             date: form.date, // YYYY-MM-DD
             time: form.time, // HH:mm
             vehicleType: form.vehicleType || null,
             vehicleNumber: form.vehicleNumber || null,
-            serviceType: form.serviceType,
+            service: form.service,
             instructions: form.notes || null,
             employeeId: null, // assigned later by backend/staff
+            userId,
             status: 'pending',
         };
 
@@ -207,7 +222,7 @@ export default function BookingAppointment() {
                     <div>
                         <label className="flex flex-col text-left">
                             <span className="text-base text-[var(--color-text-tertiary)] mb-2">Service Type</span>
-                            <select name="serviceType" value={form.serviceType} onChange={onChange} aria-invalid={!!errors.serviceType} aria-describedby={errors.serviceType ? 'err-serviceType' : undefined} required className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] rounded-md px-3 pr-6 h-10 border border-[rgba(214,5,7,0.23)] w-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" style={{
+                            <select name="service" value={form.service} onChange={onChange} aria-invalid={!!errors.service} aria-describedby={errors.service ? 'err-service' : undefined} required className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] rounded-md px-3 pr-6 h-10 border border-[rgba(214,5,7,0.23)] w-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" style={{
                                 backgroundColor: 'var(--color-bg-header)',
                                 color: 'var(--color-text-primary)',
                                 appearance: 'none',
@@ -243,7 +258,7 @@ export default function BookingAppointment() {
 
                     <div className="flex gap-4 justify-between">
                         <button type="button" onClick={() => navigate(-1)} className="flex-1 h-10 flex items-center justify-center bg-[var(--color-text-primary)] text-black rounded-md">Back</button>
-                        <button type="submit" disabled={!form.date || !form.time || !form.serviceType || loading} className={`flex-1 h-10 flex items-center justify-center rounded-md ${!form.date || !form.time || !form.serviceType ? 'bg-[var(--color-primary)]/60 text-white cursor-not-allowed opacity-70' : 'bg-[var(--color-primary)] text-white'}`} style={{ color: '#ffffff' }}>
+                        <button type="submit" disabled={!form.date || !form.time || !form.service || loading} className={`flex-1 h-10 flex items-center justify-center rounded-md ${!form.date || !form.time || !form.service ? 'bg-[var(--color-primary)]/60 text-white cursor-not-allowed opacity-70' : 'bg-[var(--color-primary)] text-white'}`} style={{ color: '#ffffff' }}>
                             {loading ? 'Saving...' : 'Confirm Appointment'}
                         </button>
                     </div>
@@ -251,7 +266,7 @@ export default function BookingAppointment() {
                     <div className="mt-1 text-sm text-rose-400">
                         {errors.date && <div id="err-date">{errors.date}</div>}
                         {errors.time && <div id="err-time">{errors.time}</div>}
-                        {errors.serviceType && <div id="err-serviceType">{errors.serviceType}</div>}
+                        {errors.service && <div id="err-service">{errors.service}</div>}
                     </div>
                 </form>
             </div>
