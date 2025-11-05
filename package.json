@@ -21,6 +21,7 @@
     "@toolpad/core": "^0.16.0",
     "axios": "^1.12.2",
     "formik": "^2.4.6",
+    "framer-motion": "^12.23.24",
     "lucide-react": "^0.548.0",
     "maath": "^0.10.8",
     "react": "^19.1.1",
