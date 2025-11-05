@@ -23,6 +23,7 @@ import BookingAppointment from "./components/BookingAppointment";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import DashboardLayout from "./components/layouts/DashboardLayout";
 import GetStarted from "./components/main/GetStarted";
+import { MyAppoiment } from "./components/appoiments/MyAppoiment";
 import AdminDashboard from "./AdminDashboard";
 import ChatInterface from "./components/chat/ChatInterface";
 
@@ -48,6 +49,7 @@ function App() {
           />
           <Route path="/login" element={<AuthContainer />} />
           <Route path="/signup" element={<AuthContainer />} />
+          <Route path ="/my-appointment" element={<MyAppoiment/>}/>
 
           <Route
             path="/superadmin"

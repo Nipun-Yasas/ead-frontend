@@ -17,6 +17,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Link as RouterLink } from "react-router-dom";
 
 const Navbar = () => {
+
+   const user=localStorage.getItem('user');
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = (open: boolean) => () => {
