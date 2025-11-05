@@ -21,10 +21,15 @@ export interface Appointment {
   time: string;
   description: string;
   status: 'pending' | 'approved' | 'ongoing' | 'completed' | 'cancelled';
-  employeeName?: string;
+  employeeName?: string | null;
   employeeProfilePicture?: string;
   serviceName?: string;
   vehicleType?: string;
+  vehicleNumber?: string;
+  instructions?: string;
+  customerName?: string;
+  customerEmail?: string;
+  customerPhone?: string;
 }
 
 interface AppointmentCardProps {

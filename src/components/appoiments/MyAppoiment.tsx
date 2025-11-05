@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Box,
   Typography,
@@ -6,12 +6,15 @@ import {
   Tab,
   CircularProgress,
   Button,
+  Alert,
 } from '@mui/material';
 import { Add, Refresh } from '@mui/icons-material';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import AppoimentCard from './AppoimentCard';
 import type { Appointment } from './AppoimentCard';
+import { appointmentApi, type ApiAppointment } from '../../api/appointments';
+import { useAuth } from '../../contexts/AuthContext';
 
 type FilterType = 'all' | 'pending' | 'approved' | 'ongoing' | 'completed';
 
@@ -19,95 +22,110 @@ export const MyAppoiment = () => {
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { user } = useAuth();
 
-  // Mock data - Replace with actual API call
-  useEffect(() => {
-    const fetchAppointments = async () => {
-      setLoading(true);
+  // Transform API appointment to frontend appointment
+  const transformApiAppointment = useCallback((apiAppointment: ApiAppointment): Appointment => {
+    // Format time from API - handle both string format and object format
+    const formatTime = (time: any) => {
+      let hour: number, minute: number;
       
-      // Simulating API call
-      setTimeout(() => {
-        const mockAppointments: Appointment[] = [
-          {
-            id: '1',
-            date: '2025-11-10',
-            time: '10:00 AM',
-            description: 'Regular oil change and tire rotation service',
-            status: 'approved',
-            serviceName: 'Oil Change & Tire Rotation',
-            vehicleType: 'Toyota Camry',
-            employeeName: 'John Smith',
-            employeeProfilePicture: '',
-          },
-          {
-            id: '2',
-            date: '2025-11-08',
-            time: '2:00 PM',
-            description: 'Complete brake system inspection and repair',
-            status: 'pending',
-            serviceName: 'Brake System Service',
-            vehicleType: 'Honda Civic',
-          },
-          {
-            id: '3',
-            date: '2025-11-12',
-            time: '9:30 AM',
-            description: 'Engine diagnostic and performance check',
-            status: 'ongoing',
-            serviceName: 'Engine Diagnostics',
-            vehicleType: 'Ford F-150',
-            employeeName: 'Sarah Johnson',
-            employeeProfilePicture: '',
-          },
-          {
-            id: '4',
-            date: '2025-11-05',
-            time: '11:00 AM',
-            description: 'Air conditioning system repair and recharge',
-            status: 'completed',
-            serviceName: 'AC Service',
-            vehicleType: 'BMW 3 Series',
-            employeeName: 'Mike Davis',
-            employeeProfilePicture: '',
-          },
-          {
-            id: '5',
-            date: '2025-11-15',
-            time: '3:00 PM',
-            description: 'Battery replacement and electrical system check',
-            status: 'approved',
-            serviceName: 'Battery Service',
-            vehicleType: 'Tesla Model 3',
-            employeeName: 'Emma Wilson',
-            employeeProfilePicture: '',
-          },
-          {
-            id: '6',
-            date: '2025-11-07',
-            time: '1:00 PM',
-            description: 'Transmission fluid change and inspection',
-            status: 'pending',
-            serviceName: 'Transmission Service',
-            vehicleType: 'Chevrolet Silverado',
-          },
-        ];
-        
-        setAppointments(mockAppointments);
-        setLoading(false);
-      }, 1000);
+      if (typeof time === 'string') {
+        // Parse "12:30:00" format
+        const [hourStr, minuteStr] = time.split(':');
+        hour = parseInt(hourStr, 10);
+        minute = parseInt(minuteStr, 10);
+      } else if (time && typeof time === 'object') {
+        // Handle object format {hour: 12, minute: 30, ...}
+        hour = time.hour;
+        minute = time.minute;
+      } else {
+        // Fallback
+        hour = 0;
+        minute = 0;
+      }
+      
+      const ampm = hour >= 12 ? 'PM' : 'AM';
+      const displayHour = hour % 12 || 12;
+      const displayMinute = minute.toString().padStart(2, '0');
+      return `${displayHour}:${displayMinute} ${ampm}`;
     };
 
-    fetchAppointments();
-  }, []);
+    return {
+      id: apiAppointment.id.toString(),
+      date: apiAppointment.date,
+      time: formatTime(apiAppointment.time),
+      description: apiAppointment.instructions || '',
+      status: apiAppointment.status.toLowerCase() as Appointment['status'],
+      serviceName: apiAppointment.service,
+      vehicleType: apiAppointment.vehicleType,
+      vehicleNumber: apiAppointment.vehicleNumber,
+      instructions: apiAppointment.instructions,
+      // Only show employee data if it exists and if user is not a customer viewing their own appointments
+      employeeName: apiAppointment.employee?.fullName || null,
+      employeeProfilePicture: '', // API doesn't provide profile pictures yet
+      // For customer view, don't include customer data as they already know their own info
+      // Only include customer data if user is an employee/admin viewing appointments
+      ...(user?.role !== 'CUSTOMER' && {
+        customerName: apiAppointment.customer?.fullName || apiAppointment.customerName,
+        customerEmail: apiAppointment.customer?.email || apiAppointment.customerEmail,
+        customerPhone: apiAppointment.customerPhone,
+      }),
+    };
+  }, [user?.role]);
+
+  // Fetch appointments from API
+  useEffect(() => {
+    const fetchAppointments = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        console.log('Fetching appointments...');
+        const apiAppointments = await appointmentApi.getMyAppointments();
+        console.log('Raw API response:', apiAppointments);
+        
+        const transformedAppointments = apiAppointments.map(transformApiAppointment);
+        console.log('Transformed appointments:', transformedAppointments);
+        
+        setAppointments(transformedAppointments);
+      } catch (err) {
+        console.error('Error fetching appointments:', err);
+        setError(err instanceof Error ? err.message : 'Failed to fetch appointments');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user) {
+      fetchAppointments();
+    }
+  }, [user, transformApiAppointment]);
 
   const handleFilterChange = (_event: React.SyntheticEvent, newValue: FilterType) => {
     setActiveFilter(newValue);
   };
 
-  const handleRefresh = () => {
-    setLoading(true);
-    // Simulate refresh
-    setTimeout(() => setLoading(false), 500);
+  const handleRefresh = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      
+      console.log('Refreshing appointments...');
+      const apiAppointments = await appointmentApi.getMyAppointments();
+      console.log('Raw API response:', apiAppointments);
+      
+      const transformedAppointments = apiAppointments.map(transformApiAppointment);
+      console.log('Transformed appointments:', transformedAppointments);
+      
+      setAppointments(transformedAppointments);
+    } catch (err) {
+      console.error('Error refreshing appointments:', err);
+      setError(err instanceof Error ? err.message : 'Failed to refresh appointments');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const filteredAppointments = appointments.filter((appointment) => {
@@ -228,6 +246,17 @@ export const MyAppoiment = () => {
             </Tabs>
           </Box>
         </div>
+
+        {/* Error Display */}
+        {error && (
+          <Alert 
+            severity="error" 
+            sx={{ mb: 4 }}
+            onClose={() => setError(null)}
+          >
+            {error}
+          </Alert>
+        )}
 
         {/* Appointments Grid */}
         {loading ? (
