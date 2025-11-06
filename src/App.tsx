@@ -24,6 +24,7 @@ import DashboardLayout from "./components/layouts/DashboardLayout";
 import GetStarted from "./components/landing/GetStarted";
 import AdminDashboard from "./components/admin/dashboard/AdminDashboard";
 import ChatInterface from "./components/chat/ChatInterface";
+import EmployeeChatInterface from "./components/chat/EmployeeChatInterface"; 
 import TaskAllocationPage from "./components/adminTaskAllocation/TaskAllocationPage";
 
 import Dashboard from "./components/superAdmin/dashboard/Dashboard";
@@ -85,6 +86,7 @@ function App() {
             <Route path="dashboard" element={<AdminDashboard />} />
           </Route>
 
+          {/* Employee Routes with newChatinterface */}
           <Route
             path="/employee"
             element={
@@ -97,6 +99,15 @@ function App() {
             <Route path="products" element={<div>Products</div>} />
             <Route path="orders" element={<div>My Orders</div>} />
             <Route path="reports" element={<div>Reports</div>} />
+            {/*   Messages Route */}
+            <Route 
+              path="messages" 
+              element={
+                <ChatProvider>
+                  <EmployeeChatInterface />
+                </ChatProvider>
+              } 
+            />
             <Route index element={<Navigate to="dashboard" replace />} />
           </Route>
 
