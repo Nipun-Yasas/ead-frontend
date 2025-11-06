@@ -25,6 +25,7 @@ import GetStarted from "./components/landing/GetStarted";
 import AdminDashboard from "./components/admin/dashboard/AdminDashboard";
 import ChatInterface from "./components/chat/ChatInterface";
 import TaskAllocationPage from "./components/adminTaskAllocation/TaskAllocationPage";
+import AppointmentsByStatus from "./components/admin/appointments/AppointmentsByStatus";
 
 import Dashboard from "./components/superAdmin/dashboard/Dashboard";
 import { Chatbot } from "./components/chat/Chatbot";
@@ -83,6 +84,7 @@ function App() {
             }
           >
             <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="appointments/:status" element={<AppointmentsByStatus />} />
           </Route>
 
           <Route
