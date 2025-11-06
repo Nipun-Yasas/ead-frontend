@@ -5,6 +5,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
+import Navbar from "../../Navbar";
+import Footer from "../../Footer";
 import {
   CheckCircle,
   Clock,
@@ -126,6 +128,7 @@ export default function Dashboard() {
   }
 
   if (error || !stats) {
+
     return (
       <Box
         sx={{

@@ -14,12 +14,12 @@ const CustomerDashboard: React.FC = () => {
         }}
       >
         <div className="flex items-center justify-between">
-          <h1 
+          {/* <h1 
             className="text-2xl font-bold"
             style={{ color: 'var(--color-text-primary)' }}
           >
-            Customer Dashboard
-          </h1>
+            
+          </h1> */}
           
           {/* Chat Button */}
           <Link

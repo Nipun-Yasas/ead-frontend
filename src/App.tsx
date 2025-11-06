@@ -28,7 +28,9 @@ import ChatInterface from "./components/chat/ChatInterface";
 import TaskAllocationPage from "./components/adminTaskAllocation/TaskAllocationPage";
 
 import Dashboard from "./components/superaAdmin/dashboard/Dashboard";
+import { Chatbot } from "./components/chat/Chatbot";
 import Users from "./components/superaAdmin/users/Users";
+import { MyAppoiment } from "./components/appoiments/MyAppoiment";
 
 function App() {
   return (
@@ -53,6 +55,15 @@ function App() {
           <Route path="/login" element={<AuthContainer />} />
           <Route path="/signup" element={<AuthContainer />} />
 
+          {/* My Appointments Route - Protected for authenticated users */}
+          <Route
+            path="/my-appointment"
+            element={
+              <ProtectedRoute allowedRoles={["CUSTOMER", "EMPLOYEE", "ADMIN", "SUPER_ADMIN"]}>
+                <MyAppoiment />
+              </ProtectedRoute>
+            }
+          />
 
           <Route
             path="/superadmin"
@@ -104,7 +115,7 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={["CUSTOMER"]}>
                 <div>
-                  Customer Dashboard
+               
                   <BookingAppointment />
                   <VehicleRepairs />
                 </div>
@@ -125,6 +136,9 @@ function App() {
             }
           />
         </Routes>
+        
+        {/* Global Chatbot - Available on all pages */}
+        <Chatbot />
       </AuthProvider>
     </Router>
   );

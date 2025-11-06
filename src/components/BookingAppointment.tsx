@@ -1,7 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import BuildIcon from '@mui/icons-material/Build';
+import DescriptionIcon from '@mui/icons-material/Description';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { postJSON } from '../config';
+import Navbar from './Navbar';
+import Footer from './Footer';
 
 type FormState = {
     date: string;
@@ -108,168 +114,353 @@ export default function BookingAppointment() {
     }
 
     return (
-        <section className="min-h-screen bg-[var(--color-bg-primary)] py-16 px-4 " style={{ fontFamily: 'Arial, sans-serif' }}>
-            <div className="max-w-4xl mx-auto text-center mb-12">
-                <h1 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-[var(--color-text-primary)]">Book a Service Appointment</h1>
-                <p className="text-[var(--color-text-muted)] mt-4 text-xl">Schedule your vehicle service in just a few steps</p>
+       <div className="min-h-screen bg-bg-header">
+        <Navbar />
+         <section className="py-12 sm:py-16 lg:py-20 px-4" style={{ fontFamily: 'Arial, sans-serif' }}>
+            {/* Header Section */}
+            <div className="max-w-4xl mx-auto text-center mb-8 sm:mb-12 animate-fade-in">
+                <div className="inline-flex items-center justify-center w-14 h-14 sm:w-16 sm:h-16 bg-primary/10 rounded-full mb-3 sm:mb-4">
+                    <CalendarTodayIcon className="text-primary" sx={{ fontSize: { xs: 28, sm: 32 } }} />
+                </div>
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-text-primary mb-2 sm:mb-3">
+                    Book a Service Appointment
+                </h1>
+                <p className="text-text-tertiary text-sm sm:text-base lg:text-lg max-w-2xl mx-auto">
+                    Schedule your vehicle service in just a few steps. We'll take care of the rest.
+                </p>
             </div>
 
-            <div className="max-w-3xl mx-auto bg-[var(--color-bg-secondary)] rounded-2xl p-8 md:p-10">
-                <form className="space-y-6" onSubmit={handleSubmit} noValidate>
-                    {successMsg && (
-                        <div className="rounded-md bg-emerald-600 text-white px-4 py-3 w-full text-center" style={{ color: '#ffffff' }}>{successMsg}</div>
-                    )}
-                    {serverError && (
-                        <div className="rounded-md bg-rose-600 text-white px-4 py-3 w-full text-center" style={{ color: '#ffffff' }}>{serverError}</div>
-                    )}
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <label className="flex flex-col text-left">
-                            <span className="text-base text-[var(--color-text-tertiary)] mb-2">Date</span>
-                            <div className="relative">
-                                <input
-                                    name="date"
-                                    ref={dateInputRef}
-                                    value={form.date}
-                                    onChange={onChange}
-                                    type="date"
-                                    aria-invalid={!!errors.date}
-                                    aria-describedby={errors.date ? 'err-date' : undefined}
-                                    required
-                                    className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] rounded-md px-3 pr-10 h-10 border border-[rgba(214,5,7,0.23)] w-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
-                                    autoComplete="off"
-                                    style={{ backgroundColor: 'var(--color-bg-header)', color: 'var(--color-text-primary)' }}
-                                />
-                                <button
-                                    type="button"
-                                    aria-label="Open calendar"
-                                    onClick={() => dateInputRef.current?.showPicker ? dateInputRef.current.showPicker() : dateInputRef.current?.focus()}
-                                    className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md text-[var(--color-text-primary)]"
-                                >
-                                    <CalendarTodayIcon fontSize="small" />
-                                </button>
+            {/* Form Container */}
+            <div className="max-w-4xl mx-auto">
+                <div className="bg-bg-primary rounded-2xl border border-border-primary p-6 sm:p-8 lg:p-10 shadow-2xl animate-fade-in" 
+                     style={{ animationDelay: '0.1s' }}>
+                    <form className="space-y-6 sm:space-y-8" onSubmit={handleSubmit} noValidate>
+                        {/* Success Message */}
+                        {successMsg && (
+                            <div className="rounded-lg bg-green-600/20 border border-green-600/50 text-green-400 px-4 sm:px-6 py-4 flex items-start gap-3 animate-fade-in">
+                                <CheckCircleIcon className="flex-shrink-0 mt-0.5" />
+                                <div>
+                                    <p className="font-semibold">Success!</p>
+                                    <p className="text-sm mt-1">{successMsg}</p>
+                                </div>
                             </div>
-                        </label>
+                        )}
+                        
+                        {/* Error Message */}
+                        {serverError && (
+                            <div className="rounded-lg bg-primary/20 border border-primary/50 text-text-primary px-4 sm:px-6 py-4 animate-fade-in">
+                                <p className="font-semibold">Error</p>
+                                <p className="text-sm mt-1 text-text-secondary">{serverError}</p>
+                            </div>
+                        )}
 
-                        <label className="flex flex-col text-left">
-                            <span className="text-base text-[var(--color-text-tertiary)] mb-2">Time</span>
-                            <select
-                                name="time"
-                                value={form.time}
-                                onChange={onChange}
-                                aria-invalid={!!errors.time}
-                                aria-describedby={errors.time ? 'err-time' : undefined}
-                                required
-                                className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] rounded-md px-3 pr-6 h-10 border border-[rgba(214,5,7,0.23)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
-                                style={{
-                                    backgroundColor: 'var(--color-bg-header)',
-                                    color: 'var(--color-text-primary)',
-                                    appearance: 'none',
-                                    WebkitAppearance: 'none',
-                                    MozAppearance: 'none',
-                                    backgroundImage: 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 20 20\' fill=\'%23FFFFFF\'><path d=\'M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 0 1 1.08 1.04l-4.25 4.25a.75.75 0 0 1-1.08 0L5.21 8.27a.75.75 0 0 1 .02-1.06z\'/></svg>")',
-                                    backgroundRepeat: 'no-repeat',
-                                    backgroundSize: '14px',
-                                    backgroundPosition: 'right 1rem center'
-                                }}
+                        {/* Date & Time Section */}
+                        <div className="space-y-4">
+                            <div className="flex items-center gap-2 mb-3">
+                                <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center">
+                                    <CalendarTodayIcon className="text-primary" sx={{ fontSize: 14 }} />
+                                </div>
+                                <h3 className="text-base sm:text-lg font-semibold text-text-primary">When do you need service?</h3>
+                            </div>
+                            
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                                <label className="flex flex-col text-left group">
+                                    <span className="text-xs sm:text-sm font-medium text-text-secondary mb-2 group-focus-within:text-primary transition-colors">
+                                        Select Date <span className="text-primary">*</span>
+                                    </span>
+                                    <div className="relative">
+                                        <input
+                                            name="date"
+                                            ref={dateInputRef}
+                                            value={form.date}
+                                            onChange={onChange}
+                                            type="date"
+                                            aria-invalid={!!errors.date}
+                                            aria-describedby={errors.date ? 'err-date' : undefined}
+                                            required
+                                            className={`bg-bg-secondary text-text-primary placeholder-text-muted rounded-lg px-4 pr-12 h-11 sm:h-12 border ${
+                                                errors.date ? 'border-primary' : 'border-border-primary'
+                                            } w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-sm`}
+                                            autoComplete="off"
+                                        />
+                                        <button
+                                            type="button"
+                                            aria-label="Open calendar"
+                                            onClick={() => dateInputRef.current?.showPicker ? dateInputRef.current.showPicker() : dateInputRef.current?.focus()}
+                                            className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-md text-text-tertiary hover:text-primary hover:bg-primary/10 transition-colors"
+                                        >
+                                            <CalendarTodayIcon fontSize="small" />
+                                        </button>
+                                    </div>
+                                    {errors.date && (
+                                        <span className="text-xs text-primary mt-1.5 flex items-center gap-1">
+                                            <span className="w-1 h-1 bg-primary rounded-full"></span>
+                                            {errors.date}
+                                        </span>
+                                    )}
+                                </label>
+
+                                <label className="flex flex-col text-left group">
+                                    <span className="text-xs sm:text-sm font-medium text-text-secondary mb-2 group-focus-within:text-primary transition-colors">
+                                        Preferred Time <span className="text-primary">*</span>
+                                    </span>
+                                    <select
+                                        name="time"
+                                        value={form.time}
+                                        onChange={onChange}
+                                        aria-invalid={!!errors.time}
+                                        aria-describedby={errors.time ? 'err-time' : undefined}
+                                        required
+                                        className={`bg-bg-secondary text-text-primary rounded-lg px-4 pr-10 h-11 sm:h-12 border ${
+                                            errors.time ? 'border-primary' : 'border-border-primary'
+                                        } focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all cursor-pointer text-sm`}
+                                        style={{
+                                            appearance: 'none',
+                                            WebkitAppearance: 'none',
+                                            MozAppearance: 'none',
+                                            backgroundImage: 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 20 20\' fill=\'%23A1A1AA\'><path d=\'M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 0 1 1.08 1.04l-4.25 4.25a.75.75 0 0 1-1.08 0L5.21 8.27a.75.75 0 0 1 .02-1.06z\'/></svg>")',
+                                            backgroundRepeat: 'no-repeat',
+                                            backgroundSize: '16px',
+                                            backgroundPosition: 'right 1rem center'
+                                        }}
+                                    >
+                                        <option value="">Choose a time slot</option>
+                                        {[
+                                            '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', 
+                                            '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', 
+                                            '15:00', '15:30', '16:00', '16:30', '17:00'
+                                        ].map((t) => (
+                                            <option key={t} value={t}>{t}</option>
+                                        ))}
+                                    </select>
+                                    {errors.time && (
+                                        <span className="text-xs text-primary mt-1.5 flex items-center gap-1">
+                                            <span className="w-1 h-1 bg-primary rounded-full"></span>
+                                            {errors.time}
+                                        </span>
+                                    )}
+                                </label>
+                            </div>
+                        </div>
+
+                        {/* Divider */}
+                        <div className="border-t border-border-primary"></div>
+
+                        {/* Vehicle Information Section */}
+                        <div className="space-y-4">
+                            <div className="flex items-center gap-2 mb-3">
+                                <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center">
+                                    <DirectionsCarIcon className="text-primary" sx={{ fontSize: 14 }} />
+                                </div>
+                                <h3 className="text-base sm:text-lg font-semibold text-text-primary">Vehicle Details</h3>
+                            </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+                                <label className="flex flex-col text-left group">
+                                    <span className="text-xs sm:text-sm font-medium text-text-secondary mb-2 group-focus-within:text-primary transition-colors">
+                                        Vehicle Type
+                                    </span>
+                                    <select 
+                                        name="vehicleType" 
+                                        value={form.vehicleType} 
+                                        onChange={onChange} 
+                                        className="bg-bg-secondary text-text-primary rounded-lg px-4 pr-10 h-11 sm:h-12 border border-border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all cursor-pointer text-sm"
+                                        style={{
+                                            appearance: 'none',
+                                            WebkitAppearance: 'none',
+                                            MozAppearance: 'none',
+                                            backgroundImage: 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 20 20\' fill=\'%23A1A1AA\'><path d=\'M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 0 1 1.08 1.04l-4.25 4.25a.75.75 0 0 1-1.08 0L5.21 8.27a.75.75 0 0 1 .02-1.06z\'/></svg>")',
+                                            backgroundRepeat: 'no-repeat',
+                                            backgroundSize: '16px',
+                                            backgroundPosition: 'right 1rem center'
+                                        }}
+                                    >
+                                        <option value="">Select vehicle type</option>
+                                        <option value="car">🚗 Car</option>
+                                        <option value="van">🚐 Van</option>
+                                        <option value="jeep">🚙 Jeep/SUV</option>
+                                        <option value="cab">🚕 Cab</option>
+                                        <option value="truck">🚚 Truck</option>
+                                    </select>
+                                </label>
+
+                                <label className="flex flex-col text-left group">
+                                    <span className="text-xs sm:text-sm font-medium text-text-secondary mb-2 group-focus-within:text-primary transition-colors">
+                                        Vehicle Number
+                                    </span>
+                                    <input
+                                        name="vehicleNumber"
+                                        value={form.vehicleNumber}
+                                        onChange={onChange}
+                                        placeholder="e.g., ABC-1234"
+                                        autoComplete="off"
+                                        className="bg-bg-secondary text-text-primary placeholder-text-muted rounded-lg px-4 h-11 sm:h-12 border border-border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all text-sm"
+                                    />
+                                </label>
+                            </div>
+                        </div>
+
+                        {/* Divider */}
+                        <div className="border-t border-border-primary"></div>
+
+                        {/* Service Type Section */}
+                        <div className="space-y-4">
+                            <div className="flex items-center gap-2 mb-3">
+                                <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center">
+                                    <BuildIcon className="text-primary" sx={{ fontSize: 14 }} />
+                                </div>
+                                <h3 className="text-base sm:text-lg font-semibold text-text-primary">What service do you need?</h3>
+                            </div>
+
+                            <label className="flex flex-col text-left group">
+                                <span className="text-xs sm:text-sm font-medium text-text-secondary mb-2 group-focus-within:text-primary transition-colors">
+                                    Service Type <span className="text-primary">*</span>
+                                </span>
+                                <select 
+                                    name="service" 
+                                    value={form.service} 
+                                    onChange={onChange} 
+                                    aria-invalid={!!errors.service} 
+                                    aria-describedby={errors.service ? 'err-service' : undefined} 
+                                    required 
+                                    className={`bg-bg-secondary text-text-primary rounded-lg px-4 pr-10 h-11 sm:h-12 border ${
+                                        errors.service ? 'border-primary' : 'border-border-primary'
+                                    } w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all cursor-pointer text-sm`}
+                                    style={{
+                                        appearance: 'none',
+                                        WebkitAppearance: 'none',
+                                        MozAppearance: 'none',
+                                        backgroundImage: 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 20 20\' fill=\'%23A1A1AA\'><path d=\'M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 0 1 1.08 1.04l-4.25 4.25a.75.75 0 0 1-1.08 0L5.21 8.27a.75.75 0 0 1 .02-1.06z\'/></svg>")',
+                                        backgroundRepeat: 'no-repeat',
+                                        backgroundSize: '16px',
+                                        backgroundPosition: 'right 1rem center'
+                                    }}
+                                >
+                                    <option value="">Choose service type</option>
+                                    <option value="maintenance">🔧 Regular Maintenance</option>
+                                    <option value="repair">⚙️ Repair Service</option>
+                                    <option value="inspection">🔍 Vehicle Inspection</option>
+                                    <option value="diagnostics">💻 Diagnostics</option>
+                                    <option value="oil_change">🛢️ Oil Change</option>
+                                    <option value="tire_service">🛞 Tire Service</option>
+                                </select>
+                                {errors.service && (
+                                    <span className="text-xs text-primary mt-1.5 flex items-center gap-1">
+                                        <span className="w-1 h-1 bg-primary rounded-full"></span>
+                                        {errors.service}
+                                    </span>
+                                )}
+                            </label>
+                        </div>
+
+                        {/* Divider */}
+                        <div className="border-t border-border-primary"></div>
+
+                        {/* Additional Instructions Section */}
+                        <div className="space-y-4">
+                            <div className="flex items-center gap-2 mb-3">
+                                <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center">
+                                    <DescriptionIcon className="text-primary" sx={{ fontSize: 14 }} />
+                                </div>
+                                <h3 className="text-base sm:text-lg font-semibold text-text-primary">Additional Information</h3>
+                            </div>
+
+                            <label className="flex flex-col text-left group">
+                                <span className="text-xs sm:text-sm font-medium text-text-secondary mb-2 group-focus-within:text-primary transition-colors">
+                                    Special Instructions or Notes
+                                </span>
+                                <textarea
+                                    name="notes"
+                                    value={form.notes}
+                                    onChange={onChange}
+                                    rows={4}
+                                    placeholder="Tell us about any specific issues or requirements (optional)"
+                                    className="bg-bg-secondary text-text-primary placeholder-text-muted rounded-lg px-4 py-3 border border-border-primary w-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none text-sm"
+                                />
+                                <span className="text-xs text-text-muted mt-1.5">
+                                    {form.notes.length} / 500 characters
+                                </span>
+                            </label>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4">
+                            <button 
+                                type="button" 
+                                onClick={() => navigate(-1)} 
+                                className="flex-1 h-11 sm:h-12 flex items-center justify-center bg-bg-secondary border border-border-primary text-text-primary rounded-lg font-semibold hover:bg-bg-tertiary hover:border-border-strong transition-all text-sm"
                             >
-                                <option value="">Select time</option>
-                                {[
-                                    '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00'
-                                ].map((t) => (
-                                    <option key={t} value={t}>{t}</option>
-                                ))}
-                            </select>
-                        </label>
-                    </div>
+                                Back
+                            </button>
+                            <button 
+                                type="submit" 
+                                disabled={!form.date || !form.time || !form.service || loading} 
+                                className={`flex-1 h-11 sm:h-12 flex items-center justify-center rounded-lg font-semibold transition-all text-sm ${
+                                    !form.date || !form.time || !form.service || loading
+                                        ? 'bg-primary/50 text-white/70 cursor-not-allowed' 
+                                        : 'bg-primary text-white hover:bg-primary-dark shadow-lg shadow-primary/20 hover:shadow-primary/30'
+                                }`}
+                            >
+                                {loading ? (
+                                    <span className="flex items-center gap-2">
+                                        <svg className="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Processing...
+                                    </span>
+                                ) : (
+                                    <span className="flex items-center gap-2">
+                                        <CheckCircleIcon sx={{ fontSize: 18 }} />
+                                        Confirm Appointment
+                                    </span>
+                                )}
+                            </button>
+                        </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <label className="flex flex-col text-left">
-                            <span className="text-base text-[var(--color-text-tertiary)] mb-2">Vehicle Type</span>
-                            <select name="vehicleType" value={form.vehicleType} onChange={onChange} className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] rounded-md px-3 pr-6 h-10 border border-[rgba(214,5,7,0.23)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" style={{
-                                backgroundColor: 'var(--color-bg-header)',
-                                color: 'var(--color-text-primary)',
-                                appearance: 'none',
-                                WebkitAppearance: 'none',
-                                MozAppearance: 'none',
-                                backgroundImage: 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 20 20\' fill=\'%23FFFFFF\'><path d=\'M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 0 1 1.08 1.04l-4.25 4.25a.75.75 0 0 1-1.08 0L5.21 8.27a.75.75 0 0 1 .02-1.06z\'/></svg>")',
-                                backgroundRepeat: 'no-repeat',
-                                backgroundSize: '14px',
-                                backgroundPosition: 'right 1rem center'
-                            }}>
-                                <option value="">Select vehicle type</option>
-                                <option value="car">Car</option>
-                                <option value="van">Van</option>
-                                <option value="jeep">Jeep</option>
-                                <option value="cab">Cab</option>
-                            </select>
-                        </label>
+                        {/* Help Text */}
+                        <div className="text-center pt-4 border-t border-border-primary">
+                            <p className="text-xs sm:text-sm text-text-muted">
+                                Need help? Contact us at{' '}
+                                <a href="tel:+94123456789" className="text-primary hover:text-primary-light transition-colors">
+                                    +94 123 456 789
+                                </a>
+                                {' '}or{' '}
+                                <a href="mailto:support@autoservice.com" className="text-primary hover:text-primary-light transition-colors">
+                                    support@autoservice.com
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
 
-                        <label className="flex flex-col text-left">
-                            <span className="text-base text-[var(--color-text-tertiary)] mb-2">Vehicle Number</span>
-                            <input
-                                name="vehicleNumber"
-                                value={form.vehicleNumber}
-                                onChange={onChange}
-                                placeholder="Your vehicle number"
-                                autoComplete="off"
-                                className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] rounded-md px-3 h-10 border border-[rgba(214,5,7,0.23)] focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]"
-                                style={{ backgroundColor: 'var(--color-bg-header)', color: 'var(--color-text-primary)' }}
-                            />
-                        </label>
+                {/* Additional Info Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                    <div className="bg-bg-primary border border-border-primary rounded-xl p-4 text-center hover:border-primary/50 transition-all">
+                        <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <CheckCircleIcon className="text-primary" sx={{ fontSize: 20 }} />
+                        </div>
+                        <h4 className="text-text-primary font-semibold mb-1 text-sm">Quick Response</h4>
+                        <p className="text-text-tertiary text-xs">We'll confirm within 24 hours</p>
                     </div>
-
-                    <div>
-                        <label className="flex flex-col text-left">
-                            <span className="text-base text-[var(--color-text-tertiary)] mb-2">Service Type</span>
-                            <select name="service" value={form.service} onChange={onChange} aria-invalid={!!errors.service} aria-describedby={errors.service ? 'err-service' : undefined} required className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] rounded-md px-3 pr-6 h-10 border border-[rgba(214,5,7,0.23)] w-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]" style={{
-                                backgroundColor: 'var(--color-bg-header)',
-                                color: 'var(--color-text-primary)',
-                                appearance: 'none',
-                                WebkitAppearance: 'none',
-                                MozAppearance: 'none',
-                                backgroundImage: 'url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 20 20\' fill=\'%23FFFFFF\'><path d=\'M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 0 1 1.08 1.04l-4.25 4.25a.75.75 0 0 1-1.08 0L5.21 8.27a.75.75 0 0 1 .02-1.06z\'/></svg>")',
-                                backgroundRepeat: 'no-repeat',
-                                backgroundSize: '14px',
-                                backgroundPosition: 'right 1rem center'
-                            }}>
-                                <option value="">Select service type</option>
-                                <option value="maintenance">Maintenance</option>
-                                <option value="repair">Repair</option>
-                                <option value="inspection">Inspection</option>
-                            </select>
-                        </label>
+                    <div className="bg-bg-primary border border-border-primary rounded-xl p-4 text-center hover:border-primary/50 transition-all">
+                        <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <BuildIcon className="text-primary" sx={{ fontSize: 20 }} />
+                        </div>
+                        <h4 className="text-text-primary font-semibold mb-1 text-sm">Expert Service</h4>
+                        <p className="text-text-tertiary text-xs">Certified technicians</p>
                     </div>
-
-                    <div>
-                        <label className="flex flex-col text-left">
-                            <span className="text-base text-[var(--color-text-tertiary)] mb-2">Additional Instructions</span>
-                            <textarea
-                                name="notes"
-                                value={form.notes}
-                                onChange={onChange}
-                                rows={6}
-                                placeholder="Any additional info"
-                                className="bg-[var(--color-bg-header)] text-[var(--color-text-primary)] placeholder-[var(--color-text-muted)] rounded-md px-3 py-3 border border-[rgba(214,5,7,0.23)] w-full focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)] h-28"
-                                style={{ backgroundColor: 'var(--color-bg-header)', color: 'var(--color-text-primary)' }}
-                            />
-                        </label>
+                    <div className="bg-bg-primary border border-border-primary rounded-xl p-4 text-center hover:border-primary/50 transition-all">
+                        <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-2">
+                            <CalendarTodayIcon className="text-primary" sx={{ fontSize: 20 }} />
+                        </div>
+                        <h4 className="text-text-primary font-semibold mb-1 text-sm">Flexible Scheduling</h4>
+                        <p className="text-text-tertiary text-xs">Choose your preferred time</p>
                     </div>
-
-                    <div className="flex gap-4 justify-between">
-                        <button type="button" onClick={() => navigate(-1)} className="flex-1 h-10 flex items-center justify-center bg-[var(--color-text-primary)] text-black rounded-md">Back</button>
-                        <button type="submit" disabled={!form.date || !form.time || !form.service || loading} className={`flex-1 h-10 flex items-center justify-center rounded-md ${!form.date || !form.time || !form.service ? 'bg-[var(--color-primary)]/60 text-white cursor-not-allowed opacity-70' : 'bg-[var(--color-primary)] text-white'}`} style={{ color: '#ffffff' }}>
-                            {loading ? 'Saving...' : 'Confirm Appointment'}
-                        </button>
-                    </div>
-
-                    <div className="mt-1 text-sm text-rose-400">
-                        {errors.date && <div id="err-date">{errors.date}</div>}
-                        {errors.time && <div id="err-time">{errors.time}</div>}
-                        {errors.service && <div id="err-service">{errors.service}</div>}
-                    </div>
-                </form>
+                </div>
             </div>
         </section>
+        <Footer />
+       </div>
     );
 }
