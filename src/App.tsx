@@ -8,6 +8,7 @@ import {
 
 import { AuthProvider } from "./contexts/AuthContext";
 import { ChatProvider } from "./contexts/ChatContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
 import AuthContainer from "./components/auth/AuthContainer";
 
 import Navbar from "./components/landing/Navbar";
@@ -34,99 +35,101 @@ import { MyAppoiment } from "./components/customer/MyAppoiment";
 function App() {
   return (
     <Router>
-      <AuthProvider>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <div>
-                <Navbar />
-                <Hero />
-                <AboutSection />
-                <WhyChooseUs />
-                <LeadershipTeam />
-                <Certificate />
-                <GetStarted />
-                <Footer />
-              </div>
-            }
-          />
-          <Route path="/login" element={<AuthContainer />} />
-          <Route path="/signup" element={<AuthContainer />} />
-          <Route path="/my-appointment" element={<ProtectedRoute allowedRoles={["CUSTOMER"]}>
-            <MyAppoiment />
-          </ProtectedRoute>} />
-
-
-          <Route
-            path="/superadmin"
-            element={
-              <ProtectedRoute allowedRoles={["SUPER_ADMIN"]}>
-                <DashboardLayout />
-              </ProtectedRoute>
-            }
-          >
+      <ThemeProvider>
+        <AuthProvider>
+          <Routes>
             <Route
-              path="dashboard"
-              element={<Dashboard />}
+              path="/"
+              element={
+                <div>
+                  <Navbar />
+                  <Hero />
+                  <AboutSection />
+                  <WhyChooseUs />
+                  <LeadershipTeam />
+                  <Certificate />
+                  <GetStarted />
+                  <Footer />
+                </div>
+              }
             />
-             <Route path="task-allocation" element={<TaskAllocationPage />} /> 
-            <Route path="users" element={<Users />} />
-          </Route>
+            <Route path="/login" element={<AuthContainer />} />
+            <Route path="/signup" element={<AuthContainer />} />
+            <Route path="/my-appointment" element={<ProtectedRoute allowedRoles={["CUSTOMER"]}>
+              <MyAppoiment />
+            </ProtectedRoute>} />
 
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN"]}>
-                <DashboardLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route path="dashboard" element={<AdminDashboard />} />
-          </Route>
 
-          <Route
-            path="/employee"
-            element={
-              <ProtectedRoute allowedRoles={["EMPLOYEE"]}>
-                <DashboardLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route path="dashboard" element={<div>Employee Dashboard</div>} />
-            <Route path="products" element={<div>Products</div>} />
-            <Route path="orders" element={<div>My Orders</div>} />
-            <Route path="reports" element={<div>Reports</div>} />
-            <Route index element={<Navigate to="dashboard" replace />} />
-          </Route>
+            <Route
+              path="/superadmin"
+              element={
+                <ProtectedRoute allowedRoles={["SUPER_ADMIN"]}>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route
+                path="dashboard"
+                element={<Dashboard />}
+              />
+              <Route path="task-allocation" element={<TaskAllocationPage />} />
+              <Route path="users" element={<Users />} />
+            </Route>
 
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute allowedRoles={["CUSTOMER"]}>
-               
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute allowedRoles={["ADMIN"]}>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="dashboard" element={<AdminDashboard />} />
+            </Route>
+
+            <Route
+              path="/employee"
+              element={
+                <ProtectedRoute allowedRoles={["EMPLOYEE"]}>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="dashboard" element={<div>Employee Dashboard</div>} />
+              <Route path="products" element={<div>Products</div>} />
+              <Route path="orders" element={<div>My Orders</div>} />
+              <Route path="reports" element={<div>Reports</div>} />
+              <Route index element={<Navigate to="dashboard" replace />} />
+            </Route>
+
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute allowedRoles={["CUSTOMER"]}>
+
                   <BookingAppointment />
-              
-              </ProtectedRoute>
-            }
-          />
 
-          {/* Chat Route - Navigate via URL */}
-          <Route
-            path="/chat"
-            element={
-              <ProtectedRoute allowedRoles={['CUSTOMER', 'EMPLOYEE']}>
-                <ChatProvider>
-                  <ChatInterface />
-                </ChatProvider>
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-        
-        {/* Global Chatbot - Available on all pages */}
-        <Chatbot />
-      </AuthProvider>
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Chat Route - Navigate via URL */}
+            <Route
+              path="/chat"
+              element={
+                <ProtectedRoute allowedRoles={['CUSTOMER', 'EMPLOYEE']}>
+                  <ChatProvider>
+                    <ChatInterface />
+                  </ChatProvider>
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+
+          {/* Global Chatbot - Available on all pages */}
+          <Chatbot />
+        </AuthProvider>
+      </ThemeProvider>
     </Router>
   );
 }
