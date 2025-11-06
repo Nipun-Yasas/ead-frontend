@@ -113,17 +113,22 @@ const TaskAllocationPage: React.FC = () => {
     }
   };
 
-  // Handle employee selection
+    // Handle employee selection
   const handleEmployeeSelect = async (employeeId: number) => {
     if (!selectedAppointment) return;
 
     try {
       setIsAllocating(true);
+      setError(null); // ✅ Clear previous errors
+      
+      // Backend now auto-creates chat after allocation
       await appointmentService.allocateToEmployee(selectedAppointment.id, employeeId);
       
       // Show success message
       const employeeName = employees.find(e => e.id === employeeId)?.fullName;
-      setSuccessMessage(`Successfully allocated to ${employeeName}`);
+      setSuccessMessage(
+        `✅ Successfully allocated to ${employeeName}. Chat created automatically!`
+      );
       
       // Close modals
       setShowEmployeeModal(false);
@@ -132,11 +137,19 @@ const TaskAllocationPage: React.FC = () => {
       // Refresh appointments list
       await fetchConfirmedAppointments();
       
-      // Clear success message after 3 seconds
-      setTimeout(() => setSuccessMessage(null), 3000);
+      // Clear success message after 5 seconds
+      setTimeout(() => setSuccessMessage(null), 5000);
+      
     } catch (err: any) {
-      console.error('Error allocating appointment:', err);
-      setError(err.response?.data?.message || 'Failed to allocate appointment');
+      console.error('❌ Error allocating appointment:', err);
+      
+      const errorMsg = err.response?.data?.message || 
+                      err.message || 
+                      'Failed to allocate appointment';
+      
+      setError(`❌ ${errorMsg}`);
+      
+      // Don't close modals on error so user can retry
     } finally {
       setIsAllocating(false);
     }
@@ -429,7 +442,7 @@ const TaskAllocationPage: React.FC = () => {
       {/* Employee Selection Modal */}
       {showEmployeeModal && (
         <EmployeeSelectionModal
-          isOpen={showEmployeeModal}
+          
           employees={employees}
           onClose={() => setShowEmployeeModal(false)}
           onSelect={handleEmployeeSelect}
