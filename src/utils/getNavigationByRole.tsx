@@ -34,8 +34,8 @@ export const getDashboardRouteByRole = (role: string): string => {
     case 'EMPLOYEE':
       return '/employee/dashboard';
     case 'CUSTOMER':
-      return '/dashboard';
+      return '/';
     default:
-      return '/dashboard';
+      return '/';
   }
 };

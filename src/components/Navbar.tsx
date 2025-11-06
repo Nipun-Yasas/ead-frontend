@@ -14,11 +14,15 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import LogoutIcon from "@mui/icons-material/Logout";
+import PersonIcon from "@mui/icons-material/Person";
 import { Link as RouterLink } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { getDashboardRouteByRole } from "../utils/getNavigationByRole";
 
 const Navbar = () => {
-
-   const user=localStorage.getItem('user');
+  const { user, logout, isAuthenticated } = useAuth();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = (open: boolean) => () => {
@@ -83,33 +87,88 @@ const Navbar = () => {
 
           {/* Desktop Auth Buttons */}
           <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center", gap: 2 }}>
-            <Button
-              component={RouterLink}
-              to="/login"
-              sx={{
-                color: "white",
-                textTransform: "none",
-                fontSize: "0.9rem",
-                "&:hover": { color: "#D60507" },
-              }}
-            >
-              Login
-            </Button>
-            <Button
-              component={RouterLink}
-              to="/signup"
-              variant="contained"
-              sx={{
-                backgroundColor: "white",
-                color: "black",
-                textTransform: "none",
-                fontWeight: 500,
-                px: 2.5,
-                "&:hover": { backgroundColor: "#D60507", color: "white" },
-              }}
-            >
-              Sign Up
-            </Button>
+            {isAuthenticated ? (
+              <>
+                {/* My Appointments Button */}
+                <Button
+                  component={RouterLink as any}
+                  to="/my-appointment"
+                  sx={{
+                    color: "white",
+                    textTransform: "none",
+                    fontSize: "0.9rem",
+                    "&:hover": { color: "#D60507" },
+                  }}
+                >
+                  My Appointments
+                </Button>
+                
+                {/* Dashboard Button */}
+                <Button
+                  component={RouterLink as any}
+                  to="/dashboard"
+                  startIcon={<DashboardIcon />}
+                  sx={{
+                    color: "white",
+                    textTransform: "none",
+                    fontSize: "0.9rem",
+                    "&:hover": { color: "#D60507" },
+                  }}
+                >
+                  Dashboard
+                </Button>
+                
+                {/* Logout Button */}
+                <Button
+                  onClick={logout}
+                  startIcon={<LogoutIcon />}
+                  variant="outlined"
+                  sx={{
+                    color: "white",
+                    borderColor: "white",
+                    textTransform: "none",
+                    fontSize: "0.9rem",
+                    "&:hover": { 
+                      backgroundColor: "#D60507", 
+                      borderColor: "#D60507",
+                      color: "white" 
+                    },
+                  }}
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  component={RouterLink as any}
+                  to="/login"
+                  sx={{
+                    color: "white",
+                    textTransform: "none",
+                    fontSize: "0.9rem",
+                    "&:hover": { color: "#D60507" },
+                  }}
+                >
+                  Login
+                </Button>
+                <Button
+                  component={RouterLink as any}
+                  to="/signup"
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "white",
+                    color: "black",
+                    textTransform: "none",
+                    fontWeight: 500,
+                    px: 2.5,
+                    "&:hover": { backgroundColor: "#D60507", color: "white" },
+                  }}
+                >
+                  Sign Up
+                </Button>
+              </>
+            )}
           </Box>
 
           {/* Mobile Hamburger Menu */}
@@ -187,37 +246,104 @@ const Navbar = () => {
 
           {/* Auth Buttons */}
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2, px: 2 }}>
-            <Button
-              component={RouterLink}
-              to="/login"
-              fullWidth
-              onClick={toggleDrawer(false)}
-              sx={{
-                color: "white",
-                textTransform: "none",
-                fontSize: "0.9rem",
-                border: "1px solid white",
-                "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
-              }}
-            >
-              Login
-            </Button>
-            <Button
-              component={RouterLink}
-              to="/signup"
-              fullWidth
-              variant="contained"
-              onClick={toggleDrawer(false)}
-              sx={{
-                backgroundColor: "#D60507",
-                color: "white",
-                textTransform: "none",
-                fontWeight: 500,
-                "&:hover": { backgroundColor: "#b00406" },
-              }}
-            >
-              Sign Up
-            </Button>
+            {isAuthenticated ? (
+              <>
+                {/* My Appointments Button */}
+                <Button
+                  component={RouterLink as any}
+                  to="/my-appointment"
+                  fullWidth
+                  onClick={toggleDrawer(false)}
+                  sx={{
+                    color: "white",
+                    textTransform: "none",
+                    fontSize: "0.9rem",
+                    border: "1px solid rgba(214, 5, 7, 0.5)",
+                    justifyContent: "flex-start",
+                    "&:hover": { 
+                      backgroundColor: "rgba(214, 5, 7, 0.1)",
+                      borderColor: "#D60507" 
+                    },
+                  }}
+                >
+                  My Appointments
+                </Button>
+
+                {/* Dashboard Button */}
+                <Button
+                  component={RouterLink as any}
+                  to={getDashboardRouteByRole(user?.role || '')}
+                  fullWidth
+                  onClick={toggleDrawer(false)}
+                  startIcon={<DashboardIcon />}
+                  sx={{
+                    color: "white",
+                    textTransform: "none",
+                    fontSize: "0.9rem",
+                    border: "1px solid white",
+                    justifyContent: "flex-start",
+                    "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
+                  }}
+                >
+                  Dashboard
+                </Button>
+
+                {/* Logout Button */}
+                <Button
+                  fullWidth
+                  onClick={() => {
+                    logout();
+                    toggleDrawer(false)();
+                  }}
+                  startIcon={<LogoutIcon />}
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "#D60507",
+                    color: "white",
+                    textTransform: "none",
+                    fontWeight: 500,
+                    justifyContent: "flex-start",
+                    "&:hover": { backgroundColor: "#b00406" },
+                  }}
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button
+                  component={RouterLink as any}
+                  to="/login"
+                  fullWidth
+                  onClick={toggleDrawer(false)}
+                  sx={{
+                    color: "white",
+                    textTransform: "none",
+                    fontSize: "0.9rem",
+                    border: "1px solid white",
+                    "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
+                  }}
+                >
+                  Login
+                </Button>
+                <Button
+                  component={RouterLink as any}
+                  to="/signup"
+                  fullWidth
+                  variant="contained"
+                  onClick={toggleDrawer(false)}
+                  sx={{
+                    backgroundColor: "#D60507",
+                    color: "white",
+                    textTransform: "none",
+                    fontWeight: 500,
+                    "&:hover": { backgroundColor: "#b00406" },
+                  }}
+                >
+                  Sign Up
+                </Button>
+              </>
+            )}
           </Box>
         </Box>
       </Drawer>
