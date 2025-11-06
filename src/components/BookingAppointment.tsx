@@ -137,20 +137,20 @@ export default function BookingAppointment() {
                     <form className="space-y-6 sm:space-y-8" onSubmit={handleSubmit} noValidate>
                         {/* Success Message */}
                         {successMsg && (
-                            <div className="rounded-lg bg-green-600/20 border border-green-600/50 text-green-400 px-4 sm:px-6 py-4 flex items-start gap-3 animate-fade-in">
-                                <CheckCircleIcon className="flex-shrink-0 mt-0.5" />
-                                <div>
-                                    <p className="font-semibold">Success!</p>
-                                    <p className="text-sm mt-1">{successMsg}</p>
+                            <div className="rounded-lg bg-green-500/20 border-2 border-green-500 px-4 sm:px-6 py-4 flex items-start gap-3 animate-fade-in shadow-lg shadow-green-500/20">
+                                <CheckCircleIcon className="flex-shrink-0 mt-0.5 text-green-400" sx={{ fontSize: 24 }} />
+                                <div className="flex-1">
+                                    <p className="font-bold text-green-400 text-base sm:text-lg">Success!</p>
+                                    <p className="text-sm sm:text-base mt-1 text-green-300">{successMsg}</p>
                                 </div>
                             </div>
                         )}
                         
                         {/* Error Message */}
                         {serverError && (
-                            <div className="rounded-lg bg-primary/20 border border-primary/50 text-text-primary px-4 sm:px-6 py-4 animate-fade-in">
-                                <p className="font-semibold">Error</p>
-                                <p className="text-sm mt-1 text-text-secondary">{serverError}</p>
+                            <div className="rounded-lg bg-red-500/20 border-2 border-red-500 px-4 sm:px-6 py-4 animate-fade-in shadow-lg shadow-red-500/20">
+                                <p className="font-bold text-red-400 text-base sm:text-lg">Error</p>
+                                <p className="text-sm sm:text-base mt-1 text-red-300">{serverError}</p>
                             </div>
                         )}
 
