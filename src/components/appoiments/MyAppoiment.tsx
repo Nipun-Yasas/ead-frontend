@@ -9,6 +9,7 @@ import {
   Alert,
 } from '@mui/material';
 import { Add, Refresh } from '@mui/icons-material';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import AppoimentCard from './AppoimentCard';
@@ -16,7 +17,7 @@ import type { Appointment } from './AppoimentCard';
 import { appointmentApi, type ApiAppointment } from '../../api/appointments';
 import { useAuth } from '../../contexts/AuthContext';
 
-type FilterType = 'all' | 'pending' | 'approved' | 'ongoing' | 'completed';
+type FilterType = 'all' | 'pending' | 'accept' | 'approve' | 'ongoing' | 'reject';
 
 export const MyAppoiment = () => {
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
@@ -24,6 +25,7 @@ export const MyAppoiment = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { user } = useAuth();
+  const navigate = useNavigate();
 
   // Transform API appointment to frontend appointment
   const transformApiAppointment = useCallback((apiAppointment: ApiAppointment): Appointment => {
@@ -171,6 +173,7 @@ export const MyAppoiment = () => {
               <Button
                 variant="contained"
                 startIcon={<Add />}
+                onClick={() => navigate('/dashboard')}
                 sx={{
                   backgroundColor: '#D60507',
                   color: '#FFFFFF',
@@ -232,16 +235,20 @@ export const MyAppoiment = () => {
                 value="pending"
               />
               <Tab
-                label={`Approved (${getFilterCount('approved')})`}
-                value="approved"
+                label={`Accept (${getFilterCount('accept')})`}
+                value="accept"
+              />
+              <Tab
+                label={`Approve (${getFilterCount('approve')})`}
+                value="approve"
               />
               <Tab
                 label={`Ongoing (${getFilterCount('ongoing')})`}
                 value="ongoing"
               />
               <Tab
-                label={`Completed (${getFilterCount('completed')})`}
-                value="completed"
+                label={`Reject (${getFilterCount('reject')})`}
+                value="reject"
               />
             </Tabs>
           </Box>
@@ -290,6 +297,7 @@ export const MyAppoiment = () => {
             <Button
               variant="contained"
               startIcon={<Add />}
+              onClick={() => navigate('/dashboard')}
               sx={{
                 backgroundColor: '#D60507',
                 color: '#FFFFFF',
