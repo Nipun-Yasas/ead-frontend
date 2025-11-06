@@ -24,9 +24,8 @@ import DashboardLayout from "./components/layouts/DashboardLayout";
 import GetStarted from "./components/landing/GetStarted";
 import AdminDashboard from "./components/admin/dashboard/AdminDashboard";
 import ChatInterface from "./components/chat/ChatInterface";
-import TaskAllocationPage from "./components/adminTaskAllocation/TaskAllocationPage";
 import AppointmentsByStatus from "./components/admin/appointments/AppointmentsByStatus";
-
+import TaskAllocationPage from "./components/admin/adminTaskAllocation/TaskAllocationPage";
 import Dashboard from "./components/superAdmin/dashboard/Dashboard";
 import { Chatbot } from "./components/chat/Chatbot";
 import Users from "./components/superAdmin/users/Users";
@@ -71,7 +70,6 @@ function App() {
               path="dashboard"
               element={<Dashboard />}
             />
-             <Route path="task-allocation" element={<TaskAllocationPage />} /> 
             <Route path="users" element={<Users />} />
           </Route>
 
@@ -83,6 +81,8 @@ function App() {
               </ProtectedRoute>
             }
           >
+                         <Route path="task-allocation" element={<TaskAllocationPage />} /> 
+
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="appointments/:status" element={<AppointmentsByStatus />} />
           </Route>

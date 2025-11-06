@@ -20,7 +20,7 @@ export interface Appointment {
   date: string;
   time: string;
   description: string;
-  status: 'pending' | 'accept' | 'reject' | 'approve' | 'ongoing';
+  status: 'PENDING' | 'APPROVE' | 'REJECT' | 'IN_PROGRESS';
   employeeName?: string | null;
   employeeProfilePicture?: string;
   serviceName?: string;
@@ -38,16 +38,14 @@ interface AppointmentCardProps {
 
 const AppoimentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
   const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case 'approve':
+    switch (status) {
+      case 'APPROVE':
         return 'success';
-      case 'accept':
-        return 'success';
-      case 'pending':
+      case 'PENDING':
         return 'warning';
-      case 'ongoing':
+      case 'IN_PROGRESS':
         return 'info';
-      case 'reject':
+      case 'REJECT':
         return 'error';
       default:
         return 'default';
@@ -55,7 +53,7 @@ const AppoimentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
   };
 
   const getStatusDisplay = (status: string) => {
-    return status.toUpperCase();
+    return status === 'IN_PROGRESS' ? 'IN PROGRESS' : status;
   };
 
   const formatDate = (dateString: string) => {

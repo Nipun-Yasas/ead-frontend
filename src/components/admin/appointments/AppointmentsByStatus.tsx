@@ -757,36 +757,36 @@ export default function AppointmentsByStatus() {
                     <span>Pending</span>
                   </Box>
                 </MenuItem>
-                <MenuItem value="ACCEPT">
+                {/* <MenuItem value="ACCEPT">
                   <Box display="flex" alignItems="center" gap={1}>
                     <CheckCircleIcon fontSize="small" color="success" />
                     <span>Accept</span>
                   </Box>
-                </MenuItem>
+                </MenuItem> */}
                 <MenuItem value="APPROVE">
                   <Box display="flex" alignItems="center" gap={1}>
                     <CheckCircleIcon fontSize="small" color="success" />
                     <span>Approve</span>
                   </Box>
                 </MenuItem>
-                <MenuItem value="CONFIRMED">
+                {/* <MenuItem value="CONFIRMED">
                   <Box display="flex" alignItems="center" gap={1}>
                     <CheckCircleIcon fontSize="small" color="info" />
                     <span>Confirmed</span>
                   </Box>
-                </MenuItem>
+                </MenuItem> */}
                 <MenuItem value="IN_PROGRESS">
                   <Box display="flex" alignItems="center" gap={1}>
                     <PlayArrowIcon fontSize="small" color="primary" />
                     <span>In Progress</span>
                   </Box>
                 </MenuItem>
-                <MenuItem value="ONGOING">
+                {/* <MenuItem value="ONGOING">
                   <Box display="flex" alignItems="center" gap={1}>
                     <PlayArrowIcon fontSize="small" color="primary" />
                     <span>Ongoing</span>
                   </Box>
-                </MenuItem>
+                </MenuItem> */}
                 <MenuItem value="REJECT">
                   <Box display="flex" alignItems="center" gap={1}>
                     <CancelIcon fontSize="small" color="error" />

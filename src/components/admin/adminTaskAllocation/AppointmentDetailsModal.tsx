@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Appointment } from '../../types/appointment';
+import type { Appointment } from '../../../types/appointment';
 
 interface AppointmentDetailsModalProps {
   appointment: Appointment;
@@ -99,7 +99,7 @@ const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
             </span>
           </div>
 
-          {/* Customer Information */}
+          {/* Customer Information
           <div 
             className="rounded-lg p-4 border"
             style={{ 
@@ -156,7 +156,7 @@ const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
                 </span>
               </div>
             </div>
-          </div>
+          </div> */}
 
           {/* Appointment Details */}
           <div 
