@@ -41,7 +41,7 @@ export const API_PATHS = {
     BY_STATUS: (status: string) => `${BASE_URL}/appointments/status/${status}`,
     TODAY: `${BASE_URL}/appointments/today`,
     DATE_RANGE: `${BASE_URL}/appointments/date-range`,
-    ALLOCATE: (id: number) => `${BASE_URL}/appointments/${id}/allocate`, // ✅ Matches backend
+    ALLOCATE: (id: number) => `${BASE_URL}/appointments/${id}/allocate`,
   },
   HEALTH: {
     CHECK: `${BASE_URL}/health`,

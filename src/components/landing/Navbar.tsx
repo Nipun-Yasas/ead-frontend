@@ -16,10 +16,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LogoutIcon from "@mui/icons-material/Logout";
-import PersonIcon from "@mui/icons-material/Person";
 import { Link as RouterLink } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
-import { getDashboardRouteByRole } from "../utils/getNavigationByRole";
+import { useAuth } from "../../contexts/AuthContext";
+import { getDashboardRouteByRole } from "../../utils/getNavigationByRole";
 
 const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth();

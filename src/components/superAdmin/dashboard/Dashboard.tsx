@@ -5,8 +5,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
-import Navbar from "../../Navbar";
-import Footer from "../../Footer";
+import Navbar from "../../landing/Navbar";
+import Footer from "../../landing/Footer";
 import {
   CheckCircle,
   Clock,

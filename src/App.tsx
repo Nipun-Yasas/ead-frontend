@@ -1,5 +1,4 @@
 import "./App.css";
-import VehicleRepairs from "./components/VehicleRepairs";
 import {
   BrowserRouter as Router,
   Routes,
@@ -11,26 +10,26 @@ import { AuthProvider } from "./contexts/AuthContext";
 import { ChatProvider } from "./contexts/ChatContext";
 import AuthContainer from "./components/auth/AuthContainer";
 
-import Navbar from "./components/Navbar";
-import Hero from "./components/Hero";
-import AboutSection from "./components/aboutSection/AboutSection";
-import WhyChooseUs from "./components/WhyChooseUs";
-import LeadershipTeam from "./components/Leadership/LeadershipTeam"
-import Certificate from "./components/Certificate";
-import Footer from "./components/Footer";
+import Navbar from "./components/landing/Navbar";
+import Hero from "./components/landing/Hero";
+import AboutSection from "./components/landing/AboutSection";
+import WhyChooseUs from "./components/landing/WhyChooseUs";
+import LeadershipTeam from "./components/landing/LeadershipTeam"
+import Certificate from "./components/landing/Certificate";
+import Footer from "./components/landing/Footer";
 
-import BookingAppointment from "./components/BookingAppointment";
+import BookingAppointment from "./components/customer/BookingAppointment";
 import ProtectedRoute from "./components/routes/ProtectedRoute";
 import DashboardLayout from "./components/layouts/DashboardLayout";
-import GetStarted from "./components/main/GetStarted";
+import GetStarted from "./components/landing/GetStarted";
 import AdminDashboard from "./components/admin/dashboard/AdminDashboard";
 import ChatInterface from "./components/chat/ChatInterface";
 import TaskAllocationPage from "./components/adminTaskAllocation/TaskAllocationPage";
 
-import Dashboard from "./components/superaAdmin/dashboard/Dashboard";
+import Dashboard from "./components/superAdmin/dashboard/Dashboard";
 import { Chatbot } from "./components/chat/Chatbot";
-import Users from "./components/superaAdmin/users/Users";
-import { MyAppoiment } from "./components/appoiments/MyAppoiment";
+import Users from "./components/superAdmin/users/Users";
+import { MyAppoiment } from "./components/customer/MyAppoiment";
 
 function App() {
   return (
@@ -55,7 +54,6 @@ function App() {
           <Route path="/login" element={<AuthContainer />} />
           <Route path="/signup" element={<AuthContainer />} />
 
-          {/* My Appointments Route - Protected for authenticated users */}
           <Route
             path="/my-appointment"
             element={
@@ -79,9 +77,6 @@ function App() {
             />
              <Route path="task-allocation" element={<TaskAllocationPage />} /> 
             <Route path="users" element={<Users />} />
-            <Route path="inventory" element={<div>Inventory</div>} />
-            <Route path="settings" element={<div>Settings</div>} />
-            <Route index element={<Navigate to="dashboard" replace />} />
           </Route>
 
           <Route
@@ -114,11 +109,8 @@ function App() {
             path="/dashboard"
             element={
               <ProtectedRoute allowedRoles={["CUSTOMER"]}>
-                <div>
                
                   <BookingAppointment />
-                  <VehicleRepairs />
-                </div>
               
               </ProtectedRoute>
             }

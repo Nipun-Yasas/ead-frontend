@@ -5,9 +5,9 @@ import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import BuildIcon from '@mui/icons-material/Build';
 import DescriptionIcon from '@mui/icons-material/Description';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { postJSON } from '../config';
-import Navbar from './Navbar';
-import Footer from './Footer';
+import { postJSON } from '../../config';
+import Navbar from '../landing/Navbar';
+import Footer from '../landing/Footer';
 
 type FormState = {
     date: string;

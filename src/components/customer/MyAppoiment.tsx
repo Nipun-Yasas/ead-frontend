@@ -9,8 +9,8 @@ import {
   Alert,
 } from '@mui/material';
 import { Add, Refresh } from '@mui/icons-material';
-import Navbar from '../Navbar';
-import Footer from '../Footer';
+import Navbar from '../landing/Navbar';
+import Footer from '../landing/Footer';
 import AppoimentCard from './AppoimentCard';
 import type { Appointment } from './AppoimentCard';
 import { appointmentApi, type ApiAppointment } from '../../api/appointments';
