@@ -30,6 +30,7 @@ import TaskAllocationPage from "./components/adminTaskAllocation/TaskAllocationP
 import Dashboard from "./components/superaAdmin/dashboard/Dashboard";
 import { Chatbot } from "./components/chat/Chatbot";
 import Users from "./components/superaAdmin/users/Users";
+import { MyAppoiment } from "./components/appoiments/MyAppoiment";
 
 function App() {
   return (
@@ -53,6 +54,9 @@ function App() {
           />
           <Route path="/login" element={<AuthContainer />} />
           <Route path="/signup" element={<AuthContainer />} />
+          <Route path="/my-appointment" element={<ProtectedRoute allowedRoles={["CUSTOMER"]}>
+            <MyAppoiment />
+          </ProtectedRoute>} />
 
 
           <Route
