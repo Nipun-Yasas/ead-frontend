@@ -53,15 +53,10 @@ function App() {
           />
           <Route path="/login" element={<AuthContainer />} />
           <Route path="/signup" element={<AuthContainer />} />
+          <Route path="/my-appointment" element={<ProtectedRoute allowedRoles={["CUSTOMER"]}>
+            <MyAppoiment />
+          </ProtectedRoute>} />
 
-          <Route
-            path="/my-appointment"
-            element={
-              <ProtectedRoute allowedRoles={["CUSTOMER", "EMPLOYEE", "ADMIN", "SUPER_ADMIN"]}>
-                <MyAppoiment />
-              </ProtectedRoute>
-            }
-          />
 
           <Route
             path="/superadmin"

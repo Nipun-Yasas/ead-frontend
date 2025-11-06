@@ -20,7 +20,7 @@ export interface Appointment {
   date: string;
   time: string;
   description: string;
-  status: 'pending' | 'approved' | 'ongoing' | 'completed' | 'cancelled';
+  status: 'pending' | 'accept' | 'reject' | 'approve' | 'ongoing';
   employeeName?: string | null;
   employeeProfilePicture?: string;
   serviceName?: string;
@@ -38,20 +38,24 @@ interface AppointmentCardProps {
 
 const AppoimentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
   const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'approved':
+    switch (status.toLowerCase()) {
+      case 'approve':
+        return 'success';
+      case 'accept':
         return 'success';
       case 'pending':
         return 'warning';
       case 'ongoing':
         return 'info';
-      case 'completed':
-        return 'success';
-      case 'cancelled':
+      case 'reject':
         return 'error';
       default:
         return 'default';
     }
+  };
+
+  const getStatusDisplay = (status: string) => {
+    return status.toUpperCase();
   };
 
   const formatDate = (dateString: string) => {
@@ -102,7 +106,7 @@ const AppoimentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
             {appointment.serviceName || 'Service Appointment'}
           </Typography>
           <Chip
-            label={appointment.status.toUpperCase()}
+            label={getStatusDisplay(appointment.status)}
             color={getStatusColor(appointment.status)}
             size="small"
             sx={{
