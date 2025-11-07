@@ -17,7 +17,7 @@ import type { Appointment } from './AppoimentCard';
 import { appointmentApi, type ApiAppointment } from '../../api/appointments';
 import { useAuth } from '../../contexts/AuthContext';
 
-type FilterType = 'all' | 'PENDING' | 'APPROVE' | 'IN_PROGRESS' | 'REJECT';
+type FilterType = 'all' | 'PENDING' | 'APPROVE' | 'IN_PROGRESS' | 'COMPLETED' | 'REJECT';
 
 export const MyAppoiment = () => {
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
@@ -251,6 +251,10 @@ export const MyAppoiment = () => {
               <Tab
                 label={`In Progress (${getFilterCount('IN_PROGRESS')})`}
                 value="IN_PROGRESS"
+              />
+              <Tab
+                label={`Completed (${getFilterCount('COMPLETED')})`}
+                value="COMPLETED"
               />
               <Tab
                 label={`Reject (${getFilterCount('REJECT')})`}

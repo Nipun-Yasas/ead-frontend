@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Container from "@mui/material/Container";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -17,6 +17,7 @@ import {
 import StatCard from "./StatCard";
 import ServiceStatusChart from "./ServiceStatusChart";
 import MonthlyTrendChart from "./MonthlyTrendChart";
+import axiosInstance from "../../../utils/axiosInstance";
 
 interface DashboardStats {
   totalServices: number;
@@ -36,65 +37,32 @@ interface DashboardStats {
   }[];
 }
 
-/* Dummy data used for local/dev preview */
-const DUMMY_STATS: DashboardStats = {
-  totalServices: 1240,
-  completedServices: 980,
-  inProgressServices: 120,
-  pendingServices: 140,
-  todayAppointments: 18,
-  cancelledServices: 25,
-  servicesByStatus: [
-    { status: "COMPLETED", count: 980 },
-    { status: "IN_PROGRESS", count: 120 },
-    { status: "PENDING", count: 140 },
-  ],
-  monthlyTrend: [
-    { month: "Jan", value: 80 },
-    { month: "Feb", value: 95 },
-    { month: "Mar", value: 110 },
-    { month: "Apr", value: 120 },
-    { month: "May", value: 130 },
-    { month: "Jun", value: 140 },
-    { month: "Jul", value: 150 },
-    { month: "Aug", value: 135 },
-    { month: "Sep", value: 125 },
-    { month: "Oct", value: 140 },
-    { month: "Nov", value: 155 },
-    { month: "Dec", value: 160 },
-  ],
-  employeeWorkload: [
-    { employeeName: "A. Silva", taskCount: 24 },
-    { employeeName: "B. Perera", taskCount: 18 },
-    { employeeName: "C. Fernando", taskCount: 15 },
-    { employeeName: "D. Kumar", taskCount: 12 },
-  ],
-  upcomingAppointments: [
-    {
-      customerName: "Michael Scott",
-      vehicleModel: "Toyota Corolla",
-      serviceType: "Oil Change",
-      appointmentDate: new Date().toISOString(),
-    },
-    {
-      customerName: "Pam Beesly",
-      vehicleModel: "Honda Civic",
-      serviceType: "Brake Service",
-      appointmentDate: new Date(Date.now() + 86400000).toISOString(),
-    },
-    {
-      customerName: "Jim Halpert",
-      vehicleModel: "Ford Ranger",
-      serviceType: "Inspection",
-      appointmentDate: new Date(Date.now() + 2 * 86400000).toISOString(),
-    },
-  ],
-};
-
 export default function AdminDashboard() {
-  const [stats] = useState<DashboardStats | null>(DUMMY_STATS);
-  const [loading] = useState(false);
-  const [error] = useState<string | null>(null);
+  const [stats, setStats] = useState<DashboardStats | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchDashboardStats = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        console.log('Fetching dashboard stats...');
+        const response = await axiosInstance.get('/dashboard/stats');
+        console.log('Dashboard stats response:', response.data);
+        
+        setStats(response.data);
+      } catch (err) {
+        console.error('Error fetching dashboard stats:', err);
+        setError(err instanceof Error ? err.message : 'Failed to load dashboard statistics');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardStats();
+  }, []);
 
   if (loading) {
     return (

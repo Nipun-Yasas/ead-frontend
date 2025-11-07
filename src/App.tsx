@@ -27,6 +27,9 @@ import AdminDashboard from "./components/admin/dashboard/AdminDashboard";
 import ChatInterface from "./components/chat/ChatInterface";
 import EmployeeChatInterface from "./components/chat/EmployeeChatInterface";
 import TaskAllocationPage from "./components/admin/adminTaskAllocation/TaskAllocationPage";
+import Invoices from "./components/admin/invoices/Invoices";
+import Employees from "./components/admin/employees/Employees";
+import Customers from "./components/admin/customers/Customers";
 import AppointmentsByStatus from "./components/admin/appointments/AppointmentsByStatus";
 import Dashboard from "./components/superAdmin/dashboard/Dashboard";
 import { Chatbot } from "./components/chat/Chatbot";
@@ -83,6 +86,12 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/users" element={<Users />} />
 
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="appointments/:status" element={<AppointmentsByStatus />} />
+            <Route path="employees" element={<Employees />} />
+            <Route path="customers" element={<Customers />} />
+            <Route path="invoices" element={<Invoices />} />
+          </Route>
             {/* Admin */}
             <Route
               path="/admin"

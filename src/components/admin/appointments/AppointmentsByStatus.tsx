@@ -41,8 +41,10 @@ import {
   Cancel as CancelIcon,
   PlayArrow as PlayArrowIcon,
   HourglassEmpty as HourglassEmptyIcon,
+  EventRepeat as EventRepeatIcon,
 } from '@mui/icons-material';
 import axiosInstance from '../../../utils/axiosInstance';
+import RescheduleModal from './RescheduleModal';
 
 interface Customer {
   id: number;
@@ -118,6 +120,10 @@ export default function AppointmentsByStatus() {
   const [newStatus, setNewStatus] = useState('');
   const [statusNotes, setStatusNotes] = useState('');
   const [statusChangeLoading, setStatusChangeLoading] = useState(false);
+
+  // Reschedule modal state
+  const [rescheduleModalOpen, setRescheduleModalOpen] = useState(false);
+  const [rescheduleAppointment, setRescheduleAppointment] = useState<Appointment | null>(null);
 
   useEffect(() => {
     fetchAppointments();
@@ -229,6 +235,24 @@ export default function AppointmentsByStatus() {
     } finally {
       setStatusChangeLoading(false);
     }
+  };
+
+  // Reschedule handlers
+  const handleOpenRescheduleModal = (appointment: Appointment) => {
+    setRescheduleAppointment(appointment);
+    setRescheduleModalOpen(true);
+  };
+
+  const handleCloseRescheduleModal = () => {
+    setRescheduleModalOpen(false);
+    setRescheduleAppointment(null);
+  };
+
+  const handleRescheduleSuccess = () => {
+    setSnackbarMessage('Reschedule email sent successfully! Appointment status updated to REJECTED.');
+    setSnackbarSeverity('success');
+    setSnackbarOpen(true);
+    fetchAppointments(); // Refresh the list
   };
 
   // Pagination logic
@@ -597,6 +621,7 @@ export default function AppointmentsByStatus() {
                             WebkitLineClamp: 3,
                             WebkitBoxOrient: 'vertical',
                             overflow: 'hidden',
+                            color:'black',
                             textOverflow: 'ellipsis',
                           }}
                         >
@@ -624,14 +649,38 @@ export default function AppointmentsByStatus() {
                   )}
                 </CardContent>
 
-                {/* Status Change Button */}
+                {/* Action Buttons */}
                 <Box 
                   sx={{ 
                     p: 2, 
                     pt: 0,
                     pb: 2.5,
+                    display: 'flex',
+                    gap: 1.5,
                   }}
                 >
+                  <Button
+                    fullWidth
+                    variant="outlined"
+                    size="medium"
+                    startIcon={<EventRepeatIcon />}
+                    onClick={() => handleOpenRescheduleModal(appointment)}
+                    sx={{
+                      borderRadius: 1.5,
+                      textTransform: 'none',
+                      fontWeight: 600,
+                      py: 1.25,
+                      borderColor: 'warning.main',
+                      color: 'warning.main',
+                      '&:hover': {
+                        borderColor: 'warning.dark',
+                        bgcolor: 'warning.50',
+                        transform: 'scale(1.02)',
+                      },
+                    }}
+                  >
+                    Reschedule
+                  </Button>
                   <Button
                     fullWidth
                     variant="contained"
@@ -757,12 +806,7 @@ export default function AppointmentsByStatus() {
                     <span>Pending</span>
                   </Box>
                 </MenuItem>
-                {/* <MenuItem value="ACCEPT">
-                  <Box display="flex" alignItems="center" gap={1}>
-                    <CheckCircleIcon fontSize="small" color="success" />
-                    <span>Accept</span>
-                  </Box>
-                </MenuItem> */}
+              
                 <MenuItem value="APPROVE">
                   <Box display="flex" alignItems="center" gap={1}>
                     <CheckCircleIcon fontSize="small" color="success" />
@@ -787,6 +831,12 @@ export default function AppointmentsByStatus() {
                     <span>Ongoing</span>
                   </Box>
                 </MenuItem> */}
+                  <MenuItem value="COMPLETED">
+                  <Box display="flex" alignItems="center" gap={1}>
+                    <CheckCircleIcon fontSize="small" color="success" />
+                    <span>Completed</span>
+                  </Box>
+                </MenuItem>
                 <MenuItem value="REJECT">
                   <Box display="flex" alignItems="center" gap={1}>
                     <CancelIcon fontSize="small" color="error" />
@@ -827,6 +877,16 @@ export default function AppointmentsByStatus() {
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Reschedule Modal */}
+      {rescheduleAppointment && (
+        <RescheduleModal
+          open={rescheduleModalOpen}
+          onClose={handleCloseRescheduleModal}
+          appointment={rescheduleAppointment}
+          onSuccess={handleRescheduleSuccess}
+        />
+      )}
     </Box>
   );
 }

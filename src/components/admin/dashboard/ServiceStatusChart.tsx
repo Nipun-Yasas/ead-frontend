@@ -141,9 +141,7 @@ export default function ServiceStatusChart({ data }: Props) {
             </Box>
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-              <Typography sx={{ fontSize: { xs: 13, sm: 14 }, minWidth: 48, textAlign: "right" }}>
-                {item.count}
-              </Typography>
+              
               <Typography sx={{ fontSize: { xs: 12, sm: 13 }, color: "var(--color-text-tertiary)" }}>
                 {getPercentage(item.count)}%
               </Typography>
