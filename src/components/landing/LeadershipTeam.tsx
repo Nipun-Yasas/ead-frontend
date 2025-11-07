@@ -29,8 +29,8 @@ const LeadershipTeam: React.FC = () => {
   const displayMembers = members.slice(0, 6);
 
   return (
-    <section className={`${isLight ? 'bg-gray-50' : 'bg-bg-primary'} py-20 px-6`}>
-      <div className="max-w-6xl mx-auto">
+    <section className={`${isLight ? 'bg-gray-50' : 'bg-bg-primary'} py-20 px-6` } >
+      <div className="max-w-6xl mx-auto border-y-[3px] border-[#D60507] py-10">
         {/* Header */}
         <div className="text-center mb-16">
           <h2 
