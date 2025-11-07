@@ -15,7 +15,7 @@ import Navbar from "./components/landing/Navbar";
 import Hero from "./components/landing/Hero";
 import AboutSection from "./components/landing/AboutSection";
 import WhyChooseUs from "./components/landing/WhyChooseUs";
-import LeadershipTeam from "./components/landing/LeadershipTeam"
+import LeadershipTeam from "./components/landing/LeadershipTeam";
 import Certificate from "./components/landing/Certificate";
 import Footer from "./components/landing/Footer";
 
@@ -25,7 +25,7 @@ import DashboardLayout from "./components/layouts/DashboardLayout";
 import GetStarted from "./components/landing/GetStarted";
 import AdminDashboard from "./components/admin/dashboard/AdminDashboard";
 import ChatInterface from "./components/chat/ChatInterface";
-import EmployeeChatInterface from "./components/chat/EmployeeChatInterface"; 
+import EmployeeChatInterface from "./components/chat/EmployeeChatInterface";
 import TaskAllocationPage from "./components/admin/adminTaskAllocation/TaskAllocationPage";
 import AppointmentsByStatus from "./components/admin/appointments/AppointmentsByStatus";
 import Dashboard from "./components/superAdmin/dashboard/Dashboard";
@@ -40,10 +40,11 @@ function App() {
       <ThemeProvider>
         <AuthProvider>
           <Routes>
+            {/* Landing page */}
             <Route
               path="/"
               element={
-                <div>
+                <>
                   <Navbar />
                   <Hero />
                   <AboutSection />
@@ -52,69 +53,80 @@ function App() {
                   <Certificate />
                   <GetStarted />
                   <Footer />
-                </div>
+                </>
               }
             />
+
+            {/* Auth */}
             <Route path="/login" element={<AuthContainer />} />
             <Route path="/signup" element={<AuthContainer />} />
-            <Route path="/my-appointment" element={<ProtectedRoute allowedRoles={["CUSTOMER"]}>
-              <MyAppoiment />
-            </ProtectedRoute>} />
 
-
+            {/* Customer */}
             <Route
-              path="dashboard"
-              element={<Dashboard />}
-            />
-            <Route path="users" element={<Users />} />
-          </Route>
-
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN"]}>
-                <DashboardLayout />
-              </ProtectedRoute>
-            }
-          >
-                         <Route path="task-allocation" element={<TaskAllocationPage />} /> 
-
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="appointments/:status" element={<AppointmentsByStatus />} />
-          </Route>
-
-          {/* Employee Routes with newChatinterface */}
-          <Route
-            path="/employee"
-            element={
-              <ProtectedRoute allowedRoles={["EMPLOYEE"]}>
-                <DashboardLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route path="dashboard" element={<Employee />} />
-            <Route 
-              path="messages" 
+              path="/my-appointment"
               element={
-                <ChatProvider>
-                  <EmployeeChatInterface />
-                </ChatProvider>
-              } 
+                <ProtectedRoute allowedRoles={["CUSTOMER"]}>
+                  <MyAppoiment />
+                </ProtectedRoute>
+              }
             />
-            <Route index element={<Navigate to="dashboard" replace />} />
-          </Route>
-
+            <Route
+              path="/booking"
+              element={
+                <ProtectedRoute allowedRoles={["CUSTOMER"]}>
                   <BookingAppointment />
-
                 </ProtectedRoute>
               }
             />
 
-            {/* Chat Route - Navigate via URL */}
+            {/* Super Admin */}
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/users" element={<Users />} />
+
+            {/* Admin */}
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute allowedRoles={["ADMIN"]}>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="task-allocation" element={<TaskAllocationPage />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route
+                path="appointments/:status"
+                element={<AppointmentsByStatus />}
+              />
+              <Route index element={<Navigate to="dashboard" replace />} />
+            </Route>
+
+            {/* Employee */}
+            <Route
+              path="/employee"
+              element={
+                <ProtectedRoute allowedRoles={["EMPLOYEE"]}>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="dashboard" element={<Employee />} />
+              <Route
+                path="messages"
+                element={
+                  <ChatProvider>
+                    <EmployeeChatInterface />
+                  </ChatProvider>
+                }
+              />
+              <Route index element={<Navigate to="dashboard" replace />} />
+            </Route>
+
+            {/* Chat */}
             <Route
               path="/chat"
               element={
-                <ProtectedRoute allowedRoles={['CUSTOMER', 'EMPLOYEE']}>
+                <ProtectedRoute allowedRoles={["CUSTOMER", "EMPLOYEE"]}>
                   <ChatProvider>
                     <ChatInterface />
                   </ChatProvider>
@@ -123,7 +135,7 @@ function App() {
             />
           </Routes>
 
-          {/* Global Chatbot - Available on all pages */}
+          {/* Global Chatbot */}
           <Chatbot />
         </AuthProvider>
       </ThemeProvider>

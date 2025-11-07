@@ -147,7 +147,7 @@ const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
                   className="font-medium"
                   style={{ color: 'var(--color-text-primary)' }}
                 >
-                  {appointment.customer?.name || appointment.customerName || 'N/A'}
+                  {appointment.customer?.fullName || appointment.customerName || 'N/A'}
                 </span>
               </div>
               <div className="flex items-center justify-between">
