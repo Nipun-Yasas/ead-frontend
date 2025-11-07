@@ -112,7 +112,7 @@ const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
             </span>
           </div>
 
-          {/* Customer Information
+          {/* Customer Information */}
           <div 
             className="rounded-lg p-4 border"
             style={{ 
@@ -147,8 +147,7 @@ const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
                   className="font-medium"
                   style={{ color: 'var(--color-text-primary)' }}
                 >
-                  {/* ✅ Show customer name from nested object or direct field */}
-                  {appointment.customer?.fullName || appointment.customerName || 'N/A'}
+                  {appointment.customer?.name || appointment.customerName || 'N/A'}
                 </span>
               </div>
               <div className="flex items-center justify-between">
@@ -157,7 +156,6 @@ const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
                   className="font-medium"
                   style={{ color: 'var(--color-text-primary)' }}
                 >
-                  {/* ✅ Show customer email from nested object or direct field */}
                   {appointment.customer?.email || appointment.customerEmail || 'N/A'}
                 </span>
               </div>
@@ -173,7 +171,7 @@ const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
                 </div>
               )}
             </div>
-          </div> */}
+          </div>
 
           {/* Appointment Details */}
           <div 

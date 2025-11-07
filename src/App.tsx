@@ -25,18 +25,20 @@ import GetStarted from "./components/landing/GetStarted";
 import AdminDashboard from "./components/admin/dashboard/AdminDashboard";
 import ChatInterface from "./components/chat/ChatInterface";
 import EmployeeChatInterface from "./components/chat/EmployeeChatInterface"; 
-import TaskAllocationPage from "./components/adminTaskAllocation/TaskAllocationPage";
-
+import TaskAllocationPage from "./components/admin/adminTaskAllocation/TaskAllocationPage";
+import AppointmentsByStatus from "./components/admin/appointments/AppointmentsByStatus";
 import Dashboard from "./components/superAdmin/dashboard/Dashboard";
 import { Chatbot } from "./components/chat/Chatbot";
 import Users from "./components/superAdmin/users/Users";
 import { MyAppoiment } from "./components/customer/MyAppoiment";
+import Employee from "./components/employee/Employee";
 
 function App() {
   return (
     <Router>
       <AuthProvider>
         <Routes>
+          <Route path="/emp" element={<Employee />} />
           <Route
             path="/"
             element={
@@ -97,11 +99,7 @@ function App() {
               </ProtectedRoute>
             }
           >
-            <Route path="dashboard" element={<div>Employee Dashboard</div>} />
-            <Route path="products" element={<div>Products</div>} />
-            <Route path="orders" element={<div>My Orders</div>} />
-            <Route path="reports" element={<div>Reports</div>} />
-            {/*   Messages Route */}
+            <Route path="dashboard" element={<Employee />} />
             <Route 
               path="messages" 
               element={
