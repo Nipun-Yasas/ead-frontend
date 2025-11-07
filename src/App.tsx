@@ -57,58 +57,74 @@ function App() {
             />
             <Route path="/login" element={<AuthContainer />} />
             <Route path="/signup" element={<AuthContainer />} />
-            <Route path="/my-appointment" element={<ProtectedRoute allowedRoles={["CUSTOMER"]}>
-              <MyAppoiment />
-            </ProtectedRoute>} />
-
-
-            <Route
-              path="dashboard"
-              element={<Dashboard />}
-            />
-            <Route path="users" element={<Users />} />
-          </Route>
-
-          <Route
-            path="/admin"
-            element={
-              <ProtectedRoute allowedRoles={["ADMIN"]}>
-                <DashboardLayout />
-              </ProtectedRoute>
-            }
-          >
-                         <Route path="task-allocation" element={<TaskAllocationPage />} /> 
-
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="appointments/:status" element={<AppointmentsByStatus />} />
-          </Route>
-
-          {/* Employee Routes with newChatinterface */}
-          <Route
-            path="/employee"
-            element={
-              <ProtectedRoute allowedRoles={["EMPLOYEE"]}>
-                <DashboardLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route path="dashboard" element={<Employee />} />
             <Route 
-              path="messages" 
+              path="/my-appointment" 
               element={
-                <ChatProvider>
-                  <EmployeeChatInterface />
-                </ChatProvider>
+                <ProtectedRoute allowedRoles={["CUSTOMER"]}>
+                  <MyAppoiment />
+                </ProtectedRoute>
               } 
             />
-            <Route index element={<Navigate to="dashboard" replace />} />
-          </Route>
 
-                  <BookingAppointment />
-
+            {/* Super Admin Routes */}
+            <Route
+              path="/super-admin/*"
+              element={
+                <ProtectedRoute allowedRoles={["SUPER_ADMIN"]}>
+                  <DashboardLayout />
                 </ProtectedRoute>
               }
-            />
+            >
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="users" element={<Users />} />
+            </Route>
+
+            {/* Admin Routes */}
+            <Route
+              path="/admin/*"
+              element={
+                <ProtectedRoute allowedRoles={["ADMIN"]}>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="task-allocation" element={<TaskAllocationPage />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="appointments/:status" element={<AppointmentsByStatus />} />
+            </Route>
+
+            {/* Employee Routes */}
+            <Route
+              path="/employee/*"
+              element={
+                <ProtectedRoute allowedRoles={["EMPLOYEE"]}>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="dashboard" element={<Employee />} />
+              <Route 
+                path="messages" 
+                element={
+                  <ChatProvider>
+                    <EmployeeChatInterface />
+                  </ChatProvider>
+                } 
+              />
+              <Route index element={<Navigate to="dashboard" replace />} />
+            </Route>
+
+            {/* Customer Routes */}
+            <Route
+              path="/customer/*"
+              element={
+                <ProtectedRoute allowedRoles={["CUSTOMER"]}>
+                  <DashboardLayout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="booking" element={<BookingAppointment />} />
+            </Route>
 
             {/* Chat Route - Navigate via URL */}
             <Route
