@@ -185,7 +185,7 @@ const WhatSetsUsApart: React.FC = () => {
           >
             <CheckCircle
               className={`w-6 h-6 flex-shrink-0 mt-1`}
-              style={isLight ? { color: '#FFFFFF' } : undefined}
+              style={isLight ? { color: '#008000' } : undefined}
             />
             <div>
               <h3 className={`text-xl font-semibold mb-2`} style={isLight ? { color: '#FFFFFF' } : undefined}>{item.title}</h3>
