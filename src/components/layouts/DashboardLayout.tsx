@@ -38,7 +38,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
       theme={theme}
       branding={{
         title: 'Auto Care Pro',
-        logo: <img src="/logo.png" alt="Auto Care Pro" />,
+        logo: <></>, 
       }}
       authentication={authentication}
       session={{

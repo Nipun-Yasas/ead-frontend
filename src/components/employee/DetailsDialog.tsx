@@ -49,12 +49,7 @@ export default function DetailsDialog({ open, onClose, appointment }: DetailsDia
       onClose={onClose}
       maxWidth="md"
       fullWidth
-      PaperProps={{
-        sx: {
-          bgcolor: 'var(--color-bg-secondary)',
-          borderRadius: 3,
-        },
-      }}
+      
     >
       <DialogTitle
         sx={{
@@ -64,7 +59,7 @@ export default function DetailsDialog({ open, onClose, appointment }: DetailsDia
           pb: 2,
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: 700, color: 'var(--color-text-primary)' }}>
+        <Typography variant="h5" sx={{ fontWeight: 700 }}>
           Appointment Details
         </Typography>
         <IconButton onClick={onClose} size="small">
@@ -83,9 +78,9 @@ export default function DetailsDialog({ open, onClose, appointment }: DetailsDia
                 variant="caption"
                 sx={{ color: 'var(--color-text-muted)', fontWeight: 600, display: 'block', mb: 0.5 }}
               >
-                APPOINTMENT ID
+                Appointment Id
               </Typography>
-              <Typography variant="body1" sx={{ color: 'var(--color-text-primary)', fontWeight: 600 }}>
+              <Typography variant="body1" sx={{ fontWeight: 600 }}>
                 #{appointment.id}
               </Typography>
             </Box>
@@ -98,15 +93,15 @@ export default function DetailsDialog({ open, onClose, appointment }: DetailsDia
                 variant="caption"
                 sx={{ color: 'var(--color-text-muted)', fontWeight: 600, display: 'block', mb: 0.5 }}
               >
-                DATE & TIME
+                Date and Time
               </Typography>
               <Stack direction="row" spacing={1} alignItems="center">
                 <CalendarToday sx={{ fontSize: 18, color: 'var(--color-primary)' }} />
-                <Typography variant="body2" sx={{ color: 'var(--color-text-primary)' }}>
+                <Typography variant="body2">
                   {appointment.date}
                 </Typography>
                 <AccessTime sx={{ fontSize: 18, color: 'var(--color-primary)', ml: 2 }} />
-                <Typography variant="body2" sx={{ color: 'var(--color-text-primary)' }}>
+                <Typography variant="body2">
                   {appointment.time}
                 </Typography>
               </Stack>
@@ -124,11 +119,11 @@ export default function DetailsDialog({ open, onClose, appointment }: DetailsDia
                 variant="caption"
                 sx={{ color: 'var(--color-text-muted)', fontWeight: 600, display: 'block', mb: 0.5 }}
               >
-                CUSTOMER NAME
+                Customer Name
               </Typography>
               <Stack direction="row" spacing={1} alignItems="center">
                 <Person sx={{ fontSize: 18, color: 'var(--color-text-tertiary)' }} />
-                <Typography variant="body1" sx={{ color: 'var(--color-text-primary)' }}>
+                <Typography variant="body1">
                   {appointment.customerName}
                 </Typography>
               </Stack>
@@ -142,11 +137,11 @@ export default function DetailsDialog({ open, onClose, appointment }: DetailsDia
                 variant="caption"
                 sx={{ color: 'var(--color-text-muted)', fontWeight: 600, display: 'block', mb: 0.5 }}
               >
-                EMAIL
+                Email
               </Typography>
               <Stack direction="row" spacing={1} alignItems="center">
                 <Email sx={{ fontSize: 18, color: 'var(--color-text-tertiary)' }} />
-                <Typography variant="body1" sx={{ color: 'var(--color-text-primary)' }}>
+                <Typography variant="body1">
                   {appointment.customerEmail}
                 </Typography>
               </Stack>
@@ -160,11 +155,11 @@ export default function DetailsDialog({ open, onClose, appointment }: DetailsDia
                 variant="caption"
                 sx={{ color: 'var(--color-text-muted)', fontWeight: 600, display: 'block', mb: 0.5 }}
               >
-                PHONE
+                Phone Number
               </Typography>
               <Stack direction="row" spacing={1} alignItems="center">
                 <Phone sx={{ fontSize: 18, color: 'var(--color-text-tertiary)' }} />
-                <Typography variant="body1" sx={{ color: 'var(--color-text-primary)' }}>
+                <Typography variant="body1">
                   {appointment.customerPhone}
                 </Typography>
               </Stack>
@@ -182,11 +177,11 @@ export default function DetailsDialog({ open, onClose, appointment }: DetailsDia
                 variant="caption"
                 sx={{ color: 'var(--color-text-muted)', fontWeight: 600, display: 'block', mb: 0.5 }}
               >
-                VEHICLE TYPE
+                Vehicle Type
               </Typography>
               <Stack direction="row" spacing={1} alignItems="center">
                 <DirectionsCar sx={{ fontSize: 18, color: 'var(--color-text-tertiary)' }} />
-                <Typography variant="body1" sx={{ color: 'var(--color-text-primary)' }}>
+                <Typography variant="body1">
                   {appointment.vehicleType}
                 </Typography>
               </Stack>
@@ -200,9 +195,9 @@ export default function DetailsDialog({ open, onClose, appointment }: DetailsDia
                 variant="caption"
                 sx={{ color: 'var(--color-text-muted)', fontWeight: 600, display: 'block', mb: 0.5 }}
               >
-                VEHICLE NUMBER
+                Vehicle Number
               </Typography>
-              <Typography variant="body1" sx={{ color: 'var(--color-text-primary)', fontWeight: 600 }}>
+              <Typography variant="body1">
                 {appointment.vehicleNumber}
               </Typography>
             </Box>
@@ -215,11 +210,11 @@ export default function DetailsDialog({ open, onClose, appointment }: DetailsDia
                 variant="caption"
                 sx={{ color: 'var(--color-text-muted)', fontWeight: 600, display: 'block', mb: 0.5 }}
               >
-                SERVICE TYPE
+                Service Type
               </Typography>
               <Stack direction="row" spacing={1} alignItems="center">
                 <Build sx={{ fontSize: 18, color: 'var(--color-text-tertiary)' }} />
-                <Typography variant="body1" sx={{ color: 'var(--color-text-primary)' }}>
+                <Typography variant="body1">
                   {appointment.service}
                 </Typography>
               </Stack>
@@ -237,7 +232,7 @@ export default function DetailsDialog({ open, onClose, appointment }: DetailsDia
                 variant="caption"
                 sx={{ color: 'var(--color-text-muted)', fontWeight: 600, display: 'block', mb: 1 }}
               >
-                STATUS
+                Status
               </Typography>
               <Chip
                 icon={<StatusIcon sx={{ fontSize: 16 }} />}
@@ -255,7 +250,7 @@ export default function DetailsDialog({ open, onClose, appointment }: DetailsDia
                 variant="caption"
                 sx={{ color: 'var(--color-text-muted)', fontWeight: 600, display: 'block', mb: 1 }}
               >
-                PROGRESS
+                Progress
               </Typography>
               <Box>
                 <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5 }}>
@@ -298,9 +293,9 @@ export default function DetailsDialog({ open, onClose, appointment }: DetailsDia
                 variant="caption"
                 sx={{ color: 'var(--color-text-muted)', fontWeight: 600, display: 'block', mb: 0.5 }}
               >
-                SPECIAL INSTRUCTIONS
+                Special Instructions
               </Typography>
-              <Typography variant="body1" sx={{ color: 'var(--color-text-primary)' }}>
+              <Typography variant="body1">
                 {appointment.instructions}
               </Typography>
             </Box>

@@ -11,11 +11,6 @@ export const superAdminNavigation: Navigation = [
     icon: <DashboardIcon />,
   },
   {
-    segment: 'superadmin/task-allocation',
-    title: 'Task Allocation',
-    icon: <AssignmentIcon />,
-  },
-  {
     segment: 'superadmin/users',
     title: 'User Management',
     icon: <PeopleIcon />,

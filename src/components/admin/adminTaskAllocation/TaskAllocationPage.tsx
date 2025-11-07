@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Container,
@@ -12,34 +12,43 @@ import {
   CircularProgress,
   Fade,
   Tooltip,
-} from '@mui/material';
+} from "@mui/material";
 import {
   Refresh as RefreshIcon,
   Assignment as AssignmentIcon,
   People as PeopleIcon,
   CheckCircle as CheckCircleIcon,
-} from '@mui/icons-material';
-import { appointmentService } from '../../../services/appointmentService';
-import type { Appointment, GroupedAppointments, User } from '../../../types/appointment';
-import ConfirmedAppointmentsList from './ConfirmedAppointmentsList';
-import AppointmentDetailsModal from './AppointmentDetailsModal';
-import EmployeeSelectionModal from './EmployeeSelectionModal';
-import axiosInstance from '../../../utils/axiosInstance';
+} from "@mui/icons-material";
+import { appointmentService } from "../../../services/appointmentService";
+import type {
+  Appointment,
+  GroupedAppointments,
+  User,
+} from "../../../types/appointment";
+import ConfirmedAppointmentsList from "./ConfirmedAppointmentsList";
+import AppointmentDetailsModal from "./AppointmentDetailsModal";
+import EmployeeSelectionModal from "./EmployeeSelectionModal";
+import axiosInstance from "../../../utils/axiosInstance";
 
 const TaskAllocationPage: React.FC = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
-  const [groupedAppointments, setGroupedAppointments] = useState<GroupedAppointments[]>([]);
+  const [groupedAppointments, setGroupedAppointments] = useState<
+    GroupedAppointments[]
+  >([]);
   const [employees, setEmployees] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingEmployees, setIsLoadingEmployees] = useState(false);
 
   // Snackbar states
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-  const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error' | 'info' | 'warning'>('success');
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState<
+    "success" | "error" | "info" | "warning"
+  >("success");
 
   // Modal states
-  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
+  const [selectedAppointment, setSelectedAppointment] =
+    useState<Appointment | null>(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
   const [showEmployeeModal, setShowEmployeeModal] = useState(false);
   const [isAllocating, setIsAllocating] = useState(false);
@@ -54,29 +63,29 @@ const TaskAllocationPage: React.FC = () => {
     try {
       setIsLoading(true);
       // Changed from 'CONFIRMED' to 'APPROVED'
-      const data = await appointmentService.getByStatus('APPROVE');
-      
-      console.log('📋 Fetched approved appointments:', data);
-      
+      const data = await appointmentService.getByStatus("APPROVE");
+
+      console.log("📋 Fetched approved appointments:", data);
+
       setAppointments(data);
-      
+
       // ✅ FIX: Call grouping and set state
       const grouped = groupAppointmentsByCustomer(data);
-      console.log('👥 Grouped result:', grouped);
-      
+      console.log("👥 Grouped result:", grouped);
+
       setGroupedAppointments(grouped);
-      
     } catch (err: unknown) {
-      console.error('❌ Error fetching appointments:', err);
-      let errorMessage = 'Failed to load appointments';
-      if (err && typeof err === 'object' && 'response' in err) {
-        const response = (err as { response?: { data?: { message?: string } } }).response;
+      console.error("❌ Error fetching appointments:", err);
+      let errorMessage = "Failed to load appointments";
+      if (err && typeof err === "object" && "response" in err) {
+        const response = (err as { response?: { data?: { message?: string } } })
+          .response;
         if (response?.data?.message) {
           errorMessage = response.data.message;
         }
       }
       setSnackbarMessage(errorMessage);
-      setSnackbarSeverity('error');
+      setSnackbarSeverity("error");
       setSnackbarOpen(true);
     } finally {
       setIsLoading(false);
@@ -86,35 +95,38 @@ const TaskAllocationPage: React.FC = () => {
   const groupAppointmentsByCustomer = (
     appointments: Appointment[]
   ): GroupedAppointments[] => {
-    const grouped = appointments.reduce((acc, appointment) => {
-      // Extract customer info from nested customer object OR direct fields
-      const customerEmail = 
-        appointment.customer?.email || 
-        appointment.customerEmail || 
-        'anonymous';
-      
-      const customerName = 
-        appointment.customer?.fullName || 
-        appointment.customerName || 
-        'Unknown Customer';
-      
-      const customerId = appointment.customer?.id || appointment.customerId;
+    const grouped = appointments.reduce(
+      (acc, appointment) => {
+        // Extract customer info from nested customer object OR direct fields
+        const customerEmail =
+          appointment.customer?.email ||
+          appointment.customerEmail ||
+          "anonymous";
 
-      if (!acc[customerEmail]) {
-        acc[customerEmail] = {
-          customerId,
-          customerName,
-          customerEmail,
-          totalCount: 0,
-          appointments: [],
-        };
-      }
+        const customerName =
+          appointment.customer?.fullName ||
+          appointment.customerName ||
+          "Unknown Customer";
 
-      acc[customerEmail].appointments.push(appointment);
-      acc[customerEmail].totalCount++;
+        const customerId = appointment.customer?.id || appointment.customerId;
 
-      return acc;
-    }, {} as Record<string, GroupedAppointments>);
+        if (!acc[customerEmail]) {
+          acc[customerEmail] = {
+            customerId,
+            customerName,
+            customerEmail,
+            totalCount: 0,
+            appointments: [],
+          };
+        }
+
+        acc[customerEmail].appointments.push(appointment);
+        acc[customerEmail].totalCount++;
+
+        return acc;
+      },
+      {} as Record<string, GroupedAppointments>
+    );
 
     return Object.values(grouped);
   };
@@ -126,9 +138,9 @@ const TaskAllocationPage: React.FC = () => {
       setSelectedAppointment(appointment);
       setShowDetailsModal(true);
     } catch (err: unknown) {
-      console.error('Error fetching appointment details:', err);
-      setSnackbarMessage('Failed to load appointment details');
-      setSnackbarSeverity('error');
+      console.error("Error fetching appointment details:", err);
+      setSnackbarMessage("Failed to load appointment details");
+      setSnackbarSeverity("error");
       setSnackbarOpen(true);
     }
   };
@@ -141,9 +153,9 @@ const TaskAllocationPage: React.FC = () => {
       setEmployees(employeeData);
       setShowEmployeeModal(true);
     } catch (err: unknown) {
-      console.error('Error fetching employees:', err);
-      setSnackbarMessage('Failed to load employees');
-      setSnackbarSeverity('error');
+      console.error("Error fetching employees:", err);
+      setSnackbarMessage("Failed to load employees");
+      setSnackbarSeverity("error");
       setSnackbarOpen(true);
     } finally {
       setIsLoadingEmployees(false);
@@ -156,42 +168,51 @@ const TaskAllocationPage: React.FC = () => {
 
     try {
       setIsAllocating(true);
-      
+
       // Step 1: Allocate appointment to employee
-      await appointmentService.allocateToEmployee(selectedAppointment.id, employeeId);
-      
+      await appointmentService.allocateToEmployee(
+        selectedAppointment.id,
+        employeeId
+      );
+
       // Step 2: Change status to IN_PROGRESS after successful allocation
       try {
         await axiosInstance.patch(
           `/appointments/${selectedAppointment.id}/status`,
           {
-            status: 'IN_PROGRESS',
+            status: "IN_PROGRESS",
             notes: `Appointment has been assigned to an employee and is now in progress.`,
           }
         );
-        console.log('✅ Status changed to IN_PROGRESS');
+        console.log("✅ Status changed to IN_PROGRESS");
       } catch (statusError) {
-        console.error('⚠️ Warning: Failed to update status to IN_PROGRESS:', statusError);
+        console.error(
+          "⚠️ Warning: Failed to update status to IN_PROGRESS:",
+          statusError
+        );
         // Continue even if status update fails
       }
-      
+
       // Show success message
-      const employeeName = employees.find(e => e.id === employeeId)?.fullName;
-      setSnackbarMessage(`Successfully allocated to ${employeeName} and status updated to In Progress`);
-      setSnackbarSeverity('success');
+      const employeeName = employees.find((e) => e.id === employeeId)?.fullName;
+      setSnackbarMessage(
+        `Successfully allocated to ${employeeName} and status updated to In Progress`
+      );
+      setSnackbarSeverity("success");
       setSnackbarOpen(true);
-      
+
       // Close modals
       setShowEmployeeModal(false);
       setShowDetailsModal(false);
-      
+
       // Refresh appointments list
       await fetchApprovedAppointments();
     } catch (err: unknown) {
-      console.error('Error allocating appointment:', err);
-      const errorMessage = err instanceof Error ? err.message : 'Failed to allocate appointment';
+      console.error("Error allocating appointment:", err);
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to allocate appointment";
       setSnackbarMessage(errorMessage);
-      setSnackbarSeverity('error');
+      setSnackbarSeverity("error");
       setSnackbarOpen(true);
     } finally {
       setIsAllocating(false);
@@ -214,17 +235,24 @@ const TaskAllocationPage: React.FC = () => {
     <Container maxWidth="xl" sx={{ py: 4 }}>
       {/* Page Header */}
       <Box sx={{ mb: 4 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 1 }}>
-          <Typography variant="h4" component="h1" fontWeight="bold" color="primary">
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            mb: 1,
+          }}
+        >
+          <Typography variant="h4" component="h1" fontWeight="bold">
             Task Allocation
           </Typography>
           <Tooltip title="Refresh appointments">
             <IconButton
               onClick={fetchApprovedAppointments}
               color="primary"
-              sx={{ 
-                bgcolor: 'action.hover',
-                '&:hover': { bgcolor: 'action.selected' }
+              sx={{
+                bgcolor: "action.hover",
+                "&:hover": { bgcolor: "action.selected" },
               }}
             >
               <RefreshIcon />
@@ -236,23 +264,33 @@ const TaskAllocationPage: React.FC = () => {
         </Typography>
 
         {/* Stats Cards */}
-        <Box 
-          sx={{ 
+        <Box
+          sx={{
             mt: 2,
-            display: 'grid',
+            display: "grid",
             gridTemplateColumns: {
-              xs: '1fr',
-              sm: 'repeat(2, 1fr)',
-              md: 'repeat(3, 1fr)'
+              xs: "1fr",
+              sm: "repeat(2, 1fr)",
+              md: "repeat(3, 1fr)",
             },
-            gap: 3
+            gap: 3,
           }}
         >
           <Card elevation={2}>
             <CardContent>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
                 <Box>
-                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    gutterBottom
+                  >
                     Total Appointments
                   </Typography>
                   <Typography variant="h4" fontWeight="bold">
@@ -263,14 +301,16 @@ const TaskAllocationPage: React.FC = () => {
                   sx={{
                     width: 56,
                     height: 56,
-                    borderRadius: '50%',
-                    bgcolor: 'primary.light',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
+                    borderRadius: "50%",
+                    bgcolor: "primary.light",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
-                  <AssignmentIcon sx={{ fontSize: 32, color: 'primary.main' }} />
+                  <AssignmentIcon
+                    sx={{ fontSize: 32, color: "var(--color-text-primary)" }}
+                  />
                 </Box>
               </Box>
             </CardContent>
@@ -278,9 +318,19 @@ const TaskAllocationPage: React.FC = () => {
 
           <Card elevation={2}>
             <CardContent>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
                 <Box>
-                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    gutterBottom
+                  >
                     Unique Customers
                   </Typography>
                   <Typography variant="h4" fontWeight="bold">
@@ -291,14 +341,16 @@ const TaskAllocationPage: React.FC = () => {
                   sx={{
                     width: 56,
                     height: 56,
-                    borderRadius: '50%',
-                    bgcolor: 'success.light',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
+                    borderRadius: "50%",
+                    bgcolor: "success.light",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
-                  <PeopleIcon sx={{ fontSize: 32, color: 'success.main' }} />
+                  <PeopleIcon
+                    sx={{ fontSize: 32, color: "var(--color-text-primary)" }}
+                  />
                 </Box>
               </Box>
             </CardContent>
@@ -306,35 +358,45 @@ const TaskAllocationPage: React.FC = () => {
 
           <Card elevation={2}>
             <CardContent>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
                 <Box>
-                  <Typography variant="body2" color="text.secondary" gutterBottom>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    gutterBottom
+                  >
                     Status
                   </Typography>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    <Typography variant="h4" fontWeight="bold" color="success.main">
+                  <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                    <Typography
+                      variant="h4"
+                      fontWeight="bold"
+                      color="success.main"
+                    >
                       Approved
                     </Typography>
-                    <Chip 
-                      label="Active" 
-                      size="small" 
-                      color="success" 
-                      variant="outlined"
-                    />
                   </Box>
                 </Box>
                 <Box
                   sx={{
                     width: 56,
                     height: 56,
-                    borderRadius: '50%',
-                    bgcolor: 'warning.light',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
+                    borderRadius: "50%",
+                    bgcolor: "warning.light",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
-                  <CheckCircleIcon sx={{ fontSize: 32, color: 'warning.main' }} />
+                  <CheckCircleIcon
+                    sx={{ fontSize: 32, color: "var(--color-text-primary)" }}
+                  />
                 </Box>
               </Box>
             </CardContent>
@@ -346,7 +408,14 @@ const TaskAllocationPage: React.FC = () => {
       <Fade in={!isLoading} timeout={500}>
         <Box>
           {isLoading ? (
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', py: 8 }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                py: 8,
+              }}
+            >
               <CircularProgress size={60} />
               <Typography variant="body1" color="text.secondary" sx={{ mt: 2 }}>
                 Loading approved appointments...
@@ -362,8 +431,9 @@ const TaskAllocationPage: React.FC = () => {
       </Fade>
 
       {/* Appointment Details Modal */}
-      {showDetailsModal && selectedAppointment && (
+      {selectedAppointment && (
         <AppointmentDetailsModal
+          open={showDetailsModal}
           appointment={selectedAppointment}
           onClose={closeModals}
           onAllocate={handleAllocateClick}
@@ -374,6 +444,7 @@ const TaskAllocationPage: React.FC = () => {
       {/* Employee Selection Modal */}
       {showEmployeeModal && (
         <EmployeeSelectionModal
+          open={showEmployeeModal}
           employees={employees}
           onClose={() => setShowEmployeeModal(false)}
           onSelect={handleEmployeeSelect}
@@ -386,13 +457,13 @@ const TaskAllocationPage: React.FC = () => {
         open={snackbarOpen}
         autoHideDuration={6000}
         onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
       >
-        <Alert 
-          onClose={handleSnackbarClose} 
+        <Alert
+          onClose={handleSnackbarClose}
           severity={snackbarSeverity}
           variant="filled"
-          sx={{ width: '100%' }}
+          sx={{ width: "100%" }}
         >
           {snackbarMessage}
         </Alert>

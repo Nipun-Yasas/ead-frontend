@@ -71,7 +71,7 @@ const AppoimentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
   return (
     <Card
       sx={{
-        backgroundColor: '#171717',
+        backgroundColor: 'var(--color-bg-card)',
         border: '1px solid rgba(212, 212, 216, 0.2)',
         borderRadius: 2,
         transition: 'all 0.3s ease',
@@ -98,7 +98,7 @@ const AppoimentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
           <Typography
             variant="h6"
             sx={{
-              color: '#FFFFFF',
+              color: 'var(--color-text-primary)',
               fontWeight: 600,
               fontSize: '1.1rem',
             }}
@@ -119,11 +119,11 @@ const AppoimentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
         {/* Date and Time */}
         <Stack spacing={1.5} sx={{ mb: 2 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-            <CalendarToday sx={{ color: '#D60507', fontSize: '1.2rem' }} />
+            <CalendarToday sx={{ color: 'var(--color-primary)', fontSize: '1.2rem' }} />
             <Typography
               variant="body2"
               sx={{
-                color: '#D4D4D8',
+                color: 'var(--color-text-primary)',
                 fontSize: '0.95rem',
               }}
             >
@@ -136,7 +136,7 @@ const AppoimentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
             <Typography
               variant="body2"
               sx={{
-                color: '#D4D4D8',
+                color: 'var(--color-text-primary)',
                 fontSize: '0.95rem',
               }}
             >
@@ -155,11 +155,11 @@ const AppoimentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
               alignItems: 'flex-start',
             }}
           >
-            <Description sx={{ color: '#D60507', fontSize: '1.2rem', mt: 0.2 }} />
+            <Description sx={{ color: 'var(--color-primary)', fontSize: '1.2rem', mt: 0.2 }} />
             <Typography
               variant="body2"
               sx={{
-                color: '#A1A1AA',
+                color: 'var(--color-text-primary)',
                 fontSize: '0.9rem',
                 lineHeight: 1.6,
               }}
@@ -171,17 +171,26 @@ const AppoimentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
 
         {/* Vehicle Type */}
         {appointment.vehicleType && (
-          <Box sx={{ mb: 2 }}>
             <Typography
               variant="caption"
               sx={{
-                color: '#71717A',
+                color: 'var(--color-text-primary)',
                 fontSize: '0.8rem',
               }}
             >
-              Vehicle: {appointment.vehicleType}
+              Vehicle Type: {appointment.vehicleType}
             </Typography>
-          </Box>
+        )}
+        {appointment.vehicleNumber && (
+            <Typography
+              variant="caption"
+              sx={{
+                color: 'var(--color-text-primary)',
+                fontSize: '0.8rem',
+              }}
+            >
+              Vehicle Number: {appointment.vehicleNumber}
+            </Typography>
         )}
 
         {/* Assigned Employee */}
@@ -194,11 +203,11 @@ const AppoimentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-              <Person sx={{ color: '#D60507', fontSize: '1.2rem' }} />
+              <Person sx={{ color: 'var(--color-text-primary)', fontSize: '1.2rem' }} />
               <Typography
                 variant="caption"
                 sx={{
-                  color: '#71717A',
+                  color: 'var(--color-text-muted)',
                   fontSize: '0.8rem',
                   fontWeight: 500,
                 }}

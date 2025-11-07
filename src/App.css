@@ -36,6 +36,7 @@
   --color-primary: oklch(57.7% 0.245 27.325);
 
   --color-success: #16a34a;
+  --color-bg-card: #222326;
 }
 
 /* Custom animations for Our Services Banner */
@@ -114,6 +115,9 @@
   --color-focus-ring: rgba(214, 5, 7, 0.15);
   --color-focus-border: rgba(15, 23, 36, 0.1);
 
-  --color-success: #16a34a;
+  --color-success: oklch(62.7% 0.194 149.214);
+  --color-primary: oklch(57.7% 0.245 27.325);
+
+  --color-bg-card: #FFFFFF;
 }
 

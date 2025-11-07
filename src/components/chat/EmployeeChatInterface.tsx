@@ -1,43 +1,53 @@
 import React from 'react';
+import { Box, Typography, Divider } from '@mui/material';
 import { useChat } from '../../contexts/ChatContext';
 import ChatList from './ChatList';
 import ChatWindow from './ChatWindow';
 
 const EmployeeChatInterface: React.FC = () => {
-  // ✅ Removed unused 'user' variable
   const chatContext = useChat();
 
   return (
-    <div 
-      className="h-full flex"
-      style={{ backgroundColor: 'var(--color-bg-primary)' }}
-    >
-      {/* Chat List Sidebar */}
-      <div 
-        className="w-80 border-r flex flex-col"
-        style={{ 
-          backgroundColor: 'var(--color-bg-secondary)',
-          borderColor: 'var(--color-border-primary)'
+    <Box sx={{ height: '100%', display: 'flex' }}>
+      {/* Sidebar */}
+      <Box
+        sx={{
+          width: 320,
+          minWidth: 280,
+          maxWidth: 360,
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
-        <div 
-          className="p-4 border-b"
-          style={{ borderColor: 'var(--color-border-primary)' }}
-        >
-          <h2 className="text-lg font-semibold" style={{ color: 'var(--color-text-primary)' }}>
-            Customer Chats
-          </h2>
-          {chatContext.chats.length > 0 && (
-            <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium mt-2" style={{
-              backgroundColor: 'var(--color-primary)',
-              color: 'white'
-            }}>
-              {chatContext.chats.length}
-            </div>
-          )}
-        </div>
+        {/* Header */}
+        <Box sx={{ p: 2.5}}>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Typography variant="h6" sx={{ fontWeight: 600}}>
+              Customer Chats
+            </Typography>
+            {chatContext.chats.length > 0 && (
+              <Box
+                sx={{
+                  width: 24,
+                  height: 24,
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: 12,
+                  fontWeight: 600,
+                  bgcolor: 'var(--color-primary)',
+                  color: '#fff',
+                }}
+              >
+                {chatContext.chats.length}
+              </Box>
+            )}
+          </Box>
+        </Box>
 
-        <div className="flex-1 overflow-y-auto p-3">
+        {/* Chat list */}
+        <Box sx={{ flex: 1, overflowY: 'auto', p: 1.5 }}>
           <ChatList
             chats={chatContext.chats}
             selectedChatId={chatContext.selectedChat?.id || null}
@@ -46,30 +56,12 @@ const EmployeeChatInterface: React.FC = () => {
             error={chatContext.error}
             onRetry={chatContext.retry}
           />
-        </div>
+        </Box>
+        
+      </Box>
 
-        {/* WebSocket Status */}
-        <div 
-          className="p-3 border-t text-xs flex items-center justify-between"
-          style={{ 
-            backgroundColor: 'var(--color-bg-tertiary)',
-            borderColor: 'var(--color-border-primary)'
-          }}
-        >
-          <span>Status:</span>
-          <span className="flex items-center">
-            <span 
-              className={`w-2 h-2 rounded-full mr-2 ${
-                chatContext.isConnected ? 'bg-green-500' : 'bg-red-500'
-              }`}
-            />
-            {chatContext.isConnected ? 'Connected' : 'Disconnected'}
-          </span>
-        </div>
-      </div>
-
-      {/* Chat Window */}
-      <div className="flex-1">
+      {/* Chat window */}
+      <Box sx={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
         <ChatWindow
           selectedChat={chatContext.selectedChat}
           messages={chatContext.messages}
@@ -82,37 +74,42 @@ const EmployeeChatInterface: React.FC = () => {
           onDeleteMessage={chatContext.deleteMessage}
           onRetry={chatContext.retry}
         />
-      </div>
+      </Box>
 
-      {/* Optional: Customer Info Sidebar */}
+      {/* Customer info panel */}
       {chatContext.selectedChat && (
-        <div 
-          className="w-64 border-l p-4"
-          style={{ 
-            backgroundColor: 'var(--color-bg-secondary)',
-            borderColor: 'var(--color-border-primary)'
+        <Box
+          sx={{
+            width: 256,
+            minWidth: 240,
+            borderLeft: '1px solid var(--color-border-primary)',
+            p: 2.5,
           }}
         >
-          <h3 className="font-semibold mb-4" style={{ color: 'var(--color-text-primary)' }}>
+          <Typography variant="subtitle1" sx={{ fontWeight: 600, mb: 2}}>
             Customer Details
-          </h3>
-          <div className="space-y-3">
-            <div>
-              <p className="text-xs" style={{ color: 'var(--color-text-tertiary)' }}>Name</p>
-              <p className="text-sm" style={{ color: 'var(--color-text-primary)' }}>
+          </Typography>
+          <Box sx={{ display: 'grid', gap: 1.5 }}>
+            <Box>
+              <Typography variant="caption" >
+                Name
+              </Typography>
+              <Typography variant="body2">
                 {chatContext.selectedChat.customerName}
-              </p>
-            </div>
-            <div>
-              <p className="text-xs" style={{ color: 'var(--color-text-tertiary)' }}>Email</p>
-              <p className="text-sm" style={{ color: 'var(--color-text-primary)' }}>
+              </Typography>
+            </Box>
+            <Box>
+              <Typography variant="caption">
+                Email
+              </Typography>
+              <Typography variant="body2">
                 {chatContext.selectedChat.customerEmail}
-              </p>
-            </div>
-          </div>
-        </div>
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 };
 

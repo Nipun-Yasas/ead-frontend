@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Box, Typography, Divider } from '@mui/material';
 import { useChat } from '../../contexts/ChatContext';
 import { useAuth } from '../../contexts/AuthContext';
 import ChatList from './ChatList';
@@ -19,51 +20,54 @@ const ChatInterface: React.FC = () => {
     }
   }, [user, chatContext.loadConversations, chatContext.loadCustomQuestions]);
 
-  // Loading state
   if (!user) {
     return (
-      <div 
-        className="flex items-center justify-center min-h-screen"
-        style={{ backgroundColor: 'var(--color-bg-primary)' }}
+      <Box
+        sx={{
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          px: 2,
+        }}
       >
-        <div className="text-center">
-          <h2 className="text-xl font-semibold mb-2">
+        <Box textAlign="center">
+          <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
             Authentication Required
-          </h2>
-          <p>Please log in to access the chat system.</p>
-        </div>
-      </div>
+          </Typography>
+          <Typography variant="body2">
+            Please log in to access the chat system.
+          </Typography>
+        </Box>
+      </Box>
     );
   }
 
   return (
-    <div 
-      className="h-screen flex"
-      style={{ backgroundColor: 'var(--color-bg-primary)' }}
-    >
-      {/* Chat List Sidebar */}
-      <div 
-        className="w-80 border-r flex flex-col"
-        style={{ 
-          backgroundColor: 'var(--color-bg-secondary)',
-          borderColor: 'var(--color-border-primary)'
+    <Box sx={{ height: '100vh', display: 'flex' }}>
+      {/* Sidebar */}
+      <Box
+        sx={{
+          width: 320,
+          minWidth: 280,
+          maxWidth: 360,
+          borderRight: '1px solid var(--color-border-primary)',
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
         {/* Header */}
-        <div 
-          className="p-4 border-b"
-          style={{ borderColor: 'var(--color-border-primary)' }}
-        >
-          <h1 className="text-xl font-bold">
+        <Box sx={{ p: 2.5, borderBottom: '1px solid var(--color-border-primary)' }}>
+          <Typography variant="h6" sx={{ fontWeight: 700 }}>
             Messages
-          </h1>
-          <p className="text-sm mt-1">
+          </Typography>
+          <Typography variant="body2" sx={{ mt: 0.5 }}>
             {user.fullName}
-          </p>
-        </div>
+          </Typography>
+        </Box>
 
         {/* Chat List */}
-        <div className="flex-1 overflow-y-auto p-3">
+        <Box sx={{ flex: 1, overflowY: 'auto', p: 1.5 }}>
           <ChatList
             chats={chatContext.chats}
             selectedChatId={chatContext.selectedChat?.id || null}
@@ -72,30 +76,12 @@ const ChatInterface: React.FC = () => {
             error={chatContext.error}
             onRetry={chatContext.retry}
           />
-        </div>
+        </Box>
 
-        {/* WebSocket Status */}
-        <div 
-          className="p-3 border-t text-xs flex items-center justify-between"
-          style={{ 
-            backgroundColor: 'var(--color-bg-tertiary)',
-            borderColor: 'var(--color-border-primary)'
-          }}
-        >
-          <span>Status:</span>
-          <span className="flex items-center">
-            <span 
-              className={`w-2 h-2 rounded-full mr-2 ${
-                chatContext.isConnected ? 'bg-green-500' : 'bg-red-500'
-              }`}
-            />
-            {chatContext.isConnected ? 'Connected' : 'Disconnected'}
-          </span>
-        </div>
-      </div>
+      </Box>
 
       {/* Chat Window */}
-      <div className="flex-1">
+      <Box sx={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
         <ChatWindow
           selectedChat={chatContext.selectedChat}
           messages={chatContext.messages}
@@ -108,8 +94,8 @@ const ChatInterface: React.FC = () => {
           onDeleteMessage={chatContext.deleteMessage}
           onRetry={chatContext.retry}
         />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

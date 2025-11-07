@@ -1,4 +1,5 @@
 import React from 'react';
+import { Box, Typography, Avatar, Stack, Button, Skeleton,Card } from '@mui/material';
 import type { Chat } from '../../types/chat';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -17,34 +18,44 @@ const ChatList: React.FC<ChatListProps> = ({
   onSelectChat,
   isLoading,
   error,
-  onRetry
+  onRetry,
 }) => {
   const { user } = useAuth();
 
-  // ✅ Helper function to get the OTHER person's info
   const getOtherPerson = (chat: Chat) => {
     const isCustomer = user?.id === chat.customerId;
     return {
-      name: isCustomer ? chat.employeeName : chat.customerName,
-      email: isCustomer ? chat.employeeEmail : chat.customerEmail,
+      name: (isCustomer ? chat.employeeName : chat.customerName) || 'User',
+      email: (isCustomer ? chat.employeeEmail : chat.customerEmail) || 'N/A',
       id: isCustomer ? chat.employeeId : chat.customerId,
     };
   };
 
+  const getInitials = (name?: string | null): string => {
+    if (!name || !name.trim()) return '?';
+    const parts = name.trim().split(/\s+/);
+    if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+    return parts[0][0]?.toUpperCase() || '?';
+  };
+
   const formatTime = (dateString: string | null) => {
     if (!dateString) return '';
-    const date = new Date(dateString);
-    const now = new Date();
-    const diff = now.getTime() - date.getTime();
-    const minutes = Math.floor(diff / 60000);
-    const hours = Math.floor(diff / 3600000);
-    const days = Math.floor(diff / 86400000);
+    try {
+      const date = new Date(dateString);
+      const now = new Date();
+      const diff = now.getTime() - date.getTime();
+      const minutes = Math.floor(diff / 60000);
+      const hours = Math.floor(diff / 3600000);
+      const days = Math.floor(diff / 86400000);
 
-    if (minutes < 1) return 'Just now';
-    if (minutes < 60) return `${minutes}m`;
-    if (hours < 24) return `${hours}h`;
-    if (days < 7) return `${days}d`;
-    return date.toLocaleDateString();
+      if (minutes < 1) return 'Just now';
+      if (minutes < 60) return `${minutes}m`;
+      if (hours < 24) return `${hours}h`;
+      if (days < 7) return `${days}d`;
+      return date.toLocaleDateString();
+    } catch {
+      return '';
+    }
   };
 
   const formatLastMessage = (content: string | null) => {
@@ -54,144 +65,146 @@ const ChatList: React.FC<ChatListProps> = ({
 
   if (isLoading) {
     return (
-      <div className="space-y-2">
+      <Box sx={{ display: 'grid', gap: 1.5 }}>
         {[1, 2, 3].map((i) => (
-          <div 
-            key={i} 
-            className="p-3 rounded-lg animate-pulse"
-            style={{ backgroundColor: 'var(--color-bg-tertiary)' }}
+          <Box
+            key={i}
+            sx={{
+              p: 1.5,
+              borderRadius: 2,
+            }}
           >
-            <div className="flex items-center space-x-3">
-              <div 
-                className="w-10 h-10 rounded-full"
-                style={{ backgroundColor: 'var(--color-hover-bg)' }}
-              />
-              <div className="flex-1">
-                <div 
-                  className="h-4 rounded mb-2"
-                  style={{ backgroundColor: 'var(--color-hover-bg)', width: '60%' }}
-                />
-                <div 
-                  className="h-3 rounded"
-                  style={{ backgroundColor: 'var(--color-hover-bg)', width: '80%' }}
-                />
-              </div>
-            </div>
-          </div>
+            <Stack direction="row" spacing={2} alignItems="center">
+              <Skeleton variant="circular" width={40} height={40} />
+              <Box sx={{ flex: 1 }}>
+                <Skeleton variant="text" width="60%" height={20} />
+                <Skeleton variant="text" width="80%" height={16} />
+              </Box>
+            </Stack>
+          </Box>
         ))}
-      </div>
+      </Box>
     );
   }
 
   if (error) {
     return (
-      <div className="text-center p-4">
-        <p className="text-sm mb-2" style={{ color: 'var(--color-text-secondary)' }}>
+      <Box sx={{ textAlign: 'center', p: 2 }}>
+        <Typography variant="body2" sx={{ mb: 1 }}>
           {error}
-        </p>
+        </Typography>
         {onRetry && (
-          <button
+          <Button
             onClick={onRetry}
-            className="text-xs px-3 py-1 rounded transition-colors hover:opacity-80"
-            style={{ 
-              backgroundColor: 'var(--color-primary)',
-              color: 'white'
-            }}
+            size="small"
+            variant="contained"
           >
             Retry
-          </button>
+          </Button>
         )}
-      </div>
+      </Box>
     );
   }
 
   if (chats.length === 0) {
     return (
-      <div className="text-center p-4">
-        <p className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>
+      <Box sx={{ textAlign: 'center', p: 2 }}>
+        <Typography variant="body2">
           No conversations yet
-        </p>
-      </div>
+        </Typography>
+      </Box>
     );
   }
 
   return (
-    <div className="space-y-2">
+    <Box sx={{ display: 'grid', gap: 1.5,border: '1px solid var(--color-border-primary)' }}>
       {chats.map((chat) => {
-        const otherPerson = getOtherPerson(chat); // ✅ Get the other person's info
+        const otherPerson = getOtherPerson(chat);
+        const selected = selectedChatId === chat.id;
 
         return (
-          <div
+          <Card
             key={chat.id}
             onClick={() => onSelectChat(chat)}
-            className={`p-3 rounded-lg cursor-pointer transition-all hover:opacity-80 ${
-              selectedChatId === chat.id ? 'ring-2 ring-opacity-50' : ''
-            }`}
-            style={{
-              backgroundColor: selectedChatId === chat.id 
-                ? 'var(--color-hover-bg)' 
-                : 'var(--color-bg-tertiary)',
-              '--tw-ring-color': selectedChatId === chat.id ? 'var(--color-primary)' : 'transparent'
-            } as React.CSSProperties}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') onSelectChat(chat);
+            }}
+            sx={{
+              p: 1.5,
+              borderRadius: 2,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              '&:hover': { opacity: 0.9 },
+              border: '2px solid var(--color-border-primary)',
+            }}
           >
-            <div className="flex items-center space-x-3">
-              {/* Avatar - Show OTHER person's initial */}
-              <div 
-                className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium"
-                style={{ 
-                  backgroundColor: 'var(--color-primary)',
-                  color: 'white'
+            <Stack direction="row" spacing={2} alignItems="center">
+              <Avatar
+                sx={{
+                  width: 40,
+                  height: 40,
+                  bgcolor: 'var(--color-primary)',
+                  color: '#fff',
+                  fontSize: 14,
+                  fontWeight: 600,
                 }}
               >
-                {otherPerson.name.charAt(0).toUpperCase()}
-              </div>
+                {getInitials(otherPerson.name)}
+              </Avatar>
 
-              {/* Chat Info */}
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between">
-                  <h3 
-                    className="text-sm font-medium truncate"
-                    style={{ color: 'var(--color-text-primary)' }}
+              <Box sx={{ flex: 1, minWidth: 0 }}>
+                <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
+                  <Typography
+                    variant="subtitle2"
+                    noWrap
+                    sx={{ fontWeight: 600, }}
                   >
                     {otherPerson.name}
-                  </h3>
-                  <span 
-                    className="text-xs"
-                    style={{ color: 'var(--color-text-tertiary)' }}
-                  >
+                  </Typography>
+                  <Typography variant="caption" flexShrink={0}>
                     {formatTime(chat.lastMessageAt)}
-                  </span>
-                </div>
-                
-                <div className="flex items-center justify-between mt-1">
-                  <p 
-                    className="text-xs truncate"
-                    style={{ color: 'var(--color-text-secondary)' }}
+                  </Typography>
+                </Stack>
+
+                <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mt: 0.5 }}>
+                  <Typography
+                    variant="body2"
+                    noWrap
+                    sx={{ color: 'var(--color-text-secondary)', pr: 1 }}
                   >
                     {formatLastMessage(chat.lastMessageContent)}
-                  </p>
-                  
-                  {/* Unread count */}
+                  </Typography>
+
                   {chat.unreadCount > 0 && (
-                    <span 
-                      className="inline-flex items-center justify-center px-2 py-1 text-xs font-bold rounded-full"
-                      style={{ 
-                        backgroundColor: 'var(--color-primary)',
-                        color: 'white',
-                        minWidth: '20px',
-                        height: '20px'
+                    <Box
+                      sx={{
+                        px: 1,
+                        minWidth: 20,
+                        height: 20,
+                        borderRadius: 10,
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        bgcolor: 'var(--color-primary)',
+                        color: '#fff',
+                        fontSize: 11,
+                        fontWeight: 700,
+                        ml: 1,
+                        flexShrink: 0,
                       }}
                     >
                       {chat.unreadCount > 99 ? '99+' : chat.unreadCount}
-                    </span>
+                    </Box>
                   )}
-                </div>
-              </div>
-            </div>
-          </div>
+                </Stack>
+              </Box>
+            </Stack>
+          </Card>
         );
       })}
-    </div>
+    </Box>
   );
 };
 

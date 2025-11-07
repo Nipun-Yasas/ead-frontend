@@ -166,7 +166,7 @@ export default function BookingAppointment() {
     };
 
     return (
-       <div className="min-h-screen bg-bg-header">
+       <div className="min-h-screen bg-bg-tertiary">
         <Navbar />
          <section className="py-12 sm:py-16 lg:py-20 px-4" style={{ fontFamily: 'Arial, sans-serif' }}>
             {/* Header Section */}
@@ -432,7 +432,7 @@ export default function BookingAppointment() {
                                 disabled={!form.date || !form.time || !form.service || loading} 
                                 className={`flex-1 h-11 sm:h-12 flex items-center justify-center rounded-lg font-semibold transition-all text-sm ${
                                     !form.date || !form.time || !form.service || loading
-                                        ? 'bg-primary/50 text-white/70 cursor-not-allowed' 
+                                        ? 'bg-primary text-text-primary cursor-not-allowed' 
                                         : 'bg-primary text-white hover:bg-primary-dark shadow-lg shadow-primary/20 hover:shadow-primary/30'
                                 }`}
                             >
@@ -497,7 +497,6 @@ export default function BookingAppointment() {
         </section>
         <Footer />
         
-        {/* MUI Snackbar for Toast Messages */}
         <Snackbar 
             open={snackbarOpen} 
             autoHideDuration={6000} 

@@ -1,10 +1,10 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   cssVariables: {
-    colorSchemeSelector: 'data-toolpad-color-scheme',
+    colorSchemeSelector: "data-toolpad-color-scheme",
   },
-  defaultColorScheme: 'dark',
+  defaultColorScheme: "dark",
   colorSchemes: {
     light: {
       palette: {
@@ -12,13 +12,13 @@ const theme = createTheme({
           main: "#D60507",
           light: "#EF4444",
           dark: "#B91C1C",
-          contrastText: "#FFFFFF"
+          contrastText: "#FFFFFF",
         },
         secondary: {
           main: "#D60507",
           light: "#DC2626",
           dark: "#B91C1C",
-          contrastText: "#FFFFFF"
+          contrastText: "#FFFFFF",
         },
         background: {
           default: "#FFFFFF",
@@ -32,28 +32,28 @@ const theme = createTheme({
           main: "#DC2626",
           light: "#EF4444",
           dark: "#B91C1C",
-          contrastText: "#FFFFFF"
+          contrastText: "#FFFFFF",
         },
         warning: {
           main: "#F59E0B",
           light: "#FBBF24",
           dark: "#D97706",
-          contrastText: "#FFFFFF"
+          contrastText: "#FFFFFF",
         },
         info: {
           main: "#3B82F6",
           light: "#60A5FA",
           dark: "#2563EB",
-          contrastText: "#FFFFFF"
+          contrastText: "#FFFFFF",
         },
         success: {
           main: "#10B981",
           light: "#34D399",
           dark: "#059669",
-          contrastText: "#FFFFFF"
+          contrastText: "#FFFFFF",
         },
         divider: "rgba(212, 212, 216, 0.2)",
-      }
+      },
     },
     dark: {
       palette: {
@@ -61,13 +61,13 @@ const theme = createTheme({
           main: "#D60507",
           light: "#EF4444",
           dark: "#B91C1C",
-          contrastText: "#FFFFFF"
+          contrastText: "#FFFFFF",
         },
         secondary: {
           main: "#D60507",
           light: "#DC2626",
           dark: "#B91C1C",
-          contrastText: "#FFFFFF"
+          contrastText: "#FFFFFF",
         },
         background: {
           default: "#020202",
@@ -81,42 +81,87 @@ const theme = createTheme({
           main: "#EF4444",
           light: "#F87171",
           dark: "#DC2626",
-          contrastText: "#FFFFFF"
+          contrastText: "#FFFFFF",
         },
         warning: {
           main: "#FBBF24",
           light: "#FCD34D",
           dark: "#F59E0B",
-          contrastText: "#000000"
+          contrastText: "#000000",
         },
         info: {
           main: "#60A5FA",
           light: "#93C5FD",
           dark: "#3B82F6",
-          contrastText: "#000000"
+          contrastText: "#000000",
         },
         success: {
           main: "#34D399",
           light: "#6EE7B7",
           dark: "#10B981",
-          contrastText: "#000000"
+          contrastText: "#000000",
         },
         divider: "rgba(212, 212, 216, 0.2)",
-      }
+      },
     },
   },
   components: {
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundImage: 'none',
+          backgroundImage: "none",
         },
       },
     },
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundImage: 'none',
+          backgroundImage: "none",
+        },
+      },
+    },
+    MuiDataGrid: {
+      styleOverrides: {
+        root: {
+          "--DataGrid-borderColor": "#000000",
+          '[data-toolpad-color-scheme="dark"] &': {
+            "--DataGrid-borderColor": "#E0E3E7",
+          },
+          border: "1px solid var(--DataGrid-borderColor)",
+          borderRadius: "10px",
+        },
+        columnHeaders: {
+          borderBottom: "1px solid var(--DataGrid-borderColor)",
+          "& .MuiDataGrid-columnHeader.last-column .MuiDataGrid-columnSeparator":
+            {
+              display: "none",
+            },
+        },
+        cell: {
+          borderBottom: "1px solid var(--DataGrid-borderColor)",
+        },
+        columnSeparator: {
+          color: "var(--DataGrid-borderColor)",
+        },
+        iconSeparator: {
+          color: "var(--DataGrid-borderColor)",
+        },
+        footerContainer: {
+          "& .MuiSvgIcon-root": {
+            color: "var(--DataGrid-borderColor)",
+          },
+        },
+        // Vertically center all cells
+        "& .MuiDataGrid-cell": {
+          display: "flex",
+          alignItems: "center",
+        },
+        // Optional: center headers vertically too
+        "& .MuiDataGrid-columnHeaders": {
+          alignItems: "center",
+        },
+        "& .MuiDataGrid-columnHeaderTitleContainer": {
+          alignItems: "center",
         },
       },
     },

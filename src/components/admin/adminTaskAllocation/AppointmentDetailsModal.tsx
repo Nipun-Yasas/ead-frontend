@@ -1,446 +1,323 @@
 import React from 'react';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  IconButton,
+  Typography,
+  Box,
+  Stack,
+  Chip,
+  Divider,
+  Button,
+  CircularProgress,
+  Card,
+} from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import EventIcon from '@mui/icons-material/Event';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import type { Appointment } from '../../../types/appointment';
 
 interface AppointmentDetailsModalProps {
-  appointment: Appointment;
+  open: boolean;
+  appointment: Appointment | null;
   onClose: () => void;
   onAllocate: () => void;
   isAllocating?: boolean;
 }
 
-const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
+const serviceMap: Record<string, string> = {
+  oil_change: 'Oil Change',
+  tire_rotation: 'Tire Rotation',
+  brake_service: 'Brake Service',
+  engine_tune_up: 'Engine Tune-Up',
+  car_wash: 'Car Wash',
+  full_service: 'Full Service',
+};
+
+const formatServiceName = (s: string) =>
+  serviceMap[s] || s.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+
+const formatDate = (date: string) =>
+  new Date(date).toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
+const formatTime = (time: string) => {
+  if (!time) return '';
+  const [h, m] = time.split(':');
+  const hour = parseInt(h, 10);
+  const ampm = hour >= 12 ? 'PM' : 'AM';
+  const displayHour = hour % 12 || 12;
+  return `${displayHour}:${m} ${ampm}`;
+};
+
+export const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
+  open,
   appointment,
   onClose,
   onAllocate,
   isAllocating = false,
 }) => {
-  // ✅ Format service name for better display
-  const formatServiceName = (service: string) => {
-    const serviceMap: Record<string, string> = {
-      'oil_change': 'Oil Change',
-      'tire_rotation': 'Tire Rotation',
-      'brake_service': 'Brake Service',
-      'engine_tune_up': 'Engine Tune-Up',
-      'car_wash': 'Car Wash',
-      'full_service': 'Full Service',
-    };
-    return serviceMap[service] || service.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-  };
+  if (!open) return null;
 
-  const formatDate = (date: string) => {
-    return new Date(date).toLocaleDateString('en-US', {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  };
-
-  const formatTime = (time: string) => {
-    const [hours, minutes] = time.split(':');
-    const hour = parseInt(hours);
-    const ampm = hour >= 12 ? 'PM' : 'AM';
-    const displayHour = hour % 12 || 12;
-    return `${displayHour}:${minutes} ${ampm}`;
-  };
+  const isReady = !!appointment;
 
   return (
-    <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
-      onClick={onClose}
+    <Dialog
+      open={open}
+      onClose={onClose}
+      maxWidth="md"
+      fullWidth
+      
     >
-      <div
-        className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-xl shadow-2xl"
-        style={{ backgroundColor: 'var(--color-bg-primary)' }}
-        onClick={(e) => e.stopPropagation()}
+      <DialogTitle
+        sx={{
+          pr: 5,
+          fontWeight: 700,
+          borderBottom: '1px solid var(--color-border-primary)',
+        }}
       >
-        {/* Modal Header */}
-        <div 
-          className="sticky top-0 z-10 px-6 py-4 border-b flex items-center justify-between"
-          style={{ 
-            backgroundColor: 'var(--color-bg-secondary)',
-            borderColor: 'var(--color-border-primary)' 
+        Appointment Details
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: 'absolute',
+            right: 12,
+            top: 12,
+            '&:hover': { opacity: 0.85 },
           }}
+          size="small"
         >
-          <h2 
-            className="text-xl font-bold"
-            style={{ color: 'var(--color-text-primary)' }}
-          >
-            Appointment Details
-          </h2>
-          <button
-            onClick={onClose}
-            className="p-2 rounded-lg transition-colors hover:opacity-80"
-            style={{ backgroundColor: 'var(--color-bg-tertiary)' }}
-          >
-            <svg
-              className="w-5 h-5"
-              style={{ color: 'var(--color-text-secondary)' }}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      </DialogTitle>
+
+      <DialogContent sx={{ p: 3, minHeight: 160 }}>
+        {!isReady ? (
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', py: 4 }}>
+            <CircularProgress size={32} />
+          </Box>
+        ) : (
+          <Stack spacing={3}>
+            {/* Status + ID */}
+            <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Chip
+                label={appointment.status}
+                color={
+                  appointment.status === 'Completed'
+                    ? 'success'
+                    : appointment.status === 'Rejected'
+                    ? 'error'
+                    : appointment.status === 'Approved'
+                    ? 'primary'
+                    : 'default'
+                }
+                sx={{ fontWeight: 600 }}
               />
-            </svg>
-          </button>
-        </div>
+              <Typography variant="caption" sx={{fontWeight: 500 }}>
+                ID: #{appointment.id}
+              </Typography>
+            </Stack>
 
-        {/* Modal Body */}
-        <div className="p-6 space-y-6">
-          {/* Status Badge */}
-          <div className="flex items-center justify-between">
-            <span
-              className="px-4 py-2 rounded-full text-sm font-semibold"
-              style={{
-                backgroundColor: 'var(--color-success-light)',
-                color: 'var(--color-success)',
+            {/* Customer Info */}
+            <Card
+              sx={{
+                p: 2.5,
+                borderRadius: 2,
+                borderBottom: '1px solid var(--color-border-strong)',     
               }}
             >
-              {appointment.status}
-            </span>
-            <span 
-              className="text-sm"
-              style={{ color: 'var(--color-text-tertiary)' }}
-            >
-              ID: #{appointment.id}
-            </span>
-          </div>
+              <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
+                <PersonOutlineIcon sx={{ fontSize: 20}} />
+                <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                  Customer Information
+                </Typography>
+              </Stack>
+              <Stack spacing={1}>
+                <InfoRow label="Name"  value={appointment.customer?.name || appointment.customerName || 'N/A'} />
+                <InfoRow label="Email" value={appointment.customer?.email || appointment.customerEmail || 'N/A'} />
+                {appointment.customerPhone && (
+                  <InfoRow label="Phone" value={appointment.customerPhone} />
+                )}
+              </Stack>
+            </Card>
 
-          {/* Customer Information */}
-          <div 
-            className="rounded-lg p-4 border"
-            style={{ 
-              backgroundColor: 'var(--color-bg-secondary)',
-              borderColor: 'var(--color-border-primary)' 
-            }}
-          >
-            <h3 
-              className="text-sm font-semibold mb-3 flex items-center"
-              style={{ color: 'var(--color-text-primary)' }}
-            >
-              <svg
-                className="w-5 h-5 mr-2"
-                style={{ color: 'var(--color-primary)' }}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                />
-              </svg>
-              Customer Information
-            </h3>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <span style={{ color: 'var(--color-text-secondary)' }}>Name:</span>
-                <span 
-                  className="font-medium"
-                  style={{ color: 'var(--color-text-primary)' }}
-                >
-                  {appointment.customer?.fullName || appointment.customerName || 'N/A'}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span style={{ color: 'var(--color-text-secondary)' }}>Email:</span>
-                <span 
-                  className="font-medium"
-                  style={{ color: 'var(--color-text-primary)' }}
-                >
-                  {appointment.customer?.email || appointment.customerEmail || 'N/A'}
-                </span>
-              </div>
-              {appointment.customerPhone && (
-                <div className="flex items-center justify-between">
-                  <span style={{ color: 'var(--color-text-secondary)' }}>Phone:</span>
-                  <span 
-                    className="font-medium"
-                    style={{ color: 'var(--color-text-primary)' }}
-                  >
-                    {appointment.customerPhone}
-                  </span>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Appointment Details */}
-          <div 
-            className="rounded-lg p-4 border"
-            style={{ 
-              backgroundColor: 'var(--color-bg-secondary)',
-              borderColor: 'var(--color-border-primary)' 
-            }}
-          >
-            <h3 
-              className="text-sm font-semibold mb-3 flex items-center"
-              style={{ color: 'var(--color-text-primary)' }}
-            >
-              <svg
-                className="w-5 h-5 mr-2"
-                style={{ color: 'var(--color-primary)' }}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                />
-              </svg>
-              Service Details
-            </h3>
-            <div className="space-y-3">
-              <div>
-                <label 
-                  className="block text-xs mb-1"
-                  style={{ color: 'var(--color-text-tertiary)' }}
-                >
-                  Service Type
-                </label>
-                <span
-                  className="inline-block px-3 py-1 rounded-full text-sm font-semibold"
-                  style={{
-                    backgroundColor: 'var(--color-hover-bg)',
-                    color: 'var(--color-primary)',
-                  }}
-                >
-                  {/* ✅ Format service name nicely */}
-                  {formatServiceName(appointment.service || appointment.serviceType || '')}
-                </span>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label 
-                    className="block text-xs mb-1"
-                    style={{ color: 'var(--color-text-tertiary)' }}
-                  >
-                    Date
-                  </label>
-                  <div className="flex items-center space-x-2">
-                    <svg
-                      className="w-4 h-4"
-                      style={{ color: 'var(--color-text-secondary)' }}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      />
-                    </svg>
-                    <span 
-                      className="font-medium"
-                      style={{ color: 'var(--color-text-primary)' }}
-                    >
-                      {formatDate(appointment.date)}
-                    </span>
-                  </div>
-                </div>
-
-                <div>
-                  <label 
-                    className="block text-xs mb-1"
-                    style={{ color: 'var(--color-text-tertiary)' }}
-                  >
-                    Time
-                  </label>
-                  <div className="flex items-center space-x-2">
-                    <svg
-                      className="w-4 h-4"
-                      style={{ color: 'var(--color-text-secondary)' }}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
-                    <span 
-                      className="font-medium"
-                      style={{ color: 'var(--color-text-primary)' }}
-                    >
-                      {formatTime(appointment.time)}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Vehicle Information */}
-          <div 
-            className="rounded-lg p-4 border"
-            style={{ 
-              backgroundColor: 'var(--color-bg-secondary)',
-              borderColor: 'var(--color-border-primary)' 
-            }}
-          >
-            <h3 
-              className="text-sm font-semibold mb-3 flex items-center"
-              style={{ color: 'var(--color-text-primary)' }}
-            >
-              <svg
-                className="w-5 h-5 mr-2"
-                style={{ color: 'var(--color-primary)' }}
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 10V3L4 14h7v7l9-11h-7z"
-                />
-              </svg>
-              Vehicle Information
-            </h3>
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label 
-                  className="block text-xs mb-1"
-                  style={{ color: 'var(--color-text-tertiary)' }}
-                >
-                  Vehicle Type
-                </label>
-                <span 
-                  className="font-medium capitalize"
-                  style={{ color: 'var(--color-text-primary)' }}
-                >
-                  {appointment.vehicleType}
-                </span>
-              </div>
-              <div>
-                <label 
-                  className="block text-xs mb-1"
-                  style={{ color: 'var(--color-text-tertiary)' }}
-                >
-                  Vehicle Number
-                </label>
-                <span 
-                  className="font-medium"
-                  style={{ color: 'var(--color-text-primary)' }}
-                >
-                  {appointment.vehicleNumber}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Special Instructions */}
-          {appointment.instructions && (
-            <div 
-              className="rounded-lg p-4 border"
-              style={{ 
-                backgroundColor: 'var(--color-bg-secondary)',
-                borderColor: 'var(--color-border-primary)' 
+            {/* Service Details */}
+            <Card
+              sx={{
+                p: 2.5,
+                border: '1px solid var(--color-border-primary)',
+                borderRadius: 2,
               }}
             >
-              <h3 
-                className="text-sm font-semibold mb-2 flex items-center"
-                style={{ color: 'var(--color-text-primary)' }}
-              >
-                <svg
-                  className="w-5 h-5 mr-2"
-                  style={{ color: 'var(--color-primary)' }}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
+                <PlaylistAddIcon sx={{ fontSize: 20 }} />
+                <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                  Service Details
+                </Typography>
+              </Stack>
+
+              <Stack spacing={2}>
+                <Box>
+                  <Typography
+                    variant="caption"
+                    sx={{ fontWeight: 600 }}
+                  >
+                    Service Type
+                  </Typography>
+                  <Chip
+                    label={formatServiceName(appointment.service || (appointment as any).serviceType || '')}
+                    sx={{
+                      mt: 0.5,
+                      fontWeight: 600,
+                    }}
+                    size="small"
                   />
-                </svg>
-                Special Instructions
-              </h3>
-              <p 
-                className="text-sm leading-relaxed"
-                style={{ color: 'var(--color-text-secondary)' }}
-              >
-                {appointment.instructions}
-              </p>
-            </div>
-          )}
-        </div>
+                </Box>
 
-        {/* Modal Footer */}
-        <div 
-          className="sticky bottom-0 px-6 py-4 border-t flex items-center justify-end space-x-3"
-          style={{ 
-            backgroundColor: 'var(--color-bg-secondary)',
-            borderColor: 'var(--color-border-primary)' 
+                <Stack direction="row" spacing={4}>
+                  <Box>
+                    <Typography
+                      variant="caption"
+                      sx={{ fontWeight: 600 }}
+                    >
+                      Date
+                    </Typography>
+                    <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 0.5 }}>
+                      <EventIcon sx={{ fontSize: 16 }} />
+                      <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                        {formatDate(appointment.date)}
+                      </Typography>
+                    </Stack>
+                  </Box>
+                  <Box>
+                    <Typography
+                      variant="caption"
+                      sx={{ fontWeight: 600 }}
+                    >
+                      Time
+                    </Typography>
+                    <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 0.5 }}>
+                      <AccessTimeIcon sx={{ fontSize: 16 }} />
+                      <Typography variant="body2" sx={{ fontWeight: 500 }}>
+                        {formatTime(appointment.time)}
+                      </Typography>
+                    </Stack>
+                  </Box>
+                </Stack>
+              </Stack>
+            </Card>
+
+            {/* Vehicle Info */}
+            <Card
+              sx={{
+                p: 2.5,
+                border: '1px solid var(--color-border-primary)',
+                borderRadius: 2,
+              }}
+            >
+              <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
+                <DirectionsCarIcon sx={{ fontSize: 20 }} />
+                <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                  Vehicle Information
+                </Typography>
+              </Stack>
+              <Stack direction="row" spacing={4}>
+                <InfoRow label="Type" value={appointment.vehicleType} />
+                <InfoRow label="Number" value={appointment.vehicleNumber} />
+              </Stack>
+            </Card>
+
+            {/* Instructions */}
+            {appointment.instructions && (
+              <Card
+                sx={{
+                  p: 2.5,
+                  border: '1px solid var(--color-border-primary)',
+                  borderRadius: 2,
+                }}
+              >
+                <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
+                  <InfoOutlinedIcon sx={{ fontSize: 20 }} />
+                  <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                    Special Instructions
+                  </Typography>
+                </Stack>
+                <Typography
+                  variant="body2"
+                  sx={{ lineHeight: 1.5 }}
+                >
+                  {appointment.instructions}
+                </Typography>
+              </Card>
+            )}
+          </Stack>
+        )}
+      </DialogContent>
+
+      <Divider />
+
+      <DialogActions
+        sx={{
+          px: 3,
+          py: 2,
+          borderTop: '1px solid var(--color-border-primary)',
+        }}
+      >
+        <Button
+          onClick={onClose}
+          variant="outlined"
+          color="inherit"
+          sx={{
+            borderColor: 'var(--color-border-primary)', 
+            textTransform: 'none',
           }}
         >
-          <button
-            onClick={onClose}
-            className="px-4 py-2 rounded-lg font-medium transition-colors hover:opacity-80"
-            style={{ 
-              backgroundColor: 'var(--color-bg-tertiary)',
-              color: 'var(--color-text-primary)' 
-            }}
-          >
-            Close
-          </button>
-          <button
-            onClick={onAllocate}
-            disabled={isAllocating}
-            className="px-6 py-2 rounded-lg font-medium transition-colors hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
-            style={{ 
-              backgroundColor: 'var(--color-primary)',
-              color: 'white' 
-            }}
-          >
-            {isAllocating ? (
-              <>
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                <span>Allocating...</span>
-              </>
-            ) : (
-              <>
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 4v16m8-8H4"
-                  />
-                </svg>
-                <span>Allocate Employee</span>
-              </>
-            )}
-          </button>
-        </div>
-      </div>
-    </div>
+          Close
+        </Button>
+        <Button
+          onClick={onAllocate}
+          variant="contained"
+          disabled={isAllocating || !isReady}
+          startIcon={
+            isAllocating ? <CircularProgress size={18} sx={{ color: 'white' }} /> : undefined
+          }
+          sx={{
+            bgcolor: 'var(--color-primary)',
+            '&:hover': { bgcolor: 'var(--color-primary-dark)' },
+            textTransform: 'none',
+            minWidth: 180,
+          }}
+        >
+          {isAllocating ? 'Allocating...' : 'Allocate Employee'}
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
+
+const InfoRow = ({ label, value }: { label: string; value: React.ReactNode }) => (
+  <Box>
+    <Typography variant="caption" sx={{fontWeight: 600 }}>
+      {label}
+    </Typography>
+    <Typography
+      variant="body2"
+      sx={{ fontWeight: 500, mt: 0.25 }}
+    >
+      {value || 'N/A'}
+    </Typography>
+  </Box>
+);
 
 export default AppointmentDetailsModal;
