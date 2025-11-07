@@ -1,11 +1,5 @@
-import { useState } from 'react';
-import {
-  Box,
-  Typography,
-  Stack,
-  Chip,
-  IconButton,
-} from '@mui/material';
+import { useState } from "react";
+import { Box, Typography, Stack, Chip, IconButton } from "@mui/material";
 import {
   CalendarToday,
   AccessTime,
@@ -13,14 +7,19 @@ import {
   Build,
   Visibility,
   Edit,
-} from '@mui/icons-material';
-import { type GridColDef } from '@mui/x-data-grid';
-import CustomDataGrid from '../main/CustomDataGrid';
-import { getStatusColor, getStatusIcon } from '../../helpers/colorhelper';
-import DetailsDialog from './DetailsDialog';
-import UpdateDialog from './UpdateDialog';
+} from "@mui/icons-material";
+import { type GridColDef } from "@mui/x-data-grid";
+import CustomDataGrid from "../main/CustomDataGrid";
+import { getStatusColor, getStatusIcon } from "../../helpers/colorhelper";
+import DetailsDialog from "./DetailsDialog";
+import UpdateDialog from "./UpdateDialog";
 
-type AppointmentStatus = 'pending' | 'approved' | 'ongoing' | 'completed' | 'rejected';
+type AppointmentStatus =
+  | "pending"
+  | "approved"
+  | "ongoing"
+  | "completed"
+  | "rejected";
 
 interface Appointment {
   id: number;
@@ -43,19 +42,24 @@ interface EmployeeDataGridProps {
   onUpdateProgress?: (appointmentId: number, progress: number) => Promise<void>;
 }
 
-export default function EmployeeDataGrid({ appointments, loading, onUpdateProgress }: EmployeeDataGridProps) {
-  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
+export default function EmployeeDataGrid({
+  appointments,
+  loading,
+  onUpdateProgress,
+}: EmployeeDataGridProps) {
+  const [selectedAppointment, setSelectedAppointment] =
+    useState<Appointment | null>(null);
   const [openViewDialog, setOpenViewDialog] = useState(false);
   const [openUpdateDialog, setOpenUpdateDialog] = useState(false);
 
   const handleViewClick = (appointment: Appointment) => {
-    console.log('View clicked for appointment:', appointment);
+    console.log("View clicked for appointment:", appointment);
     setSelectedAppointment(appointment);
     setOpenViewDialog(true);
   };
 
   const handleUpdateClick = (appointment: Appointment) => {
-    console.log('Update clicked for appointment:', appointment);
+    console.log("Update clicked for appointment:", appointment);
     setSelectedAppointment(appointment);
     setOpenUpdateDialog(true);
   };
@@ -70,78 +74,47 @@ export default function EmployeeDataGrid({ appointments, loading, onUpdateProgre
     setSelectedAppointment(null);
   };
 
-  const handleUpdateProgress = async (appointmentId: number, progress: number) => {
+  const handleUpdateProgress = async (
+    appointmentId: number,
+    progress: number
+  ) => {
     if (onUpdateProgress) {
       await onUpdateProgress(appointmentId, progress);
     }
   };
 
   const getProgressColor = (progress: number) => {
-    if (progress < 25) return '#dc2626';
-    if (progress < 50) return '#f59e0b';
-    if (progress < 75) return '#3b82f6';
-    return '#10b981';
+    if (progress < 25) return "#dc2626";
+    if (progress < 50) return "#f59e0b";
+    if (progress < 75) return "#3b82f6";
+    return "#10b981";
   };
 
   const columns: GridColDef<Appointment>[] = [
     {
-      field: 'id',
-      headerName: 'ID',
-      width: 80,
-      type: 'number',
-    },
-    {
-      field: 'date',
-      headerName: 'Date',
+      field: "date",
+      headerName: "Date",
       width: 130,
-      renderCell: (params) => (
-        <Stack direction="row" spacing={1} alignItems="center">
-          <CalendarToday sx={{ fontSize: 16 }} />
-          <Typography variant="body2">{params.value}</Typography>
-        </Stack>
-      ),
     },
     {
-      field: 'time',
-      headerName: 'Time',
+      field: "time",
+      headerName: "Time",
       width: 120,
-      renderCell: (params) => (
-        <Stack direction="row" spacing={1} alignItems="center">
-          <AccessTime sx={{ fontSize: 16 }} />
-          <Typography variant="body2">{params.value}</Typography>
-        </Stack>
-      ),
     },
     {
-      field: 'customerName',
-      headerName: 'Customer',
+      field: "customerName",
+      headerName: "Customer",
       flex: 1,
       minWidth: 180,
-      renderCell: (params) => (
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Person sx={{ fontSize: 18 }} />
-          <Typography variant="body2" sx={{ fontWeight: 600 }}>
-            {params.value}
-          </Typography>
-        </Stack>
-      ),
     },
     {
-      field: 'service',
-      headerName: 'Service',
+      field: "service",
+      headerName: "Service",
       width: 150,
-      renderCell: (params) => (
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Build sx={{ fontSize: 18 }} />
-          <Typography variant="body2" sx={{ fontWeight: 600 }}>
-            {params.value}
-          </Typography>
-        </Stack>
-      ),
     },
     {
-      field: 'status',
-      headerName: 'Status',
+      field: "status",
+      headerName: "Status",
       width: 130,
       renderCell: (params) => {
         const StatusIcon = getStatusIcon(params.value);
@@ -157,12 +130,12 @@ export default function EmployeeDataGrid({ appointments, loading, onUpdateProgre
       },
     },
     {
-      field: 'progress',
-      headerName: 'Progress',
+      field: "progress",
+      headerName: "Progress",
       width: 130,
       renderCell: (params) => (
-        <Box sx={{ width: '100%' }}>
-          <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5 }}>
+        <Box sx={{ width: "100%" }}>
+          <Stack direction="row">
             <Typography
               variant="body2"
               sx={{
@@ -175,19 +148,19 @@ export default function EmployeeDataGrid({ appointments, loading, onUpdateProgre
           </Stack>
           <Box
             sx={{
-              width: '100%',
+              width: "100%",
               height: 4,
-              bgcolor: 'rgba(212, 212, 216, 0.2)',
+              bgcolor: "rgba(212, 212, 216, 0.2)",
               borderRadius: 1,
-              overflow: 'hidden',
+              overflow: "hidden",
             }}
           >
             <Box
               sx={{
                 width: `${params.value}%`,
-                height: '100%',
+                height: "100%",
                 bgcolor: getProgressColor(params.value),
-                transition: 'all 0.3s ease',
+                transition: "all 0.3s ease",
               }}
             />
           </Box>
@@ -195,8 +168,8 @@ export default function EmployeeDataGrid({ appointments, loading, onUpdateProgre
       ),
     },
     {
-      field: 'actions',
-      headerName: 'Actions',
+      field: "actions",
+      headerName: "Actions",
       width: 120,
       sortable: false,
       filterable: false,
@@ -206,9 +179,9 @@ export default function EmployeeDataGrid({ appointments, loading, onUpdateProgre
             onClick={() => handleViewClick(params.row)}
             size="small"
             sx={{
-              color: 'var(--color-primary)',
-              '&:hover': {
-                bgcolor: 'rgba(214, 5, 7, 0.1)',
+              color: "var(--color-primary)",
+              "&:hover": {
+                bgcolor: "rgba(214, 5, 7, 0.1)",
               },
             }}
           >
@@ -218,9 +191,9 @@ export default function EmployeeDataGrid({ appointments, loading, onUpdateProgre
             onClick={() => handleUpdateClick(params.row)}
             size="small"
             sx={{
-              color: '#3b82f6',
-              '&:hover': {
-                bgcolor: 'rgba(59, 130, 246, 0.1)',
+              color: "#3b82f6",
+              "&:hover": {
+                bgcolor: "rgba(59, 130, 246, 0.1)",
               },
             }}
           >
@@ -237,7 +210,7 @@ export default function EmployeeDataGrid({ appointments, loading, onUpdateProgre
         sx={{
           borderRadius: 3,
           p: 3,
-          border: '1px solid rgba(212, 212, 216, 0.2)',
+          border: "1px solid rgba(212, 212, 216, 0.2)",
         }}
       >
         <CustomDataGrid
@@ -246,7 +219,20 @@ export default function EmployeeDataGrid({ appointments, loading, onUpdateProgre
           loading={loading}
           pageSize={10}
           pageSizeOptions={[10, 25, 50, 100]}
-          disableRowSelectionOnClick
+          sx={{
+            // Vertically center all cells
+            '& .MuiDataGrid-cell': {
+              display: 'flex',
+              alignItems: 'center',
+            },
+            // Optional: center headers vertically too
+            '& .MuiDataGrid-columnHeaders': {
+              alignItems: 'center',
+            },
+            '& .MuiDataGrid-columnHeaderTitleContainer': {
+              alignItems: 'center',
+            },
+          }}
         />
       </Box>
 

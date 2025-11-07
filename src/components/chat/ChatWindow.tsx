@@ -2,8 +2,17 @@ import React, { useState, useEffect, useRef } from 'react';
 import type { Chat, Message, CustomQuestion } from '../../types/chat';
 import MessageBubble from './MessageBubble';
 import MessageInput from './MessageInput';
-import { MessageSkeleton, ChatHeaderSkeleton } from '../ui/LoadingComponents';
 import { useAuth } from '../../contexts/AuthContext';
+import {
+  Box,
+  Typography,
+  Avatar,
+  IconButton,
+  Button,
+  Stack,
+  Divider,
+} from '@mui/material';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 interface ChatWindowProps {
   selectedChat: Chat | null;
@@ -28,31 +37,32 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   onSendMessage,
   onEditMessage,
   onDeleteMessage,
-  onRetry
+  onRetry,
 }) => {
   const { user } = useAuth();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [editingMessageId, setEditingMessageId] = useState<number | null>(null);
   const [deletingMessageId, setDeletingMessageId] = useState<number | null>(null);
 
-  // ✅ Helper function to get the OTHER person's info
   const getOtherPerson = (chat: Chat) => {
     const isCustomer = user?.id === chat.customerId;
     return {
-      name: isCustomer ? chat.employeeName : chat.customerName,
-      email: isCustomer ? chat.employeeEmail : chat.customerEmail,
+      name: (isCustomer ? chat.employeeName : chat.customerName) || 'User',
+      email: (isCustomer ? chat.employeeEmail : chat.customerEmail) || '',
       id: isCustomer ? chat.employeeId : chat.customerId,
     };
   };
 
-  // Auto-scroll to bottom when new messages arrive
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  const getInitials = (name?: string | null) => {
+    if (!name) return '?';
+    const parts = name.trim().split(/\s+/);
+    if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+    return parts[0][0]?.toUpperCase() || '?';
   };
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   const handleEditMessage = async (messageId: number, newContent: string) => {
     setEditingMessageId(messageId);
@@ -75,218 +85,203 @@ const ChatWindow: React.FC<ChatWindowProps> = ({
   // No chat selected
   if (!selectedChat) {
     return (
-      <div className="h-full flex items-center justify-center">
-        <div className="text-center">
-          <div 
-            className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
-            style={{ backgroundColor: 'var(--color-bg-tertiary)' }}
+      <Box
+        sx={{
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          p: 3,
+        }}
+      >
+        <Box textAlign="center">
+          <Box
+            sx={{
+              width: 64,
+              height: 64,
+              borderRadius: '50%',
+              mx: 'auto',
+              mb: 2,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
           >
-            <svg 
-              className="w-8 h-8" 
-              style={{ color: 'var(--color-text-tertiary)' }} 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" 
-              />
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
-          </div>
-          <h3 
-            className="text-lg font-medium mb-2"
-            style={{ color: 'var(--color-text-primary)' }}
-          >
+          </Box>
+          <Typography variant="h6" sx={{ fontWeight: 600, mb: 0.5 }}>
             Select a conversation
-          </h3>
-          <p 
-            className="text-sm"
-            style={{ color: 'var(--color-text-secondary)' }}
-          >
+          </Typography>
+          <Typography variant="body2">
             Choose a chat from the list to start messaging
-          </p>
-        </div>
-      </div>
+          </Typography>
+        </Box>
+      </Box>
     );
   }
 
   // Error state
   if (error) {
     return (
-      <div className="h-full flex items-center justify-center">
-        <div className="text-center">
-          <div 
-            className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center"
-            style={{ backgroundColor: 'var(--color-bg-tertiary)' }}
+      <Box
+        sx={{
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          p: 3,
+        }}
+      >
+        <Box textAlign="center" sx={{ maxWidth: 420 }}>
+          <Box
+            sx={{
+              width: 64,
+              height: 64,
+              borderRadius: '50%',
+              mx: 'auto',
+              mb: 2,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
           >
-            <svg 
-              className="w-8 h-8" 
-              style={{ color: 'var(--color-primary)' }} 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" 
-              />
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+              <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
             </svg>
-          </div>
-          <h3 
-            className="text-lg font-medium mb-2"
-            style={{ color: 'var(--color-text-primary)' }}
-          >
+          </Box>
+          <Typography variant="h6" sx={{ fontWeight: 600, mb: 0.5, color: 'var(--color-text-primary)' }}>
             Something went wrong
-          </h3>
-          <p 
-            className="text-sm mb-4"
-            style={{ color: 'var(--color-text-secondary)' }}
-          >
+          </Typography>
+          <Typography variant="body2" sx={{ mb: 2 }}>
             {error}
-          </p>
+          </Typography>
           {onRetry && (
-            <button
+            <Button
               onClick={onRetry}
-              className="px-4 py-2 text-sm font-medium rounded-lg transition-colors hover:opacity-90"
-              style={{ 
-                backgroundColor: 'var(--color-primary)',
-                color: 'white'
-              }}
+              variant="contained"
             >
               Try Again
-            </button>
+            </Button>
           )}
-        </div>
-      </div>
+        </Box>
+      </Box>
     );
   }
 
-
-const otherPerson = getOtherPerson(selectedChat); // ✅ Get the other person's info
+  const otherPerson = getOtherPerson(selectedChat);
 
   return (
-    <div className="h-full flex flex-col">
-      {/* Chat Header */}
-      {isLoadingMessages ? (
-        <ChatHeaderSkeleton />
-      ) : (
-        <div 
-          className="p-4 border-b flex items-center space-x-3"
-          style={{ 
-            backgroundColor: 'var(--color-bg-secondary)',
-            borderColor: 'var(--color-border-primary)'
-          }}
-        >
-          {/* Other Person Avatar */}
-          <div 
-            className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium"
-            style={{ 
-              backgroundColor: 'var(--color-primary)',
-              color: 'white'
-            }}
-          >
-            {otherPerson.name.charAt(0).toUpperCase()}
-          </div>
-          
-          {/* Other Person Info */}
-          <div className="flex-1">
-            <h2 
-              className="text-lg font-semibold"
-              style={{ color: 'var(--color-text-primary)' }}
-            >
-              {otherPerson.name}
-            </h2>
-            <p 
-              className="text-sm"
-              style={{ color: 'var(--color-text-secondary)' }}
-            >
-              {otherPerson.email}
-            </p>
-          </div>
-
-          {/* Chat Actions */}
-          <div className="flex space-x-2">
-            <button 
-              className="p-2 rounded-lg transition-colors hover:opacity-80"
-              style={{ 
-                backgroundColor: 'var(--color-bg-tertiary)',
-                color: 'var(--color-text-secondary)'
+    <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column'}}>
+      {/* Header */}
+      <Box
+        sx={{
+          p: 2,
+          borderBottom: '1px solid var(--color-border-primary)',
+        }}
+      >
+        <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
+          <Stack direction="row" spacing={2} alignItems="center">
+            <Avatar
+              sx={{
+                color: '#fff',
+                width: 40,
+                height: 40,
+                fontSize: 14,
+                fontWeight: 600,
               }}
-              title="Chat settings"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      )}
+              {getInitials(otherPerson.name)}
+            </Avatar>
+            <Box>
+              <Typography variant="subtitle1" sx={{ fontWeight: 700}}>
+                {otherPerson.name}
+              </Typography>
+              <Typography variant="body2">
+                {otherPerson.email}
+              </Typography>
+            </Box>
+          </Stack>
 
-      {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <IconButton
+            size="small"
+            aria-label="Chat options"
+          >
+            <MoreVertIcon fontSize="small" />
+          </IconButton>
+        </Stack>
+      </Box>
+
+      {/* Messages */}
+      <Box sx={{ flex: 1, overflowY: 'auto', p: 2 }}>
         {isLoadingMessages ? (
-          <MessageSkeleton />
+          <Box>
+            {/* Keep your existing skeleton if you prefer, or replace with MUI Skeletons */}
+            {/* <MessageSkeleton /> */}
+            <Typography variant="body2">
+              Loading messages...
+            </Typography>
+          </Box>
         ) : messages.length === 0 ? (
-          <div className="text-center py-8">
-            <div 
-              className="w-12 h-12 mx-auto mb-4 rounded-full flex items-center justify-center"
-              style={{ backgroundColor: 'var(--color-bg-tertiary)' }}
+          <Box sx={{ textAlign: 'center', py: 6 }}>
+            <Box
+              sx={{
+                width: 48,
+                height: 48,
+                borderRadius: '50%',
+                mx: 'auto',
+                mb: 2,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
             >
-              <svg 
-                className="w-6 h-6" 
-                style={{ color: 'var(--color-text-tertiary)' }} 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path 
-                  strokeLinecap="round" 
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
-                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" 
-                />
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <path stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+                  d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
               </svg>
-            </div>
-            <p 
-              className="text-sm"
-              style={{ color: 'var(--color-text-secondary)' }}
-            >
+            </Box>
+            <Typography variant="body2">
               No messages yet. Start the conversation!
-            </p>
-          </div>
+            </Typography>
+          </Box>
         ) : (
-          messages.map((message) => (
-            <MessageBubble
-              key={message.id}
-              message={message}
-              isOwnMessage={message.senderId === user?.id}
-              onEdit={handleEditMessage}
-              onDelete={handleDeleteMessage}
-              isEditing={editingMessageId === message.id}
-              isDeleting={deletingMessageId === message.id}
-            />
-          ))
+          <Stack spacing={1.5}>
+            {messages.map((message) => (
+              <MessageBubble
+                key={message.id}
+                message={message}
+                isOwnMessage={message.senderId === user?.id}
+                onEdit={handleEditMessage}
+                onDelete={handleDeleteMessage}
+                isEditing={editingMessageId === message.id}
+                isDeleting={deletingMessageId === message.id}
+              />
+            ))}
+          </Stack>
         )}
         <div ref={messagesEndRef} />
-      </div>
+      </Box>
 
-      {/* Message Input */}
-      <MessageInput
-        onSendMessage={onSendMessage}
-        customQuestions={customQuestions}
-        disabled={isLoadingMessages || isLoadingQuestions}
-        placeholder={
-          isLoadingQuestions 
-            ? "Loading quick responses..." 
-            : `Message ${otherPerson.name}...`
-        }
-      />
-    </div>
+      <Divider />
+
+      {/* Input */}
+      <Box sx={{ p: 1.5 }}>
+        <MessageInput
+          onSendMessage={onSendMessage}
+          customQuestions={customQuestions}
+          disabled={isLoadingMessages || isLoadingQuestions}
+          placeholder={
+            isLoadingQuestions
+              ? 'Loading quick responses...'
+              : `Message ${otherPerson.name}...`
+          }
+        />
+      </Box>
+    </Box>
   );
 };
 

@@ -575,7 +575,7 @@ export default function AppointmentsByStatus() {
                     <Box mt={2}>
                       <Box display="flex" alignItems="center" gap={1} mb={1}>
                         <DescriptionIcon sx={{ fontSize: 18, color: 'action.active' }} />
-                        <Typography variant="caption" color="text.secondary" fontWeight={600}>
+                        <Typography variant="caption" fontWeight={600}>
                           Instructions
                         </Typography>
                       </Box>
@@ -583,7 +583,6 @@ export default function AppointmentsByStatus() {
                         elevation={0} 
                         sx={{ 
                           p: 1.5, 
-                          bgcolor: 'grey.50',
                           borderRadius: 1.5,
                           border: 1,
                           borderColor: 'divider',
@@ -591,7 +590,6 @@ export default function AppointmentsByStatus() {
                       >
                         <Typography 
                           variant="body2" 
-                          color="text.secondary"
                           sx={{
                             display: '-webkit-box',
                             WebkitLineClamp: 3,

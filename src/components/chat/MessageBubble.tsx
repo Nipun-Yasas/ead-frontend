@@ -1,5 +1,17 @@
 import React, { useState } from 'react';
 import type { Message } from '../../types/chat';
+import {
+  Box,
+  Stack,
+  Typography,
+  IconButton,
+  Button,
+  TextField,
+  Tooltip,
+} from '@mui/material';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 interface MessageBubbleProps {
   message: Message;
@@ -16,7 +28,7 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
   onEdit,
   onDelete,
   isEditing = false,
-  isDeleting = false
+  isDeleting = false,
 }) => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editContent, setEditContent] = useState(message.content);
@@ -28,24 +40,24 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
   };
 
   const handleEdit = async () => {
-    if (!onEdit || editContent.trim() === message.content) {
+    const trimmed = editContent.trim();
+    if (!onEdit || trimmed === message.content) {
       setIsEditMode(false);
+      setEditContent(message.content);
       return;
     }
 
     try {
-      await onEdit(message.id, editContent.trim());
+      await onEdit(message.id, trimmed);
       setIsEditMode(false);
     } catch (error) {
       console.error('Failed to edit message:', error);
-      // Reset content on error
       setEditContent(message.content);
     }
   };
 
   const handleDelete = async () => {
     if (!onDelete) return;
-    
     try {
       await onDelete(message.id);
     } catch (error) {
@@ -55,182 +67,179 @@ const MessageBubble: React.FC<MessageBubbleProps> = ({
 
   if (message.isDeleted) {
     return (
-      <div className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'} mb-4`}>
-        <div 
-          className="max-w-xs lg:max-w-md px-3 py-2 rounded-lg opacity-60"
-          style={{ 
-            backgroundColor: 'var(--color-bg-tertiary)',
-            color: 'var(--color-text-tertiary)'
+      <Box display="flex" justifyContent={isOwnMessage ? 'flex-end' : 'flex-start'} mb={1.5}>
+        <Box
+          sx={{
+            maxWidth: { xs: 320, lg: 560 },
+            px: 1.5,
+            py: 1,
+            borderRadius: 1.5,
+            opacity: 0.6,
+            bgcolor: 'var(--color-bg-tertiary)',
+            color: 'var(--color-text-tertiary)',
           }}
         >
-          <div className="flex items-center space-x-2">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>
-            <span className="text-sm italic">Message deleted</span>
-          </div>
-          <p className="text-xs mt-1">
+          <Stack direction="row" spacing={1} alignItems="center">
+            <DeleteOutlineIcon sx={{ fontSize: 16 }} />
+            <Typography variant="body2" sx={{ fontStyle: 'italic' }}>
+              Message deleted
+            </Typography>
+          </Stack>
+          <Typography variant="caption" sx={{ mt: 0.5, display: 'block' }}>
             {formatTime(message.createdAt)}
-          </p>
-        </div>
-      </div>
+          </Typography>
+        </Box>
+      </Box>
     );
   }
 
   return (
-    <div 
-      className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'} mb-4`}
+    <Box
+      display="flex"
+      justifyContent={isOwnMessage ? 'flex-end' : 'flex-start'}
+      mb={1.5}
       onMouseEnter={() => setShowActions(true)}
       onMouseLeave={() => setShowActions(false)}
     >
-      <div className={`max-w-xs lg:max-w-md ${isOwnMessage ? 'order-2' : 'order-1'}`}>
-        {/* Message Bubble */}
-        <div 
-          className={`px-4 py-2 rounded-lg ${
-            isOwnMessage 
-              ? 'rounded-br-none' 
-              : 'rounded-bl-none'
-          } ${isDeleting ? 'opacity-50' : ''}`}
-          style={{ 
-            backgroundColor: isOwnMessage 
-              ? 'var(--color-primary)' 
-              : 'var(--color-bg-secondary)',
-            color: isOwnMessage 
-              ? 'white' 
-              : 'var(--color-text-primary)',
-            border: isOwnMessage 
-              ? 'none' 
-              : '1px solid var(--color-border-primary)'
+      <Box sx={{ maxWidth: { xs: 320, lg: 560 }, order: isOwnMessage ? 2 : 1 }}>
+        {/* Bubble */}
+        <Box
+          sx={{
+            px: 2,
+            py: 1.25,
+            borderRadius: 2,
+            borderTopRightRadius: isOwnMessage ? 4 : 16,
+            borderTopLeftRadius: isOwnMessage ? 16 : 4,
+            border: "1px solid var(--color-border-primary)",
+            opacity: isDeleting ? 0.5 : 1,
+            transition: 'opacity 0.2s',
           }}
         >
-          {/* Message Type Indicator */}
+          {/* Type indicator */}
           {message.type === 'CUSTOM_QUESTION' && (
-            <div className="flex items-center space-x-1 mb-2 opacity-75">
-              <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span className="text-xs">Quick Response</span>
-            </div>
+            <Stack direction="row" spacing={0.5} alignItems="center" sx={{ mb: 1, opacity: 0.8 }}>
+              <HelpOutlineIcon sx={{ fontSize: 14 }} />
+              <Typography variant="caption">Quick Response</Typography>
+            </Stack>
           )}
 
-          {/* Edit Mode */}
+          {/* Edit mode */}
           {isEditMode ? (
-            <div className="space-y-2">
-              <textarea
+            <Box>
+              <TextField
                 value={editContent}
                 onChange={(e) => setEditContent(e.target.value)}
-                className="w-full p-2 text-sm rounded border resize-none"
-                style={{ 
-                  backgroundColor: isOwnMessage ? 'rgba(255,255,255,0.1)' : 'var(--color-bg-tertiary)',
-                  color: isOwnMessage ? 'white' : 'var(--color-text-primary)',
-                  borderColor: 'var(--color-border-primary)'
-                }}
+                multiline
                 rows={3}
+                fullWidth
+                size="small"
+                variant="outlined"
+                sx={{
+                  '& .MuiOutlinedInput-root': {
+                    bgcolor: isOwnMessage ? 'rgba(255,255,255,0.12)' : 'var(--color-bg-tertiary)',
+                    color: isOwnMessage ? '#fff' : 'var(--color-text-primary)',
+                    '& fieldset': { borderColor: 'var(--color-border-primary)' },
+                    '&:hover fieldset': { borderColor: 'var(--color-border-primary)' },
+                    '&.Mui-focused fieldset': { borderColor: 'var(--color-border-primary)' },
+                  },
+                  mb: 1,
+                }}
                 autoFocus
               />
-              <div className="flex space-x-2">
-                <button
+              <Stack direction="row" spacing={1}>
+                <Button
                   onClick={handleEdit}
                   disabled={isEditing}
-                  className="px-3 py-1 text-xs rounded transition-colors"
-                  style={{ 
-                    backgroundColor: 'var(--color-primary)',
-                    color: 'white'
+                  size="small"
+                  variant="contained"
+                  sx={{
+                    bgcolor: 'var(--color-primary)',
+                    '&:hover': { bgcolor: 'var(--color-primary-dark)' },
                   }}
                 >
                   {isEditing ? 'Saving...' : 'Save'}
-                </button>
-                <button
+                </Button>
+                <Button
                   onClick={() => {
                     setIsEditMode(false);
                     setEditContent(message.content);
                   }}
-                  className="px-3 py-1 text-xs rounded transition-colors"
-                  style={{ 
-                    backgroundColor: 'var(--color-bg-tertiary)',
-                    color: 'var(--color-text-secondary)'
-                  }}
+                  size="small"
+                  variant="outlined"
+                  color="inherit"
                 >
                   Cancel
-                </button>
-              </div>
-            </div>
+                </Button>
+              </Stack>
+            </Box>
           ) : (
-            <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+            <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+              {message.content}
+            </Typography>
           )}
-        </div>
+        </Box>
 
-        {/* Message Info */}
-        <div className={`flex items-center space-x-2 mt-1 px-1 ${
-          isOwnMessage ? 'justify-end' : 'justify-start'
-        }`}>
-          <span 
-            className="text-xs"
-            style={{ color: 'var(--color-text-tertiary)' }}
-          >
+        {/* Meta */}
+        <Stack
+          direction="row"
+          spacing={1}
+          alignItems="center"
+          justifyContent={isOwnMessage ? 'flex-end' : 'flex-start'}
+          sx={{ mt: 0.5, px: 0.5 }}
+        >
+          <Typography variant="caption" sx={{ color: 'var(--color-text-tertiary)' }}>
             {formatTime(message.createdAt)}
-          </span>
-          
+          </Typography>
           {message.isEdited && (
-            <span 
-              className="text-xs"
-              style={{ color: 'var(--color-text-tertiary)' }}
-            >
+            <Typography variant="caption" sx={{ color: 'var(--color-text-tertiary)' }}>
               (edited)
-            </span>
+            </Typography>
           )}
-
           {!isOwnMessage && (
-            <span 
-              className="text-xs"
-              style={{ color: 'var(--color-text-tertiary)' }}
-            >
+            <Typography variant="caption" sx={{ color: 'var(--color-text-tertiary)' }}>
               {message.sender?.fullName}
-            </span>
+            </Typography>
           )}
-        </div>
+        </Stack>
 
-        {/* Action Buttons */}
+        {/* Actions */}
         {isOwnMessage && showActions && !isEditMode && (
-          <div className="flex space-x-1 mt-1 justify-end">
-            {/* Edit Button */}
+          <Stack direction="row" spacing={0.5} justifyContent="flex-end" sx={{ mt: 0.5 }}>
             {onEdit && (
-              <button
-                onClick={() => setIsEditMode(true)}
-                className="p-1 rounded transition-colors hover:opacity-70"
-                style={{ 
-                  backgroundColor: 'var(--color-bg-tertiary)',
-                  color: 'var(--color-text-secondary)'
-                }}
-                title="Edit message"
-              >
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                </svg>
-              </button>
+              <Tooltip title="Edit message">
+                <IconButton
+                  size="small"
+                  onClick={() => setIsEditMode(true)}
+                  sx={{
+                    bgcolor: 'var(--color-bg-tertiary)',
+                    color: 'var(--color-text-secondary)',
+                    '&:hover': { opacity: 0.9 },
+                  }}
+                >
+                  <EditOutlinedIcon fontSize="inherit" />
+                </IconButton>
+              </Tooltip>
             )}
-
-            {/* Delete Button */}
             {onDelete && (
-              <button
-                onClick={handleDelete}
-                disabled={isDeleting}
-                className="p-1 rounded transition-colors hover:opacity-70"
-                style={{ 
-                  backgroundColor: 'var(--color-bg-tertiary)',
-                  color: 'var(--color-primary)'
-                }}
-                title="Delete message"
-              >
-                <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-              </button>
+              <Tooltip title="Delete message">
+                <IconButton
+                  size="small"
+                  onClick={handleDelete}
+                  disabled={isDeleting}
+                  sx={{
+                    bgcolor: 'var(--color-bg-tertiary)',
+                    color: 'var(--color-primary)',
+                    '&:hover': { opacity: 0.9 },
+                  }}
+                >
+                  <DeleteOutlineIcon fontSize="inherit" />
+                </IconButton>
+              </Tooltip>
             )}
-          </div>
+          </Stack>
         )}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

@@ -33,6 +33,8 @@
 
   --color-success: oklch(62.7% 0.194 149.214);
   --color-primary: oklch(57.7% 0.245 27.325);
+
+  --color-bg-card: #222326;
 }
 
 /* Custom animations for Our Services Banner */
@@ -92,7 +94,6 @@
   --color-bg-tertiary: #E6E6E6;
 
   --color-text-primary: #000000;
-  /* black for light theme */
   --color-text-secondary: #334155;
   --color-text-tertiary: #475569;
   --color-text-muted: #64748B;
@@ -111,10 +112,12 @@
   --color-focus-ring: rgba(214, 5, 7, 0.15);
   --color-focus-border: rgba(15, 23, 36, 0.1);
 
-  --color-success: #16a34a;
+  --color-success: oklch(62.7% 0.194 149.214);
+  --color-primary: oklch(57.7% 0.245 27.325);
+
+  --color-bg-card: #FFFFFF;
 }
 
-/* Force footer to be visually identical across themes */
 .fixed-footer {
   background-color: #171717 !important;
   color: #FFFFFF !important;
@@ -171,4 +174,22 @@
 .fixed-getstarted .btn-outline:hover {
   color: #FFFFFF !important;
   border-color: #FFFFFF !important;
+}
+
+/* Hide native calendar icon (Chrome, Edge, Opera) */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  display: none;
+  pointer-events: none;
+}
+
+/* Remove extra padding some browsers add */
+input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Firefox: remove native appearance (it has minimal UI) */
+input[type="date"] {
+  -moz-appearance: textfield;
 }

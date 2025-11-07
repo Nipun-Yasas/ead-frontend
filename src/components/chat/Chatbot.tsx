@@ -196,7 +196,6 @@ export const Chatbot = () => {
             maxHeight: 'calc(100vh - 140px)',
             display: isOpen ? 'flex' : 'none',
             flexDirection: 'column',
-            backgroundColor: '#171717',
             border: '1px solid rgba(212, 212, 216, 0.2)',
             borderRadius: 2,
             overflow: 'hidden',
@@ -207,8 +206,6 @@ export const Chatbot = () => {
           <Box
             sx={{
               p: 2,
-              backgroundColor: '#D60507',
-              color: '#FFFFFF',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -230,7 +227,6 @@ export const Chatbot = () => {
                 onClick={clearConversation}
                 size="small"
                 sx={{
-                  color: '#FFFFFF',
                   '&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.1)' },
                 }}
               >
@@ -248,20 +244,7 @@ export const Chatbot = () => {
               display: 'flex',
               flexDirection: 'column',
               gap: 2,
-              backgroundColor: '#020202',
-              '&::-webkit-scrollbar': {
-                width: '8px',
-              },
-              '&::-webkit-scrollbar-track': {
-                backgroundColor: '#171717',
-              },
-              '&::-webkit-scrollbar-thumb': {
-                backgroundColor: '#4E4E4F',
-                borderRadius: '4px',
-                '&:hover': {
-                  backgroundColor: '#D60507',
-                },
-              },
+              
             }}
           >
             {messages.map((message, index) => (
@@ -280,14 +263,13 @@ export const Chatbot = () => {
                       width: 32,
                       height: 32,
                       borderRadius: '50%',
-                      backgroundColor: '#D60507',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       flexShrink: 0,
                     }}
                   >
-                    <BotIcon sx={{ fontSize: 18, color: '#FFFFFF' }} />
+                    <BotIcon sx={{ fontSize: 18 }} />
                   </Box>
                 )}
 
@@ -296,8 +278,6 @@ export const Chatbot = () => {
                     elevation={0}
                     sx={{
                       p: 1.5,
-                      backgroundColor: message.type === 'user' ? '#D60507' : '#272727',
-                      color: '#FFFFFF',
                       borderRadius: 2,
                       borderTopRightRadius: message.type === 'user' ? 0 : 2,
                       borderTopLeftRadius: message.type === 'bot' ? 0 : 2,
@@ -317,7 +297,6 @@ export const Chatbot = () => {
                   <Typography
                     variant="caption"
                     sx={{
-                      color: '#A1A1AA',
                       px: 1,
                       alignSelf: message.type === 'user' ? 'flex-end' : 'flex-start',
                     }}
@@ -332,14 +311,13 @@ export const Chatbot = () => {
                       width: 32,
                       height: 32,
                       borderRadius: '50%',
-                      backgroundColor: '#4E4E4F',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
                       flexShrink: 0,
                     }}
                   >
-                    <PersonIcon sx={{ fontSize: 18, color: '#D4D4D8' }} />
+                    <PersonIcon sx={{ fontSize: 18 }} />
                   </Box>
                 )}
               </Box>
@@ -359,24 +337,22 @@ export const Chatbot = () => {
                     width: 32,
                     height: 32,
                     borderRadius: '50%',
-                    backgroundColor: '#D60507',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                   }}
                 >
-                  <BotIcon sx={{ fontSize: 18, color: '#FFFFFF' }} />
+                  <BotIcon sx={{ fontSize: 18}} />
                 </Box>
                 <Paper
                   elevation={0}
                   sx={{
                     p: 1.5,
-                    backgroundColor: '#272727',
                     borderRadius: 2,
                     borderTopLeftRadius: 0,
                   }}
                 >
-                  <CircularProgress size={20} sx={{ color: '#D60507' }} />
+                  <CircularProgress size={20} />
                 </Paper>
               </Box>
             )}
@@ -393,8 +369,6 @@ export const Chatbot = () => {
                     label={question}
                     onClick={() => handleQuickAction(question)}
                     sx={{
-                      backgroundColor: '#272727',
-                      color: '#D4D4D8',
                       border: '1px solid rgba(212, 212, 216, 0.2)',
                       cursor: 'pointer',
                       '&:hover': {
@@ -424,7 +398,6 @@ export const Chatbot = () => {
           <Box
             sx={{
               p: 2,
-              backgroundColor: '#171717',
               display: 'flex',
               gap: 1,
             }}
@@ -439,43 +412,12 @@ export const Chatbot = () => {
               placeholder="Type your message..."
               disabled={loading}
               inputRef={inputRef}
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  color: '#D4D4D8',
-                  backgroundColor: '#272727',
-                  borderRadius: 2,
-                  '& fieldset': {
-                    borderColor: 'rgba(212, 212, 216, 0.2)',
-                  },
-                  '&:hover fieldset': {
-                    borderColor: 'rgba(212, 212, 216, 0.3)',
-                  },
-                  '&.Mui-focused fieldset': {
-                    borderColor: '#D60507',
-                  },
-                },
-                '& .MuiInputBase-input::placeholder': {
-                  color: '#A1A1AA',
-                  opacity: 1,
-                },
-              }}
+              
             />
             <IconButton
               onClick={sendMessage}
               disabled={!input.trim() || loading}
-              sx={{
-                backgroundColor: '#D60507',
-                color: '#FFFFFF',
-                width: 48,
-                height: 48,
-                '&:hover': {
-                  backgroundColor: '#B91C1C',
-                },
-                '&.Mui-disabled': {
-                  backgroundColor: '#4E4E4F',
-                  color: '#A1A1AA',
-                },
-              }}
+              
             >
               <SendIcon />
             </IconButton>

@@ -102,12 +102,6 @@ export default function UpdateDialog({ open, onClose, appointment, onUpdate }: U
       onClose={onClose}
       maxWidth="sm"
       fullWidth
-      PaperProps={{
-        sx: {
-          bgcolor: 'var(--color-bg-secondary)',
-          borderRadius: 3,
-        },
-      }}
     >
       <DialogTitle
         sx={{
@@ -119,7 +113,7 @@ export default function UpdateDialog({ open, onClose, appointment, onUpdate }: U
       >
         <Stack direction="row" spacing={1} alignItems="center">
           <TrendingUp sx={{ color: 'var(--color-primary)' }} />
-          <Typography variant="h5" sx={{ fontWeight: 700, color: 'var(--color-text-primary)' }}>
+          <Typography variant="h5" sx={{ fontWeight: 700 }}>
             Update Progress
           </Typography>
         </Stack>
@@ -132,14 +126,14 @@ export default function UpdateDialog({ open, onClose, appointment, onUpdate }: U
 
       <DialogContent sx={{ pt: 3 }}>
         {/* Appointment Info */}
-        <Box sx={{ mb: 3, p: 2, bgcolor: 'rgba(214, 5, 7, 0.05)', borderRadius: 2 }}>
+        <Box sx={{ mb: 3, p: 2, borderRadius: 2 }}>
           <Typography variant="caption" sx={{ color: 'var(--color-text-muted)', fontWeight: 600 }}>
-            APPOINTMENT
+            Appointment
           </Typography>
-          <Typography variant="body1" sx={{ color: 'var(--color-text-primary)', fontWeight: 600, mt: 0.5 }}>
+          <Typography variant="body1" sx={{ fontWeight: 600, mt: 0.5 }}>
             #{appointment.id} - {appointment.service}
           </Typography>
-          <Typography variant="body2" sx={{ color: 'var(--color-text-secondary)', mt: 0.5 }}>
+          <Typography variant="body2" sx={{ mt: 0.5 }}>
             {appointment.customerName} | {appointment.vehicleNumber}
           </Typography>
         </Box>
@@ -154,7 +148,7 @@ export default function UpdateDialog({ open, onClose, appointment, onUpdate }: U
         {/* Progress Label */}
         <Box sx={{ mb: 2 }}>
           <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <Typography variant="body2" sx={{ color: 'var(--color-text-secondary)', fontWeight: 600 }}>
+            <Typography variant="body2" sx={{ fontWeight: 600 }}>
               Current Progress
             </Typography>
             <Typography

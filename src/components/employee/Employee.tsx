@@ -158,9 +158,17 @@ export default function Employee() {
   };
 
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: 'var(--color-bg-primary)', py: 4 }}>
+    <Box sx={{ minHeight: '100vh', py: 4 }}>
       <Container maxWidth="xl">
         {/* Statistics Cards */}
+
+        <Typography
+                variant="h4"
+                sx={{mb:2}}
+              >
+                Welcome back, {user?.fullName || 'Employee'}
+              </Typography>
+
         <Box
           sx={{
             display: "grid",
@@ -204,19 +212,13 @@ export default function Employee() {
               >
                 My Assigned Appointments
               </Typography>
-              <Typography
-                variant="body2"
-                sx={{ color: 'var(--color-text-tertiary)' }}
-              >
-                Welcome back, {user?.fullName || 'Employee'}
-              </Typography>
+              
             </Box>
 
             <IconButton
               onClick={fetchAppointments}
               disabled={loading}
               sx={{
-                bgcolor: 'var(--color-bg-secondary)',
                 '&:hover': {
                   bgcolor: 'rgba(214, 5, 7, 0.1)',
                 },

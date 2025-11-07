@@ -96,7 +96,7 @@ const Navbar = () => {
                 {/* My Appointments Button */}
                 <Button
                   component={RouterLink as any}
-                  to="/my-appointment"
+                  to="/dashboard/appointments"
                   sx={{
                     color: "var(--color-text-primary)",
                     textTransform: "none",
@@ -120,6 +120,19 @@ const Navbar = () => {
                   }}
                 >
                   Dashboard
+                </Button>
+
+                <Button
+                  component={RouterLink as any}
+                  to="/dashboard/messages"
+                  sx={{
+                    color: "var(--color-text-primary)",
+                    textTransform: "none",
+                    fontSize: "0.9rem",
+                    "&:hover": { color: "var(--color-primary)" },
+                  }}
+                >
+                  Messages
                 </Button>
 
                 {/* Logout Button */}
