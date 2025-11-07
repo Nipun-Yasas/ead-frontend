@@ -1,5 +1,4 @@
 import React from "react";
-import LeadershipCard from "./LeadershipCard";
 import { CheckCircle } from "lucide-react";
 import { useTheme } from '../../contexts/ThemeContext';
 
@@ -18,9 +17,6 @@ const members = [
   { name: "Lisa Brown", title: "HR Manager", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&crop=face" },
 ];
 
-// Duplicate list for smooth infinite scroll
-const duplicatedMembers = [...members, ...members];
-
 const LeadershipTeam: React.FC = () => {
   const { theme } = useTheme();
   const isLight = theme === 'light';
@@ -30,7 +26,7 @@ const LeadershipTeam: React.FC = () => {
 
   return (
     <section className={`${isLight ? 'bg-gray-50' : 'bg-bg-primary'} py-20 px-6` } >
-      <div className="max-w-6xl mx-auto border-y-[3px] border-[#D60507] py-10">
+      <div className="w-full border-y-[3px] border-[#D60507] py-10">
         {/* Header */}
         <div className="text-center mb-16">
           <h2 
@@ -48,7 +44,6 @@ const LeadershipTeam: React.FC = () => {
               color: '#717182', 
               
               WebkitTextFillColor: '#717182',
-              MozTextFillColor: '#717182'
             }}
           >
             Experienced professionals dedicated to automotive excellence and innovation in service management
@@ -111,7 +106,6 @@ const LeadershipTeam: React.FC = () => {
             style={{ 
               color: 'black',
               WebkitTextFillColor: '#FFFFFF',
-              MozTextFillColor: '#FFFFFF'
             }}
           >
             View All Team Members
@@ -119,7 +113,6 @@ const LeadershipTeam: React.FC = () => {
         </div>
       </div>
 
-      {/* Add the next section directly below */}
       <WhatSetsUsApart />
     </section>
   );
@@ -128,8 +121,6 @@ const LeadershipTeam: React.FC = () => {
 //What Sets Us Apart Section 
 
 const WhatSetsUsApart: React.FC = () => {
-  const { theme } = useTheme();
-  const isLight = theme === 'light';
   const features = [
     {
       title: "Real-Time Transparency",
@@ -166,7 +157,7 @@ const WhatSetsUsApart: React.FC = () => {
   return (
     <div
       id="services"
-      className={`${isLight ? 'bg-transparent' : 'bg-[rgba(45,45,45,0.7)]'} text-text-primary py-15 mt-20 mb-10 px-6 text-center`}
+      className={`bg-bg-tertiary py-15 mt-20 mb-10 px-6 text-center`}
     >
       <h2 className="text-primary text-5xl font-bold mb-2">What Sets Us Apart</h2>
       <p className="text-text-tertiary mb-12 text-lg">
@@ -177,15 +168,14 @@ const WhatSetsUsApart: React.FC = () => {
         {features.map((item, index) => (
           <div
             key={index}
-            className={`${isLight ? 'bg-primary text-white' : 'bg-[#0f0f0f] text-text-primary'} flex items-start space-x-3 p-6 rounded-2xl shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300`}
+            className={`bg-bg-card text-text-primary flex items-start space-x-3 p-6 rounded-2xl shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300`}
           >
             <CheckCircle
-              className={`w-6 h-6 flex-shrink-0 mt-1`}
-              style={isLight ? { color: '#008000' } : undefined}
+              className={`w-6 h-6 flex-shrink-0 mt-1 text-success`}
             />
             <div>
-              <h3 className={`text-xl font-semibold mb-2`} style={isLight ? { color: '#FFFFFF' } : undefined}>{item.title}</h3>
-              <p className="text-sm" style={isLight ? { color: '#f1f1f1ff' } : undefined}>{item.description}</p>
+              <h3 className={`text-xl font-semibold mb-2 text-text-primary`}>{item.title}</h3>
+              <p className="text-sm text-text-primary" >{item.description}</p>
             </div>
           </div>
         ))}

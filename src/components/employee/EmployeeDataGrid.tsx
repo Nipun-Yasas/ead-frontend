@@ -26,6 +26,9 @@ interface Appointment {
   instructions: string;
   status: AppointmentStatus;
   progress: number; 
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
 }
 
 interface EmployeeDataGridProps {

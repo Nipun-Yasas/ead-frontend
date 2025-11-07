@@ -12,7 +12,6 @@ const LeadershipCard: React.FC<LeadershipCardProps> = ({
   name,
   title,
   image,
-  isActive,
 }) => {
   const { theme } = useTheme();
   const isLight = theme === 'light';

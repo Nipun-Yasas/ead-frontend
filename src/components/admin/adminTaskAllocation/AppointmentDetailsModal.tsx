@@ -113,15 +113,6 @@ export const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = (
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Chip
                 label={appointment.status}
-                color={
-                  appointment.status === 'Completed'
-                    ? 'success'
-                    : appointment.status === 'Rejected'
-                    ? 'error'
-                    : appointment.status === 'Approved'
-                    ? 'primary'
-                    : 'default'
-                }
                 sx={{ fontWeight: 600 }}
               />
               <Typography variant="caption" sx={{fontWeight: 500 }}>
@@ -144,7 +135,7 @@ export const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = (
                 </Typography>
               </Stack>
               <Stack spacing={1}>
-                <InfoRow label="Name"  value={appointment.customer?.name || appointment.customerName || 'N/A'} />
+                <InfoRow label="Name"  value={appointment.customer?.fullName || appointment.customerName || 'N/A'} />
                 <InfoRow label="Email" value={appointment.customer?.email || appointment.customerEmail || 'N/A'} />
                 {appointment.customerPhone && (
                   <InfoRow label="Phone" value={appointment.customerPhone} />

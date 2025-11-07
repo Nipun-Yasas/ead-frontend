@@ -67,7 +67,7 @@ const AboutSection: React.FC = () => {
         <section className="flex justify-around items-center flex-wrap px-8 py-12 border-y-[3px] border-[#D60507]">
           {statsData.map((stat) => (
             <div key={stat.label} className="text-center min-w-[150px] mx-4 my-4">
-              <h2 className="text-[3.5rem] font-bold mb-1 text-white">{stat.value}</h2>
+              <h2 className="text-[3.5rem] font-bold mb-1 text-text-primary">{stat.value}</h2>
               <p className="text-base text-text-muted uppercase tracking-wide m-0">{stat.label}</p>
             </div>
           ))}

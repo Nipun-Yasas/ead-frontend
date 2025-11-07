@@ -1,5 +1,22 @@
 import { createTheme } from "@mui/material/styles";
 
+// Augment the theme to include DataGrid component overrides
+declare module "@mui/material/styles" {
+  interface ComponentNameToClassKey {
+    MuiDataGrid: any;
+  }
+  interface ComponentsPropsList {
+    MuiDataGrid: any;
+  }
+  interface Components {
+    MuiDataGrid?: {
+      defaultProps?: any;
+      styleOverrides?: any;
+      variants?: any;
+    };
+  }
+}
+
 const theme = createTheme({
   cssVariables: {
     colorSchemeSelector: "data-toolpad-color-scheme",
@@ -129,13 +146,23 @@ const theme = createTheme({
           },
           border: "1px solid var(--DataGrid-borderColor)",
           borderRadius: "10px",
+          // Remove these - they should be applied via sx prop on the DataGrid component
+          "& .MuiDataGrid-cell": {
+            display: "flex",
+            alignItems: "center",
+          },
+          "& .MuiDataGrid-columnHeaders": {
+            alignItems: "center",
+          },
+          "& .MuiDataGrid-columnHeaderTitleContainer": {
+            alignItems: "center",
+          },
         },
         columnHeaders: {
           borderBottom: "1px solid var(--DataGrid-borderColor)",
-          "& .MuiDataGrid-columnHeader.last-column .MuiDataGrid-columnSeparator":
-            {
-              display: "none",
-            },
+          "& .MuiDataGrid-columnHeader.last-column .MuiDataGrid-columnSeparator": {
+            display: "none",
+          },
         },
         cell: {
           borderBottom: "1px solid var(--DataGrid-borderColor)",
@@ -151,21 +178,8 @@ const theme = createTheme({
             color: "var(--DataGrid-borderColor)",
           },
         },
-        // Vertically center all cells
-        "& .MuiDataGrid-cell": {
-          display: "flex",
-          alignItems: "center",
-        },
-        // Optional: center headers vertically too
-        "& .MuiDataGrid-columnHeaders": {
-          alignItems: "center",
-        },
-        "& .MuiDataGrid-columnHeaderTitleContainer": {
-          alignItems: "center",
-        },
       },
     },
-    
   },
 });
 

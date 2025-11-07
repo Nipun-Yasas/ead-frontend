@@ -67,6 +67,9 @@ export default function Employee() {
       instructions: apiAppointment.instructions || 'No special instructions',
       status: apiAppointment.status?.toLowerCase() || 'pending',
       progress: typeof apiAppointment.progress === 'number' ? apiAppointment.progress : 0,
+      customerName: apiAppointment.customerName || 'Unknown',
+      customerEmail: apiAppointment.customerEmail || 'Unknown',
+      customerPhone: apiAppointment.customerPhone || 'Unknown',
     };
   }, []);
 

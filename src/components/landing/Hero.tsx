@@ -38,11 +38,10 @@ export default function Hero() {
               Book Service Now
             </button>
 
-            {/* Track My Service Button (White Secondary) */}
             <button
               //onClick={handleTrackService}
-              className="px-6 py-3 text-lg font-semibold bg-white hover:bg-gray-100 transition duration-300 rounded-md border border-white"
-              style={{ color: '#FFFFFF' }}
+              className="px-6 py-3 text-lg font-semibold bg-bg-tertiary hover:bg-bg-card transition duration-300 rounded-md border border-bg-card"
+              
             >
               Track My Service
             </button>

@@ -28,7 +28,7 @@ import { getDashboardRouteByRole } from "../../utils/getNavigationByRole";
 const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+  const [scrolled] = useState(false);
 
   const toggleDrawer = (open: boolean) => () => {
     setDrawerOpen(open);

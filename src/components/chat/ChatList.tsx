@@ -14,7 +14,6 @@ interface ChatListProps {
 
 const ChatList: React.FC<ChatListProps> = ({
   chats,
-  selectedChatId,
   onSelectChat,
   isLoading,
   error,
@@ -120,7 +119,6 @@ const ChatList: React.FC<ChatListProps> = ({
     <Box sx={{ display: 'grid', gap: 1.5,border: '1px solid var(--color-border-primary)' }}>
       {chats.map((chat) => {
         const otherPerson = getOtherPerson(chat);
-        const selected = selectedChatId === chat.id;
 
         return (
           <Card

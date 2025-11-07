@@ -1,6 +1,3 @@
-"use client";
-
-// Removed unused React import
 import type { JSX } from "react/jsx-runtime";
 import {
   DataGrid,
@@ -51,6 +48,19 @@ export default function CustomDataGrid<R extends GridValidRowModel = GridValidRo
       <DataGrid<R>
         rows={rows}
         columns={columns}
+        sx={{
+          '& .MuiDataGrid-cell': {
+            display: 'flex',
+            alignItems: 'center',
+          },
+          '& .MuiDataGrid-columnHeaders': {
+            alignItems: 'center',
+          },
+          '& .MuiDataGrid-columnHeaderTitleContainer': {
+            alignItems: 'center',
+          },
+          ...props.sx,
+        }}
         pageSizeOptions={pageSizeOptions}
         initialState={
           initialState ?? {
