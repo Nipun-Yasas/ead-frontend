@@ -30,6 +30,7 @@ export interface Appointment {
   customerName?: string;
   customerEmail?: string;
   customerPhone?: string;
+  progress?: number;
 }
 
 interface AppointmentCardProps {
@@ -167,6 +168,19 @@ const AppoimentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
               {appointment.description}
             </Typography>
           </Box>
+        )}
+
+        {/* Vehicle Type */}
+        {appointment.progress && (
+            <Typography
+              variant="caption"
+              sx={{
+                color: 'var(--color-text-primary)',
+                fontSize: '0.8rem',
+              }}
+            >
+              Progress: {appointment.progress}
+            </Typography>
         )}
 
         {/* Vehicle Type */}
