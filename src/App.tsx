@@ -33,6 +33,7 @@ import { Chatbot } from "./components/chat/Chatbot";
 import Users from "./components/superAdmin/users/Users";
 import { MyAppoiment } from "./components/customer/MyAppoiment";
 import Employee from "./components/employee/Employee";
+import VehicleRepairs from "./components/landing/VehicleRepairs";
 
 function App() {
   return (
