@@ -1,10 +1,6 @@
 import { useState } from "react";
 import { Box, Typography, Stack, Chip, IconButton } from "@mui/material";
 import {
-  CalendarToday,
-  AccessTime,
-  Person,
-  Build,
   Visibility,
   Edit,
 } from "@mui/icons-material";
@@ -17,7 +13,6 @@ import UpdateDialog from "./UpdateDialog";
 type AppointmentStatus =
   | "pending"
   | "approved"
-  | "ongoing"
   | "completed"
   | "rejected";
 
@@ -30,10 +25,7 @@ interface Appointment {
   vehicleNumber: string;
   instructions: string;
   status: AppointmentStatus;
-  progress: number; // Changed to number
-  customerName: string;
-  customerEmail: string;
-  customerPhone: string;
+  progress: number; 
 }
 
 interface EmployeeDataGridProps {

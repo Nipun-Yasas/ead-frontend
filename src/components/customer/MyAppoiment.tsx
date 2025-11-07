@@ -8,6 +8,7 @@ import {
   CircularProgress,
   Button,
   Alert,
+  Toolbar, // add this
 } from '@mui/material';
 import { Add, Refresh } from '@mui/icons-material';
 import Navbar from '../landing/Navbar';
@@ -153,6 +154,7 @@ export const MyAppoiment = () => {
   return (
     <div className="min-h-screen bg-bg-header flex flex-col">
       <Navbar />
+      <Toolbar />
 
       <div className="flex-1 py-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
         {/* Header Section */}

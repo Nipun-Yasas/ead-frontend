@@ -37,6 +37,7 @@
 
   --color-success: #16a34a;
   --color-bg-card: #222326;
+  --color-white: #FFFFFF;
 }
 
 /* Custom animations for Our Services Banner */
@@ -119,5 +120,6 @@
   --color-primary: oklch(57.7% 0.245 27.325);
 
   --color-bg-card: #FFFFFF;
+  --color-white: #FFFFFF;
 }
 
