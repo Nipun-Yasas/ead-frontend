@@ -57,16 +57,16 @@ const Navbar = () => {
         className={`navbar-glass-overlay ${scrolled ? 'scrolled' : ''}`}
         sx={{ 
           backgroundColor: scrolled 
-            ? "rgba(0, 0, 0, 0.85)" 
-            : "rgba(0, 0, 0, 0.1)",
+            ? (theme === 'light' ? "rgba(255, 255, 255, 0.95)" : "rgba(0, 0, 0, 0.85)") 
+            : (theme === 'light' ? "rgba(255, 255, 255, 0.3)" : "rgba(0, 0, 0, 0.1)"),
           backdropFilter: "blur(20px)",
           WebkitBackdropFilter: "blur(20px)", 
           borderBottom: scrolled 
-            ? "1px solid rgba(255, 255, 255, 0.2)" 
-            : "1px solid rgba(255, 255, 255, 0.1)",
+            ? (theme === 'light' ? "1px solid rgba(0, 0, 0, 0.1)" : "1px solid rgba(255, 255, 255, 0.2)")
+            : (theme === 'light' ? "1px solid rgba(0, 0, 0, 0.05)" : "1px solid rgba(255, 255, 255, 0.1)"),
           boxShadow: scrolled 
-            ? "0 8px 32px rgba(0, 0, 0, 0.3)" 
-            : "0 4px 30px rgba(0, 0, 0, 0.1)",
+            ? (theme === 'light' ? "0 8px 32px rgba(0, 0, 0, 0.1)" : "0 8px 32px rgba(0, 0, 0, 0.3)")
+            : (theme === 'light' ? "0 4px 30px rgba(0, 0, 0, 0.05)" : "0 4px 30px rgba(0, 0, 0, 0.1)"),
           transition: "all 0.3s ease",
           top: 0,
           zIndex: 1000
@@ -76,7 +76,11 @@ const Navbar = () => {
           {/* Logo */}
           <Typography
             variant="h6"
-            sx={{ fontWeight: 600, cursor: "pointer", color: "var(--color-text-primary)" }}
+            sx={{ 
+              fontWeight: 600, 
+              cursor: "pointer",
+              color: theme === 'light' ? '#000000' : '#FFFFFF'
+            }}
             onClick={() => handleScrollToSection("home")}
           >
             Auto
@@ -98,7 +102,7 @@ const Navbar = () => {
                   handleScrollToSection(item.id);
                 }}
                 sx={{
-                  color: "var(--color-text-primary)",
+                  color: theme === 'light' ? '#000000' : '#FFFFFF',
                   fontSize: "0.95rem",
                   cursor: "pointer",
                   "&:hover": { color: "var(--color-primary)" },
@@ -119,7 +123,7 @@ const Navbar = () => {
                   component={RouterLink as any}
                   to="/my-appointment"
                   sx={{
-                    color: "var(--color-text-primary)",
+                    color: theme === 'light' ? '#000000' : '#FFFFFF',
                     textTransform: "none",
                     fontSize: "0.9rem",
                     px: 2,
@@ -128,7 +132,7 @@ const Navbar = () => {
                     transition: "all 0.3s ease",
                     "&:hover": { 
                       color: "var(--color-primary)",
-                      backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      backgroundColor: theme === 'light' ? "rgba(0, 0, 0, 0.05)" : "rgba(255, 255, 255, 0.1)",
                       backdropFilter: "blur(10px)"
                     },
                   }}
@@ -140,9 +144,9 @@ const Navbar = () => {
                 <Button
                   component={RouterLink as any}
                   to="/dashboard"
-                  startIcon={<DashboardIcon />}
+                  startIcon={<DashboardIcon sx={{ color: theme === 'light' ? '#000000' : '#FFFFFF' }} />}
                   sx={{
-                    color: "var(--color-text-primary)",
+                    color: theme === 'light' ? '#000000' : '#FFFFFF',
                     textTransform: "none",
                     fontSize: "0.9rem",
                     px: 2,
@@ -151,7 +155,7 @@ const Navbar = () => {
                     transition: "all 0.3s ease",
                     "&:hover": { 
                       color: "var(--color-primary)",
-                      backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      backgroundColor: theme === 'light' ? "rgba(0, 0, 0, 0.05)" : "rgba(255, 255, 255, 0.1)",
                       backdropFilter: "blur(10px)"
                     },
                   }}
@@ -162,24 +166,24 @@ const Navbar = () => {
                 {/* Logout Button */}
                 <Button
                   onClick={logout}
-                  startIcon={<LogoutIcon />}
+                  startIcon={<LogoutIcon sx={{ color: theme === 'light' ? '#000000' : '#FFFFFF' }} />}
                   variant="outlined"
                   sx={{
-                    color: "var(--color-text-primary)",
-                    borderColor: "var(--color-border-strong)",
+                    color: theme === 'light' ? '#000000' : '#FFFFFF',
+                    borderColor: theme === 'light' ? 'rgba(0, 0, 0, 0.3)' : 'rgba(255, 255, 255, 0.3)',
                     textTransform: "none",
                     fontSize: "0.9rem",
                     "&:hover": {
-                      backgroundColor: "var(--color-hover)",
-                      borderColor: "var(--color-hover)",
-                      color: "var(--color-text-primary)"
+                      backgroundColor: theme === 'light' ? "rgba(0, 0, 0, 0.05)" : "rgba(255, 255, 255, 0.1)",
+                      borderColor: theme === 'light' ? '#000000' : '#FFFFFF',
+                      color: theme === 'light' ? '#000000' : '#FFFFFF'
                     },
                   }}
                 >
                   Logout
                 </Button>
                 {/* Theme toggle button - desktop */}
-                <IconButton onClick={toggleTheme} sx={{ color: "var(--color-text-primary)" }} aria-label="toggle theme">
+                <IconButton onClick={toggleTheme} sx={{ color: theme === 'light' ? '#000000' : '#FFFFFF' }} aria-label="toggle theme">
                   {theme === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
                 </IconButton>
               </>
@@ -189,7 +193,7 @@ const Navbar = () => {
                   component={RouterLink as any}
                   to="/login"
                   sx={{
-                    color: "var(--color-text-primary)",
+                    color: theme === 'light' ? '#000000' : '#FFFFFF',
                     textTransform: "none",
                     fontSize: "0.9rem",
                     px: 2,
@@ -198,7 +202,7 @@ const Navbar = () => {
                     transition: "all 0.3s ease",
                     "&:hover": { 
                       color: "var(--color-primary)",
-                      backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      backgroundColor: theme === 'light' ? "rgba(0, 0, 0, 0.05)" : "rgba(255, 255, 255, 0.1)",
                       backdropFilter: "blur(10px)"
                     },
                   }}
@@ -211,7 +215,7 @@ const Navbar = () => {
                   variant="contained"
                   sx={{
                     background: "linear-gradient(135deg, var(--color-primary), var(--color-primary-dark))",
-                    color: "var(--color-text-primary)",
+                    color: "#FFFFFF",
                     textTransform: "none",
                     fontWeight: 600,
                     px: 2.5,
@@ -229,7 +233,7 @@ const Navbar = () => {
                   Sign Up
                 </Button>
                 {/* Theme toggle button - desktop when not authenticated */}
-                <IconButton onClick={toggleTheme} sx={{ color: "var(--color-text-primary)" }} aria-label="toggle theme">
+                <IconButton onClick={toggleTheme} sx={{ color: theme === 'light' ? '#000000' : '#FFFFFF' }} aria-label="toggle theme">
                   {theme === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
                 </IconButton>
               </>
