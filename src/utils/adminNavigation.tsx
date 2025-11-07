@@ -67,9 +67,20 @@ export const adminNavigation: Navigation = [
     icon: <BuildIcon />,
   },
   {
-    segment: "admin/employees",
-    title: "Employees",
+    title: "User Management",
     icon: <PeopleIcon />,
+    children: [
+      {
+        segment: "admin/employees",
+        title: "Employees",
+        icon: <BuildIcon />,
+      },
+      {
+        segment: "admin/customers",
+        title: "Customers",
+        icon: <PeopleIcon />,
+      },
+    ],
   },
   {
     segment: "admin/invoices",

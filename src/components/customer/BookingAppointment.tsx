@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import BuildIcon from '@mui/icons-material/Build';
@@ -28,15 +28,55 @@ const initialForm: FormState = {
     notes: '',
 };
 
+// Define default time slots
+const defaultTimeSlots = [
+    '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', 
+    '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', 
+    '15:00', '15:30', '16:00', '16:30', '17:00'
+];
+
 export default function BookingAppointment() {
     const [form, setForm] = useState<FormState>(initialForm);
     const [errors, setErrors] = useState<Record<string, string>>({});
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
-    const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
+    const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error' | 'info'>('success');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const dateInputRef = useRef<HTMLInputElement | null>(null);
+    const [customTimeSlot, setCustomTimeSlot] = useState<string | null>(null);
+
+    // Auto-fill form from URL parameters (for reschedule links)
+    useEffect(() => {
+        const date = searchParams.get('date');
+        const time = searchParams.get('time');
+        const vehicleType = searchParams.get('vehicleType');
+        const vehicleNumber = searchParams.get('vehicleNumber');
+        const service = searchParams.get('service');
+        const isReschedule = searchParams.get('reschedule');
+
+        if (isReschedule === 'true') {
+            // Check if the time from URL is not in default slots
+            if (time && !defaultTimeSlots.includes(time)) {
+                setCustomTimeSlot(time);
+            }
+
+            setForm((prev) => ({
+                ...prev,
+                ...(date && { date }),
+                ...(time && { time }),
+                ...(vehicleType && { vehicleType }),
+                ...(vehicleNumber && { vehicleNumber }),
+                ...(service && { service }),
+            }));
+
+            // Show info message
+            setSnackbarMessage('Form auto-filled from reschedule link. Please review and confirm.');
+            setSnackbarSeverity('info');
+            setSnackbarOpen(true);
+        }
+    }, [searchParams]);
 
     function onChange(
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -217,11 +257,14 @@ export default function BookingAppointment() {
                                         }}
                                     >
                                         <option value="">Choose a time slot</option>
-                                        {[
-                                            '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', 
-                                            '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', 
-                                            '15:00', '15:30', '16:00', '16:30', '17:00'
-                                        ].map((t) => (
+                                        {/* Show custom time slot first if it exists */}
+                                        {customTimeSlot && (
+                                            <option key={customTimeSlot} value={customTimeSlot}>
+                                                {customTimeSlot} (Rescheduled Time)
+                                            </option>
+                                        )}
+                                        {/* Default time slots */}
+                                        {defaultTimeSlots.map((t) => (
                                             <option key={t} value={t}>{t}</option>
                                         ))}
                                     </select>

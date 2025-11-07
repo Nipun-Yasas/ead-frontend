@@ -27,6 +27,8 @@ import ChatInterface from "./components/chat/ChatInterface";
 import AppointmentsByStatus from "./components/admin/appointments/AppointmentsByStatus";
 import TaskAllocationPage from "./components/admin/adminTaskAllocation/TaskAllocationPage";
 import Invoices from "./components/admin/invoices/Invoices";
+import Employees from "./components/admin/employees/Employees";
+import Customers from "./components/admin/customers/Customers";
 import Dashboard from "./components/superAdmin/dashboard/Dashboard";
 import { Chatbot } from "./components/chat/Chatbot";
 import Users from "./components/superAdmin/users/Users";
@@ -86,6 +88,8 @@ function App() {
 
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="appointments/:status" element={<AppointmentsByStatus />} />
+            <Route path="employees" element={<Employees />} />
+            <Route path="customers" element={<Customers />} />
             <Route path="invoices" element={<Invoices />} />
           </Route>
 
@@ -107,7 +111,7 @@ function App() {
           <Route
             path="/dashboard"
             element={
-              <ProtectedRoute allowedRoles={["CUSTOMER"]}>
+              <ProtectedRoute allowedRoles={["CUSTOMER","ADMIN"]}>
                
                   <BookingAppointment />
               
