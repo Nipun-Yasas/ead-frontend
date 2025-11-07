@@ -12,6 +12,27 @@ const getAuthHeaders = () => {
   };
 };
 
+// ✅ Helper to normalize appointment data from backend
+const normalizeAppointment = (appointment: any): Appointment => {
+  return {
+    ...appointment,
+    // ✅ Normalize service field
+    service: appointment.service || appointment.serviceType,
+    serviceType: appointment.service || appointment.serviceType,
+    
+    // ✅ Normalize customer data (handle both nested and flat structures)
+    customerId: appointment.customer?.id || appointment.customerId,
+    customerName: appointment.customer?.fullName || appointment.customerName,
+    customerEmail: appointment.customer?.email || appointment.customerEmail,
+    customerPhone: appointment.customerPhone, // This stays as is
+    
+    // ✅ Normalize employee data
+    employeeId: appointment.employee?.id || appointment.employeeId,
+    employeeName: appointment.employee?.fullName || appointment.employeeName,
+    employeeEmail: appointment.employee?.email || appointment.employeeEmail,
+  };
+};
+
 export const appointmentService = {
   // Get appointments by status
   async getByStatus(status: string): Promise<Appointment[]> {
@@ -20,7 +41,9 @@ export const appointmentService = {
         API_PATHS.APPOINTMENTS.BY_STATUS(status),
         getAuthHeaders()
       );
-      return response.data;
+      
+      // ✅ Transform all appointments
+      return response.data.map(normalizeAppointment);
     } catch (error) {
       console.error('Error fetching appointments by status:', error);
       throw error;
@@ -34,7 +57,9 @@ export const appointmentService = {
         API_PATHS.APPOINTMENTS.GET_BY_ID(id),
         getAuthHeaders()
       );
-      return response.data;
+      
+      // ✅ Transform single appointment
+      return normalizeAppointment(response.data);
     } catch (error) {
       console.error('Error fetching appointment details:', error);
       throw error;
@@ -52,7 +77,9 @@ export const appointmentService = {
         { employeeId },
         getAuthHeaders()
       );
-      return response.data;
+      
+      // ✅ Transform allocated appointment
+      return normalizeAppointment(response.data);
     } catch (error) {
       console.error('Error allocating appointment:', error);
       throw error;

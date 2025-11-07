@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { User } from '../../types/appointment';
+import type { User } from '../../../types/appointment';
 import LoadingSpinner from './LoadingSpinner';
 
 interface EmployeeSelectionModalProps {

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Appointment } from '../../types/appointment';
+import type { Appointment } from '../../../types/appointment';
 
 interface AppointmentDetailsModalProps {
   appointment: Appointment;
@@ -14,6 +14,19 @@ const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
   onAllocate,
   isAllocating = false,
 }) => {
+  // ✅ Format service name for better display
+  const formatServiceName = (service: string) => {
+    const serviceMap: Record<string, string> = {
+      'oil_change': 'Oil Change',
+      'tire_rotation': 'Tire Rotation',
+      'brake_service': 'Brake Service',
+      'engine_tune_up': 'Engine Tune-Up',
+      'car_wash': 'Car Wash',
+      'full_service': 'Full Service',
+    };
+    return serviceMap[service] || service.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  };
+
   const formatDate = (date: string) => {
     return new Date(date).toLocaleDateString('en-US', {
       weekday: 'long',
@@ -134,7 +147,7 @@ const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
                   className="font-medium"
                   style={{ color: 'var(--color-text-primary)' }}
                 >
-                  {appointment.customerName}
+                  {appointment.customer?.name || appointment.customerName || 'N/A'}
                 </span>
               </div>
               <div className="flex items-center justify-between">
@@ -143,18 +156,20 @@ const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
                   className="font-medium"
                   style={{ color: 'var(--color-text-primary)' }}
                 >
-                  {appointment.customerEmail}
+                  {appointment.customer?.email || appointment.customerEmail || 'N/A'}
                 </span>
               </div>
-              <div className="flex items-center justify-between">
-                <span style={{ color: 'var(--color-text-secondary)' }}>Phone:</span>
-                <span 
-                  className="font-medium"
-                  style={{ color: 'var(--color-text-primary)' }}
-                >
-                  {appointment.customerPhone}
-                </span>
-              </div>
+              {appointment.customerPhone && (
+                <div className="flex items-center justify-between">
+                  <span style={{ color: 'var(--color-text-secondary)' }}>Phone:</span>
+                  <span 
+                    className="font-medium"
+                    style={{ color: 'var(--color-text-primary)' }}
+                  >
+                    {appointment.customerPhone}
+                  </span>
+                </div>
+              )}
             </div>
           </div>
 
@@ -201,7 +216,8 @@ const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
                     color: 'var(--color-primary)',
                   }}
                 >
-                  {appointment.serviceType}
+                  {/* ✅ Format service name nicely */}
+                  {formatServiceName(appointment.service || appointment.serviceType || '')}
                 </span>
               </div>
 
@@ -308,7 +324,7 @@ const AppointmentDetailsModal: React.FC<AppointmentDetailsModalProps> = ({
                   Vehicle Type
                 </label>
                 <span 
-                  className="font-medium"
+                  className="font-medium capitalize"
                   style={{ color: 'var(--color-text-primary)' }}
                 >
                   {appointment.vehicleType}

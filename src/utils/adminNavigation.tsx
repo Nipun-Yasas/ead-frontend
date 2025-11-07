@@ -4,6 +4,14 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import BuildIcon from "@mui/icons-material/Build";
 import PeopleIcon from "@mui/icons-material/People";
+// import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import PendingIcon from "@mui/icons-material/Pending";
+
+// import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
+// import VerifiedIcon from "@mui/icons-material/Verified";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 export const adminNavigation: Navigation = [
   {
@@ -12,13 +20,49 @@ export const adminNavigation: Navigation = [
     icon: <DashboardIcon />,
   },
   {
-    segment: "admin/appointments",
     title: "Appointments",
     icon: <EventAvailableIcon />,
+    children: [
+      {
+        segment: "admin/appointments/pending",
+        title: "Pending",
+        icon: <PendingIcon />,
+      },
+      // {
+      //   segment: "admin/appointments/confirmed",
+      //   title: "Confirmed",
+      //   icon: <VerifiedIcon />,
+      // },
+      {
+        segment: "admin/appointments/approve",
+        title: "Approved",
+        icon: <ThumbUpIcon />,
+      },
+      {
+        segment: "admin/appointments/in-progress",
+        title: "In Progress",
+        icon: <PlayArrowIcon />,
+      },
+      // {
+      //   segment: "admin/appointments/ongoing",
+      //   title: "Ongoing",
+      //   icon: <HourglassEmptyIcon />,
+      // },
+      // {
+      //   segment: "admin/appointments/accept",
+      //   title: "Accepted",
+      //   icon: <CheckCircleIcon />,
+      // },
+      {
+        segment: "admin/appointments/reject",
+        title: "Rejected",
+        icon: <CancelIcon />,
+      },
+    ],
   },
   {
-    segment: "admin/services",
-    title: "Services",
+    segment: "admin/task-allocation",
+    title: "Task Allocation",
     icon: <BuildIcon />,
   },
   {

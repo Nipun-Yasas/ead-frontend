@@ -17,7 +17,7 @@ import type { Appointment } from './AppoimentCard';
 import { appointmentApi, type ApiAppointment } from '../../api/appointments';
 import { useAuth } from '../../contexts/AuthContext';
 
-type FilterType = 'all' | 'pending' | 'accept' | 'approve' | 'ongoing' | 'reject';
+type FilterType = 'all' | 'PENDING' | 'APPROVE' | 'IN_PROGRESS' | 'REJECT';
 
 export const MyAppoiment = () => {
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
@@ -59,7 +59,7 @@ export const MyAppoiment = () => {
       date: apiAppointment.date,
       time: formatTime(apiAppointment.time),
       description: apiAppointment.instructions || '',
-      status: apiAppointment.status.toLowerCase() as Appointment['status'],
+      status: apiAppointment.status as Appointment['status'],
       serviceName: apiAppointment.service,
       vehicleType: apiAppointment.vehicleType,
       vehicleNumber: apiAppointment.vehicleNumber,
@@ -231,24 +231,20 @@ export const MyAppoiment = () => {
                 value="all"
               />
               <Tab
-                label={`Pending (${getFilterCount('pending')})`}
-                value="pending"
+                label={`Pending (${getFilterCount('PENDING')})`}
+                value="PENDING"
               />
               <Tab
-                label={`Accept (${getFilterCount('accept')})`}
-                value="accept"
+                label={`Approve (${getFilterCount('APPROVE')})`}
+                value="APPROVE"
               />
               <Tab
-                label={`Approve (${getFilterCount('approve')})`}
-                value="approve"
+                label={`In Progress (${getFilterCount('IN_PROGRESS')})`}
+                value="IN_PROGRESS"
               />
               <Tab
-                label={`Ongoing (${getFilterCount('ongoing')})`}
-                value="ongoing"
-              />
-              <Tab
-                label={`Reject (${getFilterCount('reject')})`}
-                value="reject"
+                label={`Reject (${getFilterCount('REJECT')})`}
+                value="REJECT"
               />
             </Tabs>
           </Box>

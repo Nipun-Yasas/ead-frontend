@@ -5,6 +5,7 @@ import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import BuildIcon from '@mui/icons-material/Build';
 import DescriptionIcon from '@mui/icons-material/Description';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { Snackbar, Alert } from '@mui/material';
 import { postJSON } from '../../config';
 import Navbar from '../landing/Navbar';
 import Footer from '../landing/Footer';
@@ -30,8 +31,9 @@ const initialForm: FormState = {
 export default function BookingAppointment() {
     const [form, setForm] = useState<FormState>(initialForm);
     const [errors, setErrors] = useState<Record<string, string>>({});
-    const [successMsg, setSuccessMsg] = useState<string | null>(null);
-    const [serverError, setServerError] = useState<string | null>(null);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState<'success' | 'error'>('success');
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const dateInputRef = useRef<HTMLInputElement | null>(null);
@@ -59,8 +61,6 @@ export default function BookingAppointment() {
 
     async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
-        setServerError(null);
-        setSuccessMsg(null);
         const next = validate(form);
         if (Object.keys(next).length) {
             setErrors(next);
@@ -77,7 +77,7 @@ export default function BookingAppointment() {
             if (rawUser) {
                 const parsed = JSON.parse(rawUser);
                 if (parsed && typeof parsed === 'object' && 'id' in parsed) {
-                    userId = (parsed as any).id ?? null;
+                    userId = (parsed as { id: string | number }).id ?? null;
                 }
             }
         } catch (err) {
@@ -101,17 +101,29 @@ export default function BookingAppointment() {
             setLoading(true);
             // POST to /appointments — ensure your backend endpoint matches
             const res = await postJSON('/appointments', payload);
-            setSuccessMsg('Your appointment has been created.');
+            setSnackbarMessage('Your appointment has been created successfully!');
+            setSnackbarSeverity('success');
+            setSnackbarOpen(true);
             setForm(initialForm);
             setErrors({});
             console.log('Appointment created', res);
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error(err);
-            setServerError(err?.message || 'Failed to create appointment');
+            const errorMessage = err instanceof Error ? err.message : 'Failed to create appointment';
+            setSnackbarMessage(errorMessage);
+            setSnackbarSeverity('error');
+            setSnackbarOpen(true);
         } finally {
             setLoading(false);
         }
     }
+
+    const handleSnackbarClose = (_event?: React.SyntheticEvent | Event, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setSnackbarOpen(false);
+    };
 
     return (
        <div className="min-h-screen bg-bg-header">
@@ -135,26 +147,6 @@ export default function BookingAppointment() {
                 <div className="bg-bg-primary rounded-2xl border border-border-primary p-6 sm:p-8 lg:p-10 shadow-2xl animate-fade-in" 
                      style={{ animationDelay: '0.1s' }}>
                     <form className="space-y-6 sm:space-y-8" onSubmit={handleSubmit} noValidate>
-                        {/* Success Message */}
-                        {successMsg && (
-                            <div className="rounded-lg bg-green-500/20 border-2 border-green-500 px-4 sm:px-6 py-4 flex items-start gap-3 animate-fade-in shadow-lg shadow-green-500/20">
-                                <CheckCircleIcon className="flex-shrink-0 mt-0.5 text-green-400" sx={{ fontSize: 24 }} />
-                                <div className="flex-1">
-                                    <p className="font-bold text-green-400 text-base sm:text-lg">Success!</p>
-                                    <p className="text-sm sm:text-base mt-1 text-green-300">{successMsg}</p>
-                                </div>
-                            </div>
-                        )}
-                        
-                        {/* Error Message */}
-                        {serverError && (
-                            <div className="rounded-lg bg-red-500/20 border-2 border-red-500 px-4 sm:px-6 py-4 animate-fade-in shadow-lg shadow-red-500/20">
-                                <p className="font-bold text-red-400 text-base sm:text-lg">Error</p>
-                                <p className="text-sm sm:text-base mt-1 text-red-300">{serverError}</p>
-                            </div>
-                        )}
-
-                        {/* Date & Time Section */}
                         <div className="space-y-4">
                             <div className="flex items-center gap-2 mb-3">
                                 <div className="w-7 h-7 rounded-full bg-primary/10 flex items-center justify-center">
@@ -461,6 +453,23 @@ export default function BookingAppointment() {
             </div>
         </section>
         <Footer />
+        
+        {/* MUI Snackbar for Toast Messages */}
+        <Snackbar 
+            open={snackbarOpen} 
+            autoHideDuration={6000} 
+            onClose={handleSnackbarClose}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        >
+            <Alert 
+                onClose={handleSnackbarClose} 
+                severity={snackbarSeverity} 
+                variant="filled"
+                sx={{ width: '100%' }}
+            >
+                {snackbarMessage}
+            </Alert>
+        </Snackbar>
        </div>
     );
 }
