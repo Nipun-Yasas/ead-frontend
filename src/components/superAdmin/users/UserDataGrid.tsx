@@ -1,6 +1,6 @@
 import { Paper, Typography, Stack, IconButton, Chip } from "@mui/material";
 import { type GridColDef,type  GridPaginationModel, type GridSortModel } from "@mui/x-data-grid";
-import { Delete, Refresh } from "@mui/icons-material";
+import { Refresh } from "@mui/icons-material";
 import CustomDataGrid from "../../main/CustomDataGrid";
 
 interface UserResponse {
@@ -34,7 +34,6 @@ export default function UserDataGrid({
   sortModel,
   onSortModelChange,
   onRefresh,
-  onDelete,
 }: UserDataGridProps) {
   const columns: GridColDef<UserResponse>[] = [
     {
@@ -81,22 +80,7 @@ export default function UserDataGrid({
         />
       ),
     },
-    {
-      field: "actions",
-      headerName: "Actions",
-      width: 100,
-      sortable: false,
-      filterable: false,
-      renderCell: (params) => (
-        <IconButton
-          color="error"
-          onClick={() => onDelete(params.row.id, params.row.fullName)}
-          size="small"
-        >
-          <Delete />
-        </IconButton>
-      ),
-    },
+    
   ];
 
   return (

@@ -85,13 +85,11 @@ export default function Dashboard() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          bgcolor: "var(--color-bg-primary)",
-          color: "var(--color-text-secondary)",
         }}
       >
         <CircularProgress color="inherit" />
         <Typography
-          sx={{ ml: 2, fontSize: 18, color: "var(--color-text-secondary)" }}
+          sx={{ ml: 2, fontSize: 18 }}
         >
           Loading dashboard...
         </Typography>
@@ -108,7 +106,6 @@ export default function Dashboard() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          bgcolor: "var(--color-bg-primary)",
           px: 2,
         }}
       >
