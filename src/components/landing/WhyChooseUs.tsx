@@ -53,7 +53,7 @@ export default function WhyChooseUs() {
   return (
     <section
       id="whychooseus"
-      className="bg-bg-primary text-primary py-10 sm:py-16 md:py-18"
+      className="bg-bg-primary text-[#FFFFFF] py-10 sm:py-16 md:py-18"
       aria-labelledby="why-choose-heading"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
