@@ -67,13 +67,9 @@ export default function Employee() {
       instructions: apiAppointment.instructions || 'No special instructions',
       status: apiAppointment.status?.toLowerCase() || 'pending',
       progress: typeof apiAppointment.progress === 'number' ? apiAppointment.progress : 0,
-      customerName: apiAppointment.customer?.fullName || apiAppointment.customerName || 'N/A',
-      customerEmail: apiAppointment.customer?.email || apiAppointment.customerEmail || 'N/A',
-      customerPhone: apiAppointment.customerPhone || 'N/A',
     };
   }, []);
 
-  // Fetch assigned appointments
   const fetchAppointments = useCallback(async () => {
     if (!user?.id) {
       setError('User ID not available');
@@ -90,7 +86,6 @@ export default function Employee() {
         API_PATHS.APPOINTMENTS.GET_EMPLOYEE_APPOINTMENTS(user.id)
       );
 
-      console.log('Raw API response:', response.data);
 
       if (!response.data || response.data.length === 0) {
         setAppointments([]);
@@ -136,13 +131,7 @@ export default function Employee() {
         { progress: progressValue } // Matches UpdateProgressRequest structure
       );
 
-      // Update local state
-      setAppointments((prev) =>
-        prev.map((apt) =>
-          apt.id === appointmentId ? { ...apt, progress: progressValue } : apt
-        )
-      );
-
+      await fetchAppointments();
       console.log(`Successfully updated appointment ${appointmentId} progress to ${progressValue}%`);
     } catch (err: any) {
       console.error('Error updating progress:', err);

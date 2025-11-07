@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -18,6 +18,8 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
+import EventAvailableIcon from "@mui/icons-material/EventAvailable";
+import ChatIcon from '@mui/icons-material/Chat';
 import { Link as RouterLink } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { useTheme } from "../../contexts/ThemeContext";
@@ -122,6 +124,7 @@ const Navbar = () => {
                 <Button
                   component={RouterLink as any}
                   to="/dashboard/appointments"
+                  startIcon={<EventAvailableIcon sx={{ color: theme === 'light' ? '#000000' : '#FFFFFF' }} />}
                   sx={{
                     color: theme === 'light' ? '#000000' : '#FFFFFF',
                     textTransform: "none",
@@ -166,6 +169,7 @@ const Navbar = () => {
                 <Button
                   component={RouterLink as any}
                   to="/dashboard/messages"
+                  startIcon={<ChatIcon sx={{ color: theme === 'light' ? '#000000' : '#FFFFFF' }} />}
                   sx={{
                     color: "var(--color-text-primary)",
                     textTransform: "none",

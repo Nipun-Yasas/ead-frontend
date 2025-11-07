@@ -47,7 +47,7 @@ export default function CustomDataGrid<R extends GridValidRowModel = GridValidRo
   }: CustomDataGridProps<R>
 ): JSX.Element {
   return (
-    <Box sx={{ height: "auto", width: "100%" }}>
+    <Box sx={{ height: 600, width: "100%" }}> {/* Fixed height instead of "auto" */}
       <DataGrid<R>
         rows={rows}
         columns={columns}
@@ -58,6 +58,7 @@ export default function CustomDataGrid<R extends GridValidRowModel = GridValidRo
           }
         }
         slots={{ noRowsOverlay: CustomNoRowsOverlay }}
+        autoHeight={false} // Disable autoHeight
         {...props}
       />
     </Box>

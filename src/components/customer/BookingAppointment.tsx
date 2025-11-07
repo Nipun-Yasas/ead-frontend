@@ -432,7 +432,7 @@ export default function BookingAppointment() {
                                 disabled={!form.date || !form.time || !form.service || loading} 
                                 className={`flex-1 h-11 sm:h-12 flex items-center justify-center rounded-lg font-semibold transition-all text-sm ${
                                     !form.date || !form.time || !form.service || loading
-                                        ? 'bg-primary text-text-primary cursor-not-allowed' 
+                                        ? 'bg-primary text-white cursor-not-allowed' 
                                         : 'bg-primary text-white hover:bg-primary-dark shadow-lg shadow-primary/20 hover:shadow-primary/30'
                                 }`}
                             >
