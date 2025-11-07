@@ -1,188 +1,123 @@
 import React from "react";
+import { Box, Container, Typography, Link, Stack } from "@mui/material";
 
 const Footer: React.FC = () => {
   return (
-    <footer
-      id="contact"
-      className="fixed-footer"
-      style={{
-        // Keep inline fallback values as well; class enforces across themes
-        backgroundColor: "#171717",
-        color: "#FFFFFF",
-      }}
-    >
-      {/* Main Footer Content */}
-      <div className="container mx-auto px-6 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* About AutoCare Pro */}
-          <div>
-            <h3
-              className="text-lg font-semibold mb-4"
-              style={{ color: "#FFFFFF" }}
-            >
-              About AutoCare Pro
-            </h3>
-            <p
-              className="text-sm leading-relaxed"
-              style={{ color: "#D4D4D8" }}
-            >
-              Leading automobile service management platform providing
-              excellence in vehicle care since 2020.
-            </p>
-          </div>
+    <Box component="footer" sx={{ width: "100%", bgcolor: "var(--color-bg-footer)" }}>
+      <Box component="section" id="contact">
+        <Container maxWidth="lg" sx={{ py: 4 }}>
+          <Box sx={{ display: "flex", flexDirection: { xs: "column", md: "row" }, gap: 4 }}>
+            {/* About AutoCare Pro */}
+            <Box sx={{ flex: 1 }}>
+              <Typography
+                variant="h6"
+                component="h3"
+                gutterBottom
+                sx={{ fontWeight: 600,color: "var(--color-text-primary)" }}
+              >
+                About AutoCare Pro
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  lineHeight: 1.6,
+                  fontSize: "0.875rem",
+                  color: "var(--color-text-primary)",
+                }}
+              >
+                Leading automobile service management platform providing
+                excellence in vehicle care since 2020.
+              </Typography>
+            </Box>
 
-          {/* Services */}
-          <div>
-            <h3
-              className="text-lg font-semibold mb-4"
-              style={{ color: "#FFFFFF" }}
-            >
-              Services
-            </h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <a
-                  href="/services/maintenance"
-                  style={{ color: "#D4D4D8" }}
-                  className="hover:text-white transition-colors"
-                >
+            {/* Services */}
+            <Box sx={{ flex: 1 }}>
+              <Typography variant="h6" component="h3" gutterBottom sx={{ fontWeight: 600,color: "var(--color-text-primary)" }}>
+                Services
+              </Typography>
+              <Stack spacing={1}>
+                <Link href="/services/maintenance" underline="none"  sx={{ color: "var(--color-text-primary)" }}>
                   Regular Maintenance
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/services/repairs"
-                  style={{ color: "#D4D4D8" }}
-                  className="hover:text-white transition-colors"
-                >
+                </Link>
+                <Link href="/services/repairs" underline="none"  sx={{ color: "var(--color-text-primary)" }}>
                   Repairs & Diagnostics
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/services/modifications"
-                  style={{ color: "#D4D4D8" }}
-                  className="hover:text-white transition-colors"
-                >
+                </Link>
+                <Link href="/services/modifications" underline="none"  sx={{ color: "var(--color-text-primary)" }}>
                   Custom Modifications
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/services/emergency"
-                  style={{ color: "#D4D4D8" }}
-                  className="hover:text-white transition-colors"
-                >
+                </Link>
+                <Link href="/services/emergency" underline="none" sx={{ color: "var(--color-text-primary)" }}>
                   Emergency Service
-                </a>
-              </li>
-            </ul>
-          </div>
+                </Link>
+              </Stack>
+            </Box>
 
-          {/* Quick Links */}
-          <div>
-            <h3
-              className="text-lg font-semibold mb-4"
-              style={{ color: "#FFFFFF" }}
-            >
-              Quick Links
-            </h3>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <a
-                  href="/book-service"
-                  style={{ color: "#D4D4D8" }}
-                  className="hover:text-white transition-colors"
-                >
+            {/* Quick Links */}
+            <Box sx={{ flex: 1 }}>
+              <Typography variant="h6" component="h3" gutterBottom sx={{ fontWeight: 600,color: "var(--color-text-primary)" }}>
+                Quick Links
+              </Typography>
+              <Stack spacing={1}>
+                <Link href="/book-service" underline="none"  sx={{ color: "var(--color-text-primary)" }}>
                   Book Service
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/login"
-                  style={{ color: "#D4D4D8" }}
-                  className="hover:text-white transition-colors"
-                >
+                </Link>
+                <Link href="/login" underline="none" sx={{ color: "var(--color-text-primary)" }}>
                   Customer Login
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/signup"
-                  style={{ color: "#D4D4D8" }}
-                  className="hover:text-white transition-colors"
-                >
+                </Link>
+                <Link href="/signup" underline="none" sx={{ color: "var(--color-text-primary)" }}>
                   Sign Up
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/about"
-                  style={{ color: "#D4D4D8" }}
-                  className="hover:text-white transition-colors"
-                >
+                </Link>
+                <Link href="/about" underline="none" sx={{ color: "var(--color-text-primary)" }}>
                   About Us
-                </a>
-              </li>
-            </ul>
-          </div>
+                </Link>
+              </Stack>
+            </Box>
 
-          {/* Contact */}
-          <div>
-            <h3
-              className="text-lg font-semibold mb-4"
-              style={{ color: "#FFFFFF" }}
-            >
-              Contact
-            </h3>
-            <div
-              className="space-y-2 text-sm"
-              style={{ color: "#D4D4D8" }}
-            >
-              <p>
-                <span className="font-medium">Email:</span>{" "}
-                <a
-                  href="mailto:info@autocarepro.com"
-                  className="hover:text-white transition-colors"
-                >
-                  info@autocarepro.com
-                </a>
-              </p>
-              <p>
-                <span className="font-medium">Phone:</span>{" "}
-                <a
-                  href="tel:+15551234567"
-                  className="hover:text-white transition-colors"
-                >
-                  (555) 123-4567
-                </a>
-              </p>
-              <p>
-                <span className="font-medium">Address:</span> 123 Auto Lane
-              </p>
-              <p>
-                <span className="font-medium">Hours:</span> Mon-Sat 8AM-6PM
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+            {/* Contact */}
+            <Box sx={{ flex: 1 }}>
+              <Typography variant="h6" component="h3" gutterBottom sx={{ fontWeight: 600,color: "var(--color-text-primary)" }}>
+                Contact
+              </Typography>
+              <Stack spacing={1}>
+                <Typography variant="body2" sx={{ fontSize: "0.875rem",color: "var(--color-text-primary)" }}>
+                  <Box component="span" sx={{ fontWeight: 500 }}>
+                    Email:
+                  </Box>{" "}
+                  <Link href="mailto:info@autocarepro.com" underline="none"  sx={{ color: "var(--color-text-primary)" }}>
+                    info@autocarepro.com
+                  </Link>
+                </Typography>
+                <Typography variant="body2" sx={{ fontSize: "0.875rem",color: "var(--color-text-primary)" }}>
+                  <Box component="span" sx={{ fontWeight: 500 }}>
+                    Phone:
+                  </Box>{" "}
+                  <Link href="tel:+15551234567" underline="none"  sx={{ color: "var(--color-text-primary)" }}>
+                    (555) 123-4567
+                  </Link>
+                </Typography>
+                <Typography variant="body2" sx={{ fontSize: "0.875rem",color: "var(--color-text-primary)" }}>
+                  <Box component="span" sx={{ fontWeight: 500 }}>
+                    Address:
+                  </Box> 123 Auto Lane
+                </Typography>
+                <Typography variant="body2" sx={{ fontSize: "0.875rem",color: "var(--color-text-primary)" }}>
+                  <Box component="span" sx={{ fontWeight: 500 }}>
+                    Hours:
+                  </Box> Mon-Sat 8AM-6PM
+                </Typography>
+              </Stack>
+            </Box>
+          </Box>
+        </Container>
+      </Box>
 
-      {/* Copyright Section */}
-      <div
-        style={{
-          // Fixed red background for copyright strip so it doesn't depend on theme
-          backgroundColor: "rgba(214,5,7,0.77)",
-        }}
-        className="py-3 copyright-strip"
-      >
-        <div className="container mx-auto px-6 text-center">
-          <p className="text-white text-sm">
+      <Box sx={{ pt: "12px", pb: "12px", bgcolor: "var(--color-primary)" }}>
+        <Container maxWidth="lg">
+          <Typography variant="body2" align="center" sx={{ fontSize: "0.875rem" }}>
             © 2025 AutoCare Pro. All rights reserved.
-          </p>
-        </div>
-      </div>
-    </footer>
+          </Typography>
+        </Container>
+      </Box>
+    </Box>
   );
 };
 

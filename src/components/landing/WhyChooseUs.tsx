@@ -53,13 +53,14 @@ export default function WhyChooseUs() {
   return (
     <section
       id="whychooseus"
-      className="bg-bg-primary text-primary py-10 sm:py-16 md:py-18"
+      className="bg-bg-primary text-[#FFFFFF] py-10 sm:py-16 md:py-18"
       aria-labelledby="why-choose-heading"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center">
         <h2
           id="why-choose-heading"
           className="text-3xl md:text-4xl lg:text-5xl font-semibold mb-4 sm:mb-6 md:mb-7"
+          style={{ color: isLight ? '#000000' : '#FFFFFF' }}
         >
           Why Choose AutoCare Pro
         </h2>

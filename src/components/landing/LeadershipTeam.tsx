@@ -6,80 +6,117 @@ import { useTheme } from '../../contexts/ThemeContext';
 //Leadership Team Section 
 
 const members = [
-  { name: "MTNS Perera", title: "Chief Executive Officer", image: "/images/team3.jpg" },
-  { name: "G.P. Jayamanna", title: "Head of Operations", image: "/images/team1.png" },
-  { name: "OPNYK Bandara", title: "Lead Technician", image: "/images/team3.jpg" },
-  { name: "Malidu M.D.K.D", title: "Customer Experience Director", image: "/images/team2.png" },
-  { name: "MJH PINTO", title: "Marketing Manager", image: "/images/team2.png" },
-  { name: "Hewagama S", title: "Finance Director", image: "/images/team4.png" },
-  { name: "James Patel", title: "Innovation Lead", image: "/images/team3.jpg" },
-  { name: "Olivia Gomez", title: "Operations Analyst", image: "/images/team4.png" },
-  { name: "Henry Wilson", title: "Technical Advisor", image: "/images/team1.png" },
-  { name: "Lisa Brown", title: "HR Manager", image: "/images/team2.png" },
+  { name: "MTNS Perera", title: "Chief Executive Officer", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face" },
+  { name: "G.P. Jayamanna", title: "Head of Operations", image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&crop=face&auto=format&q=80" },
+  { name: "OPNYK Bandara", title: "Lead Technician", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face" },
+  { name: "Malidu M.D.K.D", title: "Customer Experience Director", image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face" },
+  { name: "MJH PINTO", title: "Marketing Manager", image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face" },
+  { name: "Hewagama S", title: "Finance Director", image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=face" },
+  { name: "James Patel", title: "Innovation Lead", image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&crop=face" },
+  { name: "Olivia Gomez", title: "Operations Analyst", image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=face" },
+  { name: "Henry Wilson", title: "Technical Advisor", image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop&crop=face" },
+  { name: "Lisa Brown", title: "HR Manager", image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&crop=face" },
 ];
 
 // Duplicate list for smooth infinite scroll
 const duplicatedMembers = [...members, ...members];
 
 const LeadershipTeam: React.FC = () => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+
+  // Show only first 6 members in a clean grid layout
+  const displayMembers = members.slice(0, 6);
+
   return (
-    <section className="bg-bg-primary text-center overflow-hidden relative">
-      <style>{`
-        @keyframes scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
+    <section className={`${isLight ? 'bg-gray-50' : 'bg-bg-primary'} py-20 px-6` } >
+      <div className="max-w-6xl mx-auto border-y-[3px] border-[#D60507] py-10">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <h2 
+            className="text-5xl font-bold mb-4" 
+            style={{ 
+              color: isLight ? '#000000' : '#FFFFFF',
+              textShadow: isLight ? '1px 1px 2px rgba(255,255,255,0.8)' : '2px 2px 4px rgba(0,0,0,0.8)'
+            }}
+          >
+            Meet our team
+          </h2>
+          <p 
+            className="text-lg max-w-2xl mx-auto" 
+            style={{ 
+              color: '#717182', 
+              
+              WebkitTextFillColor: '#717182',
+              MozTextFillColor: '#717182'
+            }}
+          >
+            Experienced professionals dedicated to automotive excellence and innovation in service management
+          </p>
+        </div>
 
-        .animate-scroll-slow {
-          animation: scroll 25s linear infinite;
-          will-change: transform;
-        }
+        {/* Team Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+          {displayMembers.map((member, index) => (
+            <div 
+              key={index}
+              className="group text-center"
+            >
+              {/* Profile Image */}
+              <div className="relative mb-6 mx-auto w-64 h-64 overflow-hidden rounded-full">
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = 'https://via.placeholder.com/256x256/e5e7eb/6b7280?text=Team+Member';
+                  }}
+                />
+              </div>
 
-        .hover-zoom {
-          transition: transform 0.4s ease, box-shadow 0.4s ease;
-        }
-        .hover-zoom:hover {
-          transform: scale(1.05);
-          box-shadow: 0 8px 20px rgba(255, 255, 255, 0.1);
-        }
-
-        .card-width {
-          flex: 0 0 25%;
-        }
-        @media (max-width: 1024px) {
-          .card-width { flex: 0 0 33.3333%; }
-        }
-        @media (max-width: 768px) {
-          .card-width { flex: 0 0 50%; }
-        }
-        @media (max-width: 500px) {
-          .card-width { flex: 0 0 100%; }
-        }
-      `}</style>
-
-      <h2 className="text-primary text-5xl mt-10 font-bold mb-2">
-        Meet Our Leadership Team
-      </h2>
-      <p className="text-text-tertiary mb-12 text-lg">
-        Experienced professionals dedicated to automotive excellence
-      </p>
-
-      <div className="relative w-full max-w-7xl mx-auto overflow-hidden">
-        <div className="flex animate-scroll-slow">
-          {duplicatedMembers.map((member, index) => (
-            <div key={index} className="card-width px-2 hover-zoom">
-              <LeadershipCard
-                name={member.name}
-                title={member.title}
-                image={member.image}
-                isActive={false}
-              />
+              {/* Member Info */}
+              <div>
+                <h3 
+                  className="text-xl font-semibold mb-2" 
+                  style={{ 
+                    color: isLight ? '#000000' : '#FFFFFF',
+                    textShadow: isLight ? '1px 1px 2px rgba(255,255,255,0.8)' : '1px 1px 2px rgba(0,0,0,0.8)'
+                  }}
+                >
+                  {member.name}
+                </h3>
+                <p 
+                  className="text-sm" 
+                  style={{ 
+                    color: isLight ? '#666666' : '#A1A1AA',
+                    textShadow: isLight ? '1px 1px 2px rgba(255,255,255,0.8)' : '1px 1px 2px rgba(0,0,0,0.8)'
+                  }}
+                >
+                  {member.title}
+                </p>
+              </div>
             </div>
           ))}
         </div>
 
-        <div className="absolute left-0 top-0 w-24 h-full bg-gradient-to-r from-[#0f0f0f] to-transparent pointer-events-none"></div>
-        <div className="absolute right-0 top-0 w-24 h-full bg-gradient-to-l from-[#0f0f0f] to-transparent pointer-events-none"></div>
+        {/* Optional: View All Team Button */}
+        <div className="text-center mt-12">
+          <button 
+            className={`px-8 py-3 rounded-lg font-medium transition-colors duration-300 ${
+              isLight 
+                ? 'bg-blue-600 hover:bg-blue-700' 
+                : 'bg-primary hover:bg-primary-dark'
+            }`}
+            style={{ 
+              color: 'black',
+              WebkitTextFillColor: '#FFFFFF',
+              MozTextFillColor: '#FFFFFF'
+            }}
+          >
+            View All Team Members
+          </button>
+        </div>
       </div>
 
       {/* Add the next section directly below */}
@@ -144,7 +181,7 @@ const WhatSetsUsApart: React.FC = () => {
           >
             <CheckCircle
               className={`w-6 h-6 flex-shrink-0 mt-1`}
-              style={isLight ? { color: '#FFFFFF' } : undefined}
+              style={isLight ? { color: '#008000' } : undefined}
             />
             <div>
               <h3 className={`text-xl font-semibold mb-2`} style={isLight ? { color: '#FFFFFF' } : undefined}>{item.title}</h3>

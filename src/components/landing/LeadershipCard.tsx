@@ -17,27 +17,30 @@ const LeadershipCard: React.FC<LeadershipCardProps> = ({
   const { theme } = useTheme();
   const isLight = theme === 'light';
 
-  // Background and border classes differ in light mode (white interior) vs dark mode
-  const rootBgClass = isLight
-    ? 'bg-white border-primary'
-    : isActive
-      ? 'bg-text-primary border-primary'
-      : 'bg-[#111111] border-[#222222] hover:border-primary';
-
   return (
-    <div
-      className={`flex flex-col items-center justify-start text-center rounded-md overflow-hidden transition-all duration-500 ease-in-out border-2 shadow-lg mx-2 w-[250px] min-w-[250px] ${rootBgClass}`}
-    >
-      <div className="w-full h-[280px] overflow-hidden">
-        <img src={image} alt={name} className="object-cover w-full h-full" />
+    <div className="group flex flex-col items-center text-center">
+      {/* Clean minimal image container */}
+      <div className="relative mb-6 w-64 h-64 overflow-hidden bg-gray-200 rounded-lg shadow-sm">
+        <img 
+          src={image} 
+          alt={name} 
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = 'https://via.placeholder.com/256x256/e5e7eb/6b7280?text=Team+Member';
+          }}
+        />
+        
+        {/* Subtle overlay on hover */}
+        <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
       </div>
-      <div className="py-4">
-        <h3
-          className={`text-lg font-semibold ${isLight ? 'text-black' : isActive ? 'text-black' : 'text-text-primary'}`}
-        >
+
+      {/* Clean text layout */}
+      <div className="space-y-1">
+        <h3 className={`text-xl font-semibold ${isLight ? 'text-gray-900' : 'text-white'}`}>
           {name}
         </h3>
-        <p className={`text-sm ${isLight ? 'text-text-tertiary' : 'text-text-tertiary'}`}>
+        <p className={`text-sm ${isLight ? 'text-gray-600' : 'text-gray-400'}`}>
           {title}
         </p>
       </div>

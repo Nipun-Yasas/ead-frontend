@@ -112,16 +112,22 @@ const AboutSection: React.FC = () => {
 
         {/* 3. Core Values */}
         <section className="px-8 py-2.5 pb-12 text-center">
-          <div className="mb-16">
-            <h2 className="text-[2.75rem] font-bold text-[#D60507] mb-4">Our Core Values</h2>
-            <p className="text-lg text-white max-w-[600px] mx-auto leading-normal">
+          <div className="border-y-[3px] border-[#D60507] mx-8 py-8">
+            <div className="mb-8">
+            <h2 
+              className="text-[2.75rem] font-bold mb-4"
+              style={{ color: isLight ? '#000000' : '#FFFFFF' }}
+            >
+              Our Core Values
+            </h2>
+            <p className="text-lg text-text-muted max-w-[600px] mx-auto leading-normal">
               The principles that guide every decision we make and every service
               we provide
             </p>
           </div>
 
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-8 max-w-[1200px] mx-auto">
-            {coreValuesData.map((value, idx) => {
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-8 max-w-[1200px] mx-auto">
+              {coreValuesData.map((value, idx) => {
               const iconWrapperClass = value.isHighlighted ? 'bg-bg-header' : 'bg-[#444]';
               const [/* placeholder */] = [];
 
@@ -162,7 +168,8 @@ const AboutSection: React.FC = () => {
                   </p>
                 </div>
               );
-            })}
+              })}
+            </div>
           </div>
         </section>
 
