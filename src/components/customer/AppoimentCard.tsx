@@ -20,7 +20,7 @@ export interface Appointment {
   date: string;
   time: string;
   description: string;
-  status: 'PENDING' | 'APPROVE' | 'REJECT' | 'IN_PROGRESS';
+  status: 'PENDING' | 'APPROVE' | 'REJECT' | 'IN_PROGRESS' | 'COMPLETED';
   employeeName?: string | null;
   employeeProfilePicture?: string;
   serviceName?: string;
@@ -45,6 +45,8 @@ const AppoimentCard: React.FC<AppointmentCardProps> = ({ appointment }) => {
         return 'warning';
       case 'IN_PROGRESS':
         return 'info';
+      case 'COMPLETED':
+        return 'success';
       case 'REJECT':
         return 'error';
       default:

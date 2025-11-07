@@ -4,10 +4,11 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import BuildIcon from "@mui/icons-material/Build";
 import PeopleIcon from "@mui/icons-material/People";
-// import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import PendingIcon from "@mui/icons-material/Pending";
+import ReceiptIcon from "@mui/icons-material/Receipt";
 
 // import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 // import VerifiedIcon from "@mui/icons-material/Verified";
@@ -48,11 +49,11 @@ export const adminNavigation: Navigation = [
       //   title: "Ongoing",
       //   icon: <HourglassEmptyIcon />,
       // },
-      // {
-      //   segment: "admin/appointments/accept",
-      //   title: "Accepted",
-      //   icon: <CheckCircleIcon />,
-      // },
+      {
+        segment: "admin/appointments/completed",
+        title: "Completed",
+        icon: <CheckCircleIcon />,
+      },
       {
         segment: "admin/appointments/reject",
         title: "Rejected",
@@ -69,5 +70,10 @@ export const adminNavigation: Navigation = [
     segment: "admin/employees",
     title: "Employees",
     icon: <PeopleIcon />,
+  },
+  {
+    segment: "admin/invoices",
+    title: "Invoices",
+    icon: <ReceiptIcon />,
   },
 ];

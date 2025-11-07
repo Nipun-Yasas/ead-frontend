@@ -757,12 +757,7 @@ export default function AppointmentsByStatus() {
                     <span>Pending</span>
                   </Box>
                 </MenuItem>
-                {/* <MenuItem value="ACCEPT">
-                  <Box display="flex" alignItems="center" gap={1}>
-                    <CheckCircleIcon fontSize="small" color="success" />
-                    <span>Accept</span>
-                  </Box>
-                </MenuItem> */}
+              
                 <MenuItem value="APPROVE">
                   <Box display="flex" alignItems="center" gap={1}>
                     <CheckCircleIcon fontSize="small" color="success" />
@@ -787,6 +782,12 @@ export default function AppointmentsByStatus() {
                     <span>Ongoing</span>
                   </Box>
                 </MenuItem> */}
+                  <MenuItem value="COMPLETED">
+                  <Box display="flex" alignItems="center" gap={1}>
+                    <CheckCircleIcon fontSize="small" color="success" />
+                    <span>Completed</span>
+                  </Box>
+                </MenuItem>
                 <MenuItem value="REJECT">
                   <Box display="flex" alignItems="center" gap={1}>
                     <CancelIcon fontSize="small" color="error" />
