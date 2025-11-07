@@ -36,10 +36,8 @@ const LeadershipTeam: React.FC = () => {
           <h2 
             className="text-5xl font-bold mb-4" 
             style={{ 
-              color: '#FFFFFF', 
-              textShadow: '2px 2px 4px rgba(0,0,0,0.8)',
-              WebkitTextFillColor: '#FFFFFF',
-              MozTextFillColor: '#FFFFFF'
+              color: isLight ? '#000000' : '#FFFFFF',
+              textShadow: isLight ? '1px 1px 2px rgba(255,255,255,0.8)' : '2px 2px 4px rgba(0,0,0,0.8)'
             }}
           >
             Meet our team
@@ -48,7 +46,7 @@ const LeadershipTeam: React.FC = () => {
             className="text-lg max-w-2xl mx-auto" 
             style={{ 
               color: '#717182', 
-              textShadow: '1px 1px 2px rgba(0,0,0,0.8)',
+              
               WebkitTextFillColor: '#717182',
               MozTextFillColor: '#717182'
             }}
@@ -82,9 +80,8 @@ const LeadershipTeam: React.FC = () => {
                 <h3 
                   className="text-xl font-semibold mb-2" 
                   style={{ 
-                    color: '#FFFFFF',
-                    WebkitTextFillColor: '#FFFFFF',
-                    MozTextFillColor: '#FFFFFF'
+                    color: isLight ? '#000000' : '#FFFFFF',
+                    textShadow: isLight ? '1px 1px 2px rgba(255,255,255,0.8)' : '1px 1px 2px rgba(0,0,0,0.8)'
                   }}
                 >
                   {member.name}
@@ -92,9 +89,8 @@ const LeadershipTeam: React.FC = () => {
                 <p 
                   className="text-sm" 
                   style={{ 
-                    color: '#717182',
-                    WebkitTextFillColor: '#717182',
-                    MozTextFillColor: '#717182'
+                    color: isLight ? '#666666' : '#A1A1AA',
+                    textShadow: isLight ? '1px 1px 2px rgba(255,255,255,0.8)' : '1px 1px 2px rgba(0,0,0,0.8)'
                   }}
                 >
                   {member.title}
@@ -113,7 +109,7 @@ const LeadershipTeam: React.FC = () => {
                 : 'bg-primary hover:bg-primary-dark'
             }`}
             style={{ 
-              color: '#FFFFFF',
+              color: 'black',
               WebkitTextFillColor: '#FFFFFF',
               MozTextFillColor: '#FFFFFF'
             }}

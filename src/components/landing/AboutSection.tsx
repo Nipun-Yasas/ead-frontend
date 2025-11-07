@@ -113,7 +113,12 @@ const AboutSection: React.FC = () => {
         {/* 3. Core Values */}
         <section className="px-8 py-2.5 pb-12 text-center">
           <div className="mb-16">
-            <h2 className="text-[2.75rem] font-bold text-[#FFFFFF] mb-4">Our Core Values</h2>
+            <h2 
+              className="text-[2.75rem] font-bold mb-4"
+              style={{ color: isLight ? '#000000' : '#FFFFFF' }}
+            >
+              Our Core Values
+            </h2>
             <p className="text-lg text-text-muted max-w-[600px] mx-auto leading-normal">
               The principles that guide every decision we make and every service
               we provide

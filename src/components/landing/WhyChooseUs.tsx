@@ -60,6 +60,7 @@ export default function WhyChooseUs() {
         <h2
           id="why-choose-heading"
           className="text-3xl md:text-4xl lg:text-5xl font-semibold mb-4 sm:mb-6 md:mb-7"
+          style={{ color: isLight ? '#000000' : '#FFFFFF' }}
         >
           Why Choose AutoCare Pro
         </h2>
