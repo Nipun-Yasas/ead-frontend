@@ -65,7 +65,7 @@ const LeadershipTeam: React.FC = () => {
               className="group text-center"
             >
               {/* Profile Image */}
-              <div className="relative mb-6 mx-auto w-64 h-64 overflow-hidden">
+              <div className="relative mb-6 mx-auto w-64 h-64 overflow-hidden rounded-full">
                 <img
                   src={member.image}
                   alt={member.name}
