@@ -54,7 +54,7 @@ export const MyAppoiment = () => {
       return `${displayHour}:${displayMinute} ${ampm}`;
     };
 
-    return {
+    const base = {
       id: apiAppointment.id.toString(),
       date: apiAppointment.date,
       time: formatTime(apiAppointment.time),
@@ -64,17 +64,27 @@ export const MyAppoiment = () => {
       vehicleType: apiAppointment.vehicleType,
       vehicleNumber: apiAppointment.vehicleNumber,
       instructions: apiAppointment.instructions,
-      // Only show employee data if it exists and if user is not a customer viewing their own appointments
-      employeeName: apiAppointment.employee?.fullName || null,
+      employeeName: apiAppointment.employee?.fullName || undefined,
       employeeProfilePicture: '', // API doesn't provide profile pictures yet
-      // For customer view, don't include customer data as they already know their own info
-      // Only include customer data if user is an employee/admin viewing appointments
-      ...(user?.role !== 'CUSTOMER' && {
-        customerName: apiAppointment.customer?.fullName || apiAppointment.customerName,
-        customerEmail: apiAppointment.customer?.email || apiAppointment.customerEmail,
-        customerPhone: apiAppointment.customerPhone,
-      }),
     };
+    if (user?.role !== 'CUSTOMER') {
+      return {
+        ...base,
+        customerName:
+          typeof apiAppointment.customer?.fullName === 'string' && apiAppointment.customer?.fullName
+            ? apiAppointment.customer.fullName
+            : (typeof apiAppointment.customerName === 'string' && apiAppointment.customerName) ? apiAppointment.customerName : undefined,
+        customerEmail:
+          typeof apiAppointment.customer?.email === 'string' && apiAppointment.customer?.email
+            ? apiAppointment.customer.email
+            : (typeof apiAppointment.customerEmail === 'string' && apiAppointment.customerEmail) ? apiAppointment.customerEmail : undefined,
+        customerPhone:
+          typeof apiAppointment.customerPhone === 'string' && apiAppointment.customerPhone
+            ? apiAppointment.customerPhone
+            : undefined,
+      };
+    }
+    return base;
   }, [user?.role]);
 
   // Fetch appointments from API

@@ -4,6 +4,8 @@ import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import VerifiedUserIcon from "@mui/icons-material/VerifiedUser";
 import BuildIcon from "@mui/icons-material/Build";
 import HeadsetMicIcon from "@mui/icons-material/HeadsetMic";
+import { useTheme } from '../../contexts/ThemeContext';
+import { useState } from 'react';
 
 const features = [
   {
@@ -45,6 +47,9 @@ const features = [
 ];
 
 export default function WhyChooseUs() {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+  const [hoveredKey, setHoveredKey] = useState<string | null>(null);
   return (
     <section
       id="whychooseus"
@@ -67,18 +72,20 @@ export default function WhyChooseUs() {
           {features.map((f) => (
             <article
               key={f.key}
-              className="group relative bg-bg-primary rounded-2xl p-5 sm:p-6 pt-6 sm:pt-8 flex flex-col items-center text-center overflow-hidden hover:-translate-y-1 transition-transform duration-200 min-h-[200px] sm:min-h-[220px] md:min-h-[240px] lg:min-h-[280px] shadow-[0_6px_12px_rgba(255,255,255,0.06)]"
+              onMouseEnter={() => setHoveredKey(f.key)}
+              onMouseLeave={() => setHoveredKey(null)}
+              className={`group relative bg-bg-primary rounded-2xl p-5 sm:p-6 pt-6 sm:pt-8 flex flex-col items-center text-center overflow-hidden hover:-translate-y-1 transition-transform duration-200 min-h-[200px] sm:min-h-[220px] md:min-h-[240px] lg:min-h-[280px] ${isLight ? 'shadow-[0_8px_20px_rgba(214,5,7,0.16)]' : 'shadow-[0_6px_12px_rgba(255,255,255,0.06)]'}`}
             >
               <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shadow-md mb-3 sm:mb-4 transition-colors duration-200 bg-primary group-hover:bg-hover-bg">
                 <f.Icon
-                  className="text-text-primary group-hover:text-primary transition-colors duration-200"
-                  style={{ fontSize: 28 }}
+                  className={`transition-colors duration-200`}
+                  style={{ fontSize: 28, color: isLight ? (hoveredKey === f.key ? '#D60507' : '#FFFFFF') : undefined }}
                   aria-hidden="true"
                 />
               </div>
 
               <div className="flex-1 w-full px-2 sm:px-4 flex flex-col justify-center">
-                <h3 className="text-lg sm:text-xl md:text-2xl font-medium text-text-primary mb-2 sm:mb-3 md:mb-4">
+                <h3 className={`text-lg sm:text-xl md:text-2xl font-medium mb-2 sm:mb-3 md:mb-4 ${isLight ? 'text-primary' : 'text-text-primary'}`}>
                   {f.title}
                 </h3>
                 <p className="text-sm sm:text-base md:text-lg leading-6 sm:leading-7 md:leading-8 text-text-tertiary group-hover:text-text-muted transition-colors duration-200">

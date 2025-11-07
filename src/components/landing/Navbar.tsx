@@ -16,8 +16,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LogoutIcon from "@mui/icons-material/Logout";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { Link as RouterLink } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
+import { useTheme } from "../../contexts/ThemeContext";
 import { getDashboardRouteByRole } from "../../utils/getNavigationByRole";
 
 const Navbar = () => {
@@ -43,18 +46,20 @@ const Navbar = () => {
     }
   };
 
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <>
-      <AppBar position="static" sx={{ backgroundColor: "#000000", boxShadow: "none" }}>
+      <AppBar position="static" sx={{ backgroundColor: "var(--color-bg-header)", boxShadow: "none" }}>
         <Toolbar sx={{ justifyContent: "space-between", px: { xs: 2, md: 4 } }}>
           {/* Logo */}
-          <Typography 
-            variant="h6" 
-            sx={{ fontWeight: 600, cursor: "pointer" }}
+          <Typography
+            variant="h6"
+            sx={{ fontWeight: 600, cursor: "pointer", color: "var(--color-text-primary)" }}
             onClick={() => handleScrollToSection("home")}
           >
             Auto
-            <Box component="span" sx={{ color: "#D60507" }}>
+            <Box component="span" sx={{ color: "var(--color-primary)" }}>
               Care
             </Box>{" "}
             Pro
@@ -72,10 +77,10 @@ const Navbar = () => {
                   handleScrollToSection(item.id);
                 }}
                 sx={{
-                  color: "white",
+                  color: "var(--color-text-primary)",
                   fontSize: "0.95rem",
                   cursor: "pointer",
-                  "&:hover": { color: "#D60507" },
+                  "&:hover": { color: "var(--color-primary)" },
                   transition: "0.2s",
                 }}
               >
@@ -93,49 +98,53 @@ const Navbar = () => {
                   component={RouterLink as any}
                   to="/my-appointment"
                   sx={{
-                    color: "white",
+                    color: "var(--color-text-primary)",
                     textTransform: "none",
                     fontSize: "0.9rem",
-                    "&:hover": { color: "#D60507" },
+                    "&:hover": { color: "var(--color-primary)" },
                   }}
                 >
                   My Appointments
                 </Button>
-                
+
                 {/* Dashboard Button */}
                 <Button
                   component={RouterLink as any}
                   to="/dashboard"
                   startIcon={<DashboardIcon />}
                   sx={{
-                    color: "white",
+                    color: "var(--color-text-primary)",
                     textTransform: "none",
                     fontSize: "0.9rem",
-                    "&:hover": { color: "#D60507" },
+                    "&:hover": { color: "var(--color-primary)" },
                   }}
                 >
                   Dashboard
                 </Button>
-                
+
                 {/* Logout Button */}
                 <Button
                   onClick={logout}
                   startIcon={<LogoutIcon />}
                   variant="outlined"
                   sx={{
-                    color: "white",
-                    borderColor: "white",
+                    color: "var(--color-text-primary)",
+                    borderColor: "var(--color-border-strong)",
                     textTransform: "none",
                     fontSize: "0.9rem",
-                    "&:hover": { 
-                      backgroundColor: "#D60507", 
-                      borderColor: "#D60507",
-                      color: "white" 
+                    "&:hover": {
+                      backgroundColor: "var(--color-hover)",
+                      borderColor: "var(--color-hover)",
+                      color: "var(--color-text-primary)"
                     },
                   }}
                 >
                   Logout
                 </Button>
+                {/* Theme toggle button - desktop */}
+                <IconButton onClick={toggleTheme} sx={{ color: "var(--color-text-primary)" }} aria-label="toggle theme">
+                  {theme === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
+                </IconButton>
               </>
             ) : (
               <>
@@ -143,10 +152,10 @@ const Navbar = () => {
                   component={RouterLink as any}
                   to="/login"
                   sx={{
-                    color: "white",
+                    color: "var(--color-text-primary)",
                     textTransform: "none",
                     fontSize: "0.9rem",
-                    "&:hover": { color: "#D60507" },
+                    "&:hover": { color: "var(--color-primary)" },
                   }}
                 >
                   Login
@@ -156,16 +165,20 @@ const Navbar = () => {
                   to="/signup"
                   variant="contained"
                   sx={{
-                    backgroundColor: "white",
-                    color: "black",
+                    backgroundColor: "var(--color-text-primary)",
+                    color: "var(--color-bg-header)",
                     textTransform: "none",
                     fontWeight: 500,
                     px: 2.5,
-                    "&:hover": { backgroundColor: "#D60507", color: "white" },
+                    "&:hover": { backgroundColor: "var(--color-primary)", color: "var(--color-text-primary)" },
                   }}
                 >
                   Sign Up
                 </Button>
+                {/* Theme toggle button - desktop when not authenticated */}
+                <IconButton onClick={toggleTheme} sx={{ color: "var(--color-text-primary)" }} aria-label="toggle theme">
+                  {theme === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
+                </IconButton>
               </>
             )}
           </Box>
@@ -173,12 +186,11 @@ const Navbar = () => {
           {/* Mobile Hamburger Menu */}
           <IconButton
             edge="end"
-            color="inherit"
             aria-label="menu"
             onClick={toggleDrawer(true)}
-            sx={{ display: { xs: "block", md: "none" } }}
+            sx={{ display: { xs: "block", md: "none" }, color: theme === 'light' ? '#000000' : 'var(--color-text-primary)' }}
           >
-            <MenuIcon />
+            <MenuIcon style={{ color: theme === 'light' ? '#000000' : undefined }} />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -192,27 +204,33 @@ const Navbar = () => {
           display: { xs: "block", md: "none" },
           "& .MuiDrawer-paper": {
             width: 280,
-            backgroundColor: "#000000",
-            color: "white",
+            // Keep drawer dark regardless of app theme
+            backgroundColor: '#000000',
+            color: '#FFFFFF',
           },
         }}
       >
         <Box sx={{ p: 2 }}>
           {/* Close Button */}
           <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
-            <Typography variant="h6" sx={{ fontWeight: 600 }}>
+            <Typography variant="h6" sx={{ fontWeight: 600, color: theme === 'light' ? '#FFFFFF' : 'var(--color-text-primary)' }}>
               Auto
-              <Box component="span" sx={{ color: "#D60507" }}>
+              <Box component="span" sx={{ color: "var(--color-primary)" }}>
                 Care
               </Box>{" "}
               Pro
             </Typography>
-            <IconButton onClick={toggleDrawer(false)} sx={{ color: "white" }}>
-              <CloseIcon />
-            </IconButton>
+            <Box sx={{ display: "flex", gap: 1 }}>
+              <IconButton onClick={toggleTheme} sx={{ color: theme === 'light' ? '#FFFFFF' : 'var(--color-text-primary)' }}>
+                {theme === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
+              </IconButton>
+              <IconButton onClick={toggleDrawer(false)} sx={{ color: theme === 'light' ? '#FFFFFF' : 'var(--color-text-primary)' }}>
+                <CloseIcon />
+              </IconButton>
+            </Box>
           </Box>
 
-          <Divider sx={{ backgroundColor: "rgba(255,255,255,0.1)", mb: 2 }} />
+          <Divider sx={{ backgroundColor: 'rgba(255,255,255,0.12)', mb: 2 }} />
 
           {/* Navigation Items */}
           <List>
@@ -224,7 +242,7 @@ const Navbar = () => {
                     toggleDrawer(false)();
                   }}
                   sx={{
-                    "&:hover": { backgroundColor: "rgba(214, 5, 7, 0.1)" },
+                    "&:hover": { backgroundColor: "var(--color-hover-bg)" },
                   }}
                 >
                   <ListItemText
@@ -232,7 +250,7 @@ const Navbar = () => {
                     sx={{
                       "& .MuiTypography-root": {
                         fontSize: "1rem",
-                        color: "white",
+                        color: theme === 'light' ? '#FFFFFF' : 'var(--color-text-primary)',
                       },
                     }}
                   />
@@ -241,7 +259,7 @@ const Navbar = () => {
             ))}
           </List>
 
-          <Divider sx={{ backgroundColor: "rgba(255,255,255,0.1)", my: 2 }} />
+          <Divider sx={{ backgroundColor: 'rgba(255,255,255,0.12)', my: 2 }} />
 
           {/* Auth Buttons */}
           <Box sx={{ display: "flex", flexDirection: "column", gap: 2, px: 2 }}>
@@ -254,14 +272,14 @@ const Navbar = () => {
                   fullWidth
                   onClick={toggleDrawer(false)}
                   sx={{
-                    color: "white",
+                    color: theme === 'light' ? '#FFFFFF' : 'var(--color-text-primary)',
                     textTransform: "none",
                     fontSize: "0.9rem",
                     border: "1px solid rgba(214, 5, 7, 0.5)",
                     justifyContent: "flex-start",
-                    "&:hover": { 
-                      backgroundColor: "rgba(214, 5, 7, 0.1)",
-                      borderColor: "#D60507" 
+                    "&:hover": {
+                      backgroundColor: "var(--color-hover-bg)",
+                      borderColor: "var(--color-primary)"
                     },
                   }}
                 >
@@ -276,12 +294,12 @@ const Navbar = () => {
                   onClick={toggleDrawer(false)}
                   startIcon={<DashboardIcon />}
                   sx={{
-                    color: "white",
+                    color: theme === 'light' ? '#FFFFFF' : 'var(--color-text-primary)',
                     textTransform: "none",
                     fontSize: "0.9rem",
                     border: "1px solid white",
                     justifyContent: "flex-start",
-                    "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
+                    "&:hover": { backgroundColor: "rgba(0,0,0,0.03)" },
                   }}
                 >
                   Dashboard
@@ -297,8 +315,8 @@ const Navbar = () => {
                   startIcon={<LogoutIcon />}
                   variant="contained"
                   sx={{
-                    backgroundColor: "#D60507",
-                    color: "white",
+                    backgroundColor: "var(--color-primary)",
+                    color: theme === 'light' ? '#FFFFFF' : 'var(--color-text-primary)',
                     textTransform: "none",
                     fontWeight: 500,
                     justifyContent: "flex-start",
@@ -316,11 +334,11 @@ const Navbar = () => {
                   fullWidth
                   onClick={toggleDrawer(false)}
                   sx={{
-                    color: "white",
+                    color: theme === 'light' ? '#FFFFFF' : 'var(--color-text-primary)',
                     textTransform: "none",
                     fontSize: "0.9rem",
-                    border: "1px solid white",
-                    "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
+                    border: "1px solid rgba(255,255,255,0.12)",
+                    "&:hover": { backgroundColor: "var(--color-hover-bg)" },
                   }}
                 >
                   Login
@@ -332,8 +350,8 @@ const Navbar = () => {
                   variant="contained"
                   onClick={toggleDrawer(false)}
                   sx={{
-                    backgroundColor: "#D60507",
-                    color: "white",
+                    backgroundColor: "var(--color-primary)",
+                    color: theme === 'light' ? '#FFFFFF' : 'var(--color-text-primary)',
                     textTransform: "none",
                     fontWeight: 500,
                     "&:hover": { backgroundColor: "#b00406" },

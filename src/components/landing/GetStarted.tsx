@@ -27,13 +27,14 @@ const GetStarted: React.FC = () => {
   };
 
   return (
-    <section className="bg-[#030213] min-h-[400px] flex items-center justify-center px-4 py-12 sm:py-16 overflow-hidden">
+    <section className="fixed-getstarted bg-[#030213] min-h-[400px] flex items-center justify-center px-4 py-12 sm:py-16 overflow-hidden">
       <div className="max-w-2xl w-full mx-auto text-center">
         {/* Calendar Icon */}
         <div className="mb-6 sm:mb-8 flex justify-center">
-          <div className="w-12 h-12 sm:w-16 sm:h-16 border-2 border-text-secondary rounded-lg flex items-center justify-center">
+          <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-lg flex items-center justify-center" style={{ border: '2px solid #D4D4D8' }}>
             <svg
-              className="w-6 h-6 sm:w-8 sm:h-8 text-text-secondary"
+              className="w-6 h-6 sm:w-8 sm:h-8"
+              style={{ color: '#D4D4D8' }}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -49,12 +50,12 @@ const GetStarted: React.FC = () => {
         </div>
 
         {/* Heading */}
-        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-text-primary mb-4 sm:mb-6 px-2">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 px-2" style={{ color: '#FFFFFF' }}>
           Ready to Get Started?
         </h1>
 
         {/* Description */}
-        <p className="text-base sm:text-lg text-text-secondary mb-8 sm:mb-12 max-w-xl mx-auto leading-relaxed px-2">
+        <p className="text-base sm:text-lg mb-8 sm:mb-12 max-w-xl mx-auto leading-relaxed px-2" style={{ color: '#D4D4D8' }}>
           Experience the future of automobile service management. Book your appointment
           today and track your service in real-time.
         </p>
@@ -63,14 +64,16 @@ const GetStarted: React.FC = () => {
         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4">
           <button
             onClick={goToBooking}
-            className="bg-primary hover:bg-primary-dark text-text-primary font-semibold py-3 sm:py-4 px-6 sm:px-8 rounded-lg transition-colors duration-200 w-full sm:w-auto sm:min-w-[160px] text-sm sm:text-base"
+            className="btn-primary font-semibold py-3 sm:py-4 px-6 sm:px-8 rounded-lg transition-colors duration-200 w-full sm:w-auto sm:min-w-[160px] text-sm sm:text-base"
+            style={{ backgroundColor: '#D60507', color: '#FFFFFF' }}
           >
             Book Appointment
           </button>
 
           <button
-          onClick={gotoSignUp}
-            className="border-2 border-text-secondary hover:border-text-primary text-text-secondary hover:text-text-primary font-semibold py-3 sm:py-4 px-6 sm:px-8 rounded-lg transition-all duration-200 w-full sm:w-auto sm:min-w-[160px] text-sm sm:text-base"
+            onClick={gotoSignUp}
+            className="btn-outline font-semibold py-3 sm:py-4 px-6 sm:px-8 rounded-lg transition-all duration-200 w-full sm:w-auto sm:min-w-[160px] text-sm sm:text-base"
+            style={{ border: '2px solid #D4D4D8', color: '#D4D4D8' }}
           >
             Create Account
           </button>

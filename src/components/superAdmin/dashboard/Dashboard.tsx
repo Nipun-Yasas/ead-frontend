@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
 import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import Alert from "@mui/material/Alert";
-import Navbar from "../../landing/Navbar";
-import Footer from "../../landing/Footer";
 import {
   CheckCircle,
   Clock,

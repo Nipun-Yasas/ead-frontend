@@ -1,6 +1,7 @@
 "use client";
 
-import React, { JSX } from "react";
+// Removed unused React import
+import type { JSX } from "react/jsx-runtime";
 import {
   DataGrid,
   type GridColDef,

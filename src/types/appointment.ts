@@ -12,6 +12,7 @@ export interface Appointment {
   time: string;
   vehicleType: string;
   vehicleNumber: string;
+  service: string; // Changed from serviceType
   serviceType: string;
   instructions?: string;
   

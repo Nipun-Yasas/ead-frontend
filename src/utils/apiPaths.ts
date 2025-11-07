@@ -42,6 +42,10 @@ export const API_PATHS = {
     TODAY: `${BASE_URL}/appointments/today`,
     DATE_RANGE: `${BASE_URL}/appointments/date-range`,
     ALLOCATE: (id: number) => `${BASE_URL}/appointments/${id}/allocate`,
+
+    GET_EMPLOYEE_APPOINTMENTS: (employeeId: number) => `${BASE_URL}/employee/appointments/${employeeId}`,
+    UPDATE_PROGRESS: (id: number) => `${BASE_URL}/employee/appointments/${id}/progress`,
+  
   },
   HEALTH: {
     CHECK: `${BASE_URL}/health`,

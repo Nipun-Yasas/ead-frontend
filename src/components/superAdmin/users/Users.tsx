@@ -171,8 +171,9 @@ export default function Users() {
     setPaginationModel(newModel);
   };
 
-  const handleSortModelChange = (newModel: SortModel[]) => {
-    setSortModel(newModel);
+  // Accept model as GridSortModel (not array) to match UserDataGrid prop signature
+  const handleSortModelChange = (model: any) => {
+    setSortModel(model);
   };
 
   return (
