@@ -8,6 +8,7 @@ import {
 
 import { AuthProvider } from "./contexts/AuthContext";
 import { ChatProvider } from "./contexts/ChatContext";
+import { ThemeProvider } from "./contexts/ThemeContext";
 import AuthContainer from "./components/auth/AuthContainer";
 
 import Navbar from "./components/landing/Navbar";
@@ -36,39 +37,31 @@ import Employee from "./components/employee/Employee";
 function App() {
   return (
     <Router>
-      <AuthProvider>
-        <Routes>
-          <Route path="/emp" element={<Employee />} />
-          <Route
-            path="/"
-            element={
-              <div>
-                <Navbar />
-                <Hero />
-                <AboutSection />
-                <WhyChooseUs />
-                <LeadershipTeam />
-                <Certificate />
-                <GetStarted />
-                <Footer />
-              </div>
-            }
-          />
-          <Route path="/login" element={<AuthContainer />} />
-          <Route path="/signup" element={<AuthContainer />} />
-          <Route path="/my-appointment" element={<ProtectedRoute allowedRoles={["CUSTOMER"]}>
-            <MyAppoiment />
-          </ProtectedRoute>} />
+      <ThemeProvider>
+        <AuthProvider>
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <div>
+                  <Navbar />
+                  <Hero />
+                  <AboutSection />
+                  <WhyChooseUs />
+                  <LeadershipTeam />
+                  <Certificate />
+                  <GetStarted />
+                  <Footer />
+                </div>
+              }
+            />
+            <Route path="/login" element={<AuthContainer />} />
+            <Route path="/signup" element={<AuthContainer />} />
+            <Route path="/my-appointment" element={<ProtectedRoute allowedRoles={["CUSTOMER"]}>
+              <MyAppoiment />
+            </ProtectedRoute>} />
 
 
-          <Route
-            path="/superadmin"
-            element={
-              <ProtectedRoute allowedRoles={["SUPER_ADMIN"]}>
-                <DashboardLayout />
-              </ProtectedRoute>
-            }
-          >
             <Route
               path="dashboard"
               element={<Dashboard />}
@@ -111,33 +104,29 @@ function App() {
             <Route index element={<Navigate to="dashboard" replace />} />
           </Route>
 
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute allowedRoles={["CUSTOMER"]}>
-               
                   <BookingAppointment />
-              
-              </ProtectedRoute>
-            }
-          />
 
-          {/* Chat Route - Navigate via URL */}
-          <Route
-            path="/chat"
-            element={
-              <ProtectedRoute allowedRoles={['CUSTOMER', 'EMPLOYEE']}>
-                <ChatProvider>
-                  <ChatInterface />
-                </ChatProvider>
-              </ProtectedRoute>
-            }
-          />
-        </Routes>
-        
-        {/* Global Chatbot - Available on all pages */}
-        <Chatbot />
-      </AuthProvider>
+                </ProtectedRoute>
+              }
+            />
+
+            {/* Chat Route - Navigate via URL */}
+            <Route
+              path="/chat"
+              element={
+                <ProtectedRoute allowedRoles={['CUSTOMER', 'EMPLOYEE']}>
+                  <ChatProvider>
+                    <ChatInterface />
+                  </ChatProvider>
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+
+          {/* Global Chatbot - Available on all pages */}
+          <Chatbot />
+        </AuthProvider>
+      </ThemeProvider>
     </Router>
   );
 }

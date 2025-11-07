@@ -1,6 +1,7 @@
 import React from "react";
 import LeadershipCard from "./LeadershipCard";
 import { CheckCircle } from "lucide-react";
+import { useTheme } from '../../contexts/ThemeContext';
 
 //Leadership Team Section 
 
@@ -90,6 +91,8 @@ const LeadershipTeam: React.FC = () => {
 //What Sets Us Apart Section 
 
 const WhatSetsUsApart: React.FC = () => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
   const features = [
     {
       title: "Real-Time Transparency",
@@ -124,7 +127,10 @@ const WhatSetsUsApart: React.FC = () => {
   ];
 
   return (
-    <div id="services" className="bg-[rgba(45,45,45,0.7)] text-text-primary py-15 mt-20 mb-10 px-6 text-center">
+    <div
+      id="services"
+      className={`${isLight ? 'bg-transparent' : 'bg-[rgba(45,45,45,0.7)]'} text-text-primary py-15 mt-20 mb-10 px-6 text-center`}
+    >
       <h2 className="text-primary text-5xl font-bold mb-2">What Sets Us Apart</h2>
       <p className="text-text-tertiary mb-12 text-lg">
         Why thousands of customers trust AutoCare Pro
@@ -134,12 +140,15 @@ const WhatSetsUsApart: React.FC = () => {
         {features.map((item, index) => (
           <div
             key={index}
-            className="flex items-start space-x-3 bg-[#0f0f0f] p-6 rounded-2xl shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300"
+            className={`${isLight ? 'bg-primary text-white' : 'bg-[#0f0f0f] text-text-primary'} flex items-start space-x-3 p-6 rounded-2xl shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300`}
           >
-            <CheckCircle className="text-success w-6 h-6 flex-shrink-0 mt-1" />
+            <CheckCircle
+              className={`w-6 h-6 flex-shrink-0 mt-1`}
+              style={isLight ? { color: '#FFFFFF' } : undefined}
+            />
             <div>
-              <h3 className="text-text-primary text-xl font-semibold mb-2">{item.title}</h3>
-              <p className="text-text-tertiary text-sm">{item.description}</p>
+              <h3 className={`text-xl font-semibold mb-2`} style={isLight ? { color: '#FFFFFF' } : undefined}>{item.title}</h3>
+              <p className="text-sm" style={isLight ? { color: '#f1f1f1ff' } : undefined}>{item.description}</p>
             </div>
           </div>
         ))}

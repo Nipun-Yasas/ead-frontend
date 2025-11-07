@@ -4,9 +4,11 @@ const Footer: React.FC = () => {
   return (
     <footer
       id="contact"
+      className="fixed-footer"
       style={{
-        backgroundColor: "var(--color-bg-primary)",
-        color: "var(--color-text-primary)",
+        // Keep inline fallback values as well; class enforces across themes
+        backgroundColor: "#171717",
+        color: "#FFFFFF",
       }}
     >
       {/* Main Footer Content */}
@@ -16,13 +18,13 @@ const Footer: React.FC = () => {
           <div>
             <h3
               className="text-lg font-semibold mb-4"
-              style={{ color: "var(--color-text-primary)" }}
+              style={{ color: "#FFFFFF" }}
             >
               About AutoCare Pro
             </h3>
             <p
               className="text-sm leading-relaxed"
-              style={{ color: "var(--color-text-secondary)" }}
+              style={{ color: "#D4D4D8" }}
             >
               Leading automobile service management platform providing
               excellence in vehicle care since 2020.
@@ -33,7 +35,7 @@ const Footer: React.FC = () => {
           <div>
             <h3
               className="text-lg font-semibold mb-4"
-              style={{ color: "var(--color-text-primary)" }}
+              style={{ color: "#FFFFFF" }}
             >
               Services
             </h3>
@@ -41,7 +43,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="/services/maintenance"
-                  style={{ color: "var(--color-text-secondary)" }}
+                  style={{ color: "#D4D4D8" }}
                   className="hover:text-white transition-colors"
                 >
                   Regular Maintenance
@@ -50,7 +52,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="/services/repairs"
-                  style={{ color: "var(--color-text-secondary)" }}
+                  style={{ color: "#D4D4D8" }}
                   className="hover:text-white transition-colors"
                 >
                   Repairs & Diagnostics
@@ -59,7 +61,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="/services/modifications"
-                  style={{ color: "var(--color-text-secondary)" }}
+                  style={{ color: "#D4D4D8" }}
                   className="hover:text-white transition-colors"
                 >
                   Custom Modifications
@@ -68,7 +70,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="/services/emergency"
-                  style={{ color: "var(--color-text-secondary)" }}
+                  style={{ color: "#D4D4D8" }}
                   className="hover:text-white transition-colors"
                 >
                   Emergency Service
@@ -81,7 +83,7 @@ const Footer: React.FC = () => {
           <div>
             <h3
               className="text-lg font-semibold mb-4"
-              style={{ color: "var(--color-text-primary)" }}
+              style={{ color: "#FFFFFF" }}
             >
               Quick Links
             </h3>
@@ -89,7 +91,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="/book-service"
-                  style={{ color: "var(--color-text-secondary)" }}
+                  style={{ color: "#D4D4D8" }}
                   className="hover:text-white transition-colors"
                 >
                   Book Service
@@ -98,7 +100,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="/login"
-                  style={{ color: "var(--color-text-secondary)" }}
+                  style={{ color: "#D4D4D8" }}
                   className="hover:text-white transition-colors"
                 >
                   Customer Login
@@ -107,7 +109,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="/signup"
-                  style={{ color: "var(--color-text-secondary)" }}
+                  style={{ color: "#D4D4D8" }}
                   className="hover:text-white transition-colors"
                 >
                   Sign Up
@@ -116,7 +118,7 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="/about"
-                  style={{ color: "var(--color-text-secondary)" }}
+                  style={{ color: "#D4D4D8" }}
                   className="hover:text-white transition-colors"
                 >
                   About Us
@@ -129,13 +131,13 @@ const Footer: React.FC = () => {
           <div>
             <h3
               className="text-lg font-semibold mb-4"
-              style={{ color: "var(--color-text-primary)" }}
+              style={{ color: "#FFFFFF" }}
             >
               Contact
             </h3>
             <div
               className="space-y-2 text-sm"
-              style={{ color: "var(--color-text-secondary)" }}
+              style={{ color: "#D4D4D8" }}
             >
               <p>
                 <span className="font-medium">Email:</span>{" "}
@@ -169,9 +171,10 @@ const Footer: React.FC = () => {
       {/* Copyright Section */}
       <div
         style={{
-          backgroundColor: "rgb(from var(--color-primary) r g b / 0.77)",
+          // Fixed red background for copyright strip so it doesn't depend on theme
+          backgroundColor: "rgba(214,5,7,0.77)",
         }}
-        className="py-3"
+        className="py-3 copyright-strip"
       >
         <div className="container mx-auto px-6 text-center">
           <p className="text-white text-sm">

@@ -1,11 +1,12 @@
-import React from 'react';
-import { 
-  FaRegDotCircle, 
-  FaRocket, 
-  FaShieldAlt, 
-  FaHeart, 
-  FaClock, 
-  FaAward 
+import React, { useState } from 'react';
+import { useTheme } from '../../contexts/ThemeContext';
+import {
+  FaRegDotCircle,
+  FaRocket,
+  FaShieldAlt,
+  FaHeart,
+  FaClock,
+  FaAward
 } from 'react-icons/fa';
 
 // --- Stats Data ---
@@ -39,7 +40,6 @@ const coreValuesData: CoreValue[] = [
     icon: <FaHeart size={30} />,
     title: 'Customer Care',
     description: 'Your satisfaction and trust are at the heart of everything we do.',
-    isHighlighted: true,
   },
   {
     icon: <FaClock size={30} />,
@@ -55,10 +55,14 @@ const coreValuesData: CoreValue[] = [
 
 // --- Main Component ---
 const AboutSection: React.FC = () => {
+  const { theme } = useTheme();
+  const isLight = theme === 'light';
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+
   return (
     <section id="about">
       <div className="bg-bg-primary text-text-primary font-sans overflow-hidden">
-        
+
         {/* 1. Stats Bar */}
         <section className="flex justify-around items-center flex-wrap px-8 py-12 border-y-[3px] border-[#D60507]">
           {statsData.map((stat) => (
@@ -71,12 +75,16 @@ const AboutSection: React.FC = () => {
 
         {/* 2. Mission & Vision */}
         <section className="flex justify-center gap-10 flex-wrap px-8 py-16">
-          <div className="bg-bg-secondary border border-[#D60507] rounded-xl p-8 max-w-[550px] shadow-[0_4px_15px_rgba(0,0,0,0.2)]">
-            <div className="bg-[#D60507] text-white rounded-full w-[50px] h-[50px] flex items-center justify-center mb-5">
+          <div
+            className="border border-[#D60507] rounded-xl p-8 max-w-[550px] shadow-[0_4px_15px_rgba(0,0,0,0.2)]"
+            style={{ backgroundColor: isLight ? '#F7F7F8' : undefined }}
+          >
+            <div className="rounded-full w-[50px] h-[50px] flex items-center justify-center mb-5"
+              style={{ backgroundColor: '#D60507', color: '#FFFFFF' }}>
               <FaRegDotCircle size={24} />
             </div>
             <h3 className="text-[1.75rem] font-semibold mb-4">Our Mission</h3>
-            <p className="text-[#ccc] leading-relaxed text-base">
+            <p className="leading-relaxed text-base" style={{ color: isLight ? '#000000' : undefined }}>
               To provide transparent, efficient, and reliable automotive
               services through innovative technology while maintaining the
               highest standards of craftsmanship. We strive to make
@@ -84,12 +92,16 @@ const AboutSection: React.FC = () => {
             </p>
           </div>
 
-          <div className="bg-bg-secondary border border-[#D60507] rounded-xl p-8 max-w-[550px] shadow-[0_4px_15px_rgba(0,0,0,0.2)]">
-            <div className="bg-[#D60507] text-white rounded-full w-[50px] h-[50px] flex items-center justify-center mb-5">
+          <div
+            className="border border-[#D60507] rounded-xl p-8 max-w-[550px] shadow-[0_4px_15px_rgba(0,0,0,0.2)]"
+            style={{ backgroundColor: isLight ? '#F7F7F8' : undefined }}
+          >
+            <div className="rounded-full w-[50px] h-[50px] flex items-center justify-center mb-5"
+              style={{ backgroundColor: '#D60507', color: '#FFFFFF' }}>
               <FaRocket size={24} />
             </div>
             <h3 className="text-[1.75rem] font-semibold mb-4">Our Vision</h3>
-            <p className="text-[#ccc] leading-relaxed text-base">
+            <p className="leading-relaxed text-base" style={{ color: isLight ? '#000000' : undefined }}>
               To become the global standard for automotive service
               management, where every vehicle owner has complete
               transparency and control over their service experience, and
@@ -109,31 +121,48 @@ const AboutSection: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-8 max-w-[1200px] mx-auto">
-            {coreValuesData.map((value) => (
-              <div 
-                key={value.title} 
-                className={`
-                  ${value.isHighlighted ? 'bg-[#D60507]' : 'bg-[#2a2a2a]'}
-                  p-10 rounded-xl transition-all duration-300 ease-in-out
-                  shadow-[0_4px_15px_rgba(0,0,0,0.2)]
-                  hover:transform hover:-translate-y-2 hover:shadow-[0_8px_20px_rgba(0,0,0,0.3)]
-                `}
-              >
-                <div 
-                  className={`
-                    ${value.isHighlighted ? 'bg-bg-header text-[#D60507]' : 'bg-[#444] text-white'}
-                    rounded-full w-[70px] h-[70px] inline-flex items-center justify-center mb-6
-                    transition-colors duration-300
-                  `}
+            {coreValuesData.map((value, idx) => {
+              const iconWrapperClass = value.isHighlighted ? 'bg-bg-header' : 'bg-[#444]';
+              const [/* placeholder */] = [];
+
+              // For dark mode we add a group and hover:bg to turn the card red on hover
+              // and use group-hover to make text white while keeping the icon colors intact.
+              const baseBgClass = isLight ? 'bg-[#F7F7F8]' : (value.isHighlighted ? 'bg-[#D60507]' : 'bg-[#2a2a2a]');
+              // always allow hover to change card bg to red; group used for child hover styles
+              const outerClass = `p-10 ${baseBgClass} rounded-xl transition-all duration-300 ease-in-out shadow-[0_4px_15px_rgba(0,0,0,0.2)] hover:transform hover:-translate-y-2 hover:shadow-[0_8px_20px_rgba(0,0,0,0.3)] group hover:bg-[#D60507]`;
+
+              return (
+                <div
+                  key={value.title}
+                  className={outerClass}
+                  onMouseEnter={() => setHoveredIdx(idx)}
+                  onMouseLeave={() => setHoveredIdx(null)}
                 >
-                  {value.icon}
+                  <div
+                    className={`${iconWrapperClass} rounded-full w-[70px] h-[70px] inline-flex items-center justify-center mb-6 transition-colors duration-300`}
+                    style={{
+                      // Light mode: default red circle with white icon; on hover swap to white circle with red icon
+                      backgroundColor: isLight ? (hoveredIdx === idx ? '#FFFFFF' : '#D60507') : undefined,
+                      color: isLight ? (hoveredIdx === idx ? '#D60507' : '#FFFFFF') : (value.isHighlighted ? '#D60507' : '#FFFFFF'),
+                    }}
+                  >
+                    {value.icon}
+                  </div>
+                  <h3
+                    className="text-2xl font-semibold mb-4"
+                    style={{ color: isLight ? (hoveredIdx === idx ? '#FFFFFF' : '#000000') : undefined }}
+                  >
+                    {value.title}
+                  </h3>
+                  <p
+                    className="leading-relaxed text-[0.95rem]"
+                    style={{ color: isLight ? (hoveredIdx === idx ? '#FFFFFF' : '#000000') : (value.isHighlighted ? '#FFFFFF' : '#cccccc') }}
+                  >
+                    {value.description}
+                  </p>
                 </div>
-                <h3 className="text-2xl font-semibold mb-4">{value.title}</h3>
-                <p className={`${value.isHighlighted ? 'text-white' : 'text-[#ccc]'} leading-relaxed text-[0.95rem]`}>
-                  {value.description}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
